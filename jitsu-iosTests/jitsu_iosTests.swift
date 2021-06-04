@@ -8,6 +8,14 @@
 import XCTest
 @testable import jitsu_ios
 
+
+// MARK: - Draft zone
+
+extension EventName {
+	static let showedScreen = "sh"
+}
+
+
 class jitsu_iosTests: XCTestCase {
 
     override func setUpWithError() throws {
