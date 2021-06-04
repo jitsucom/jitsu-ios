@@ -17,18 +17,19 @@ public protocol Event: AnyObject {
 	var params: [String: Any] {get set}
 }
 
+
 public protocol SendsEvents {
 	
 	func sendEvent(_ event: EventName)
 	
 	func sendEvent(name: EventName)
 	func sendEvent(name: EventName, params: [String: Any])
+	
+	func sendScreen()
 
 	var context: Context {get}
-
-	func turnOff()
-	func turnOn()
 }
+
 
 public protocol Context: AnyObject {
 	typealias Key = String
@@ -52,9 +53,13 @@ public protocol UserManagement: AnyObject {
 	func reset()
 }
 
+
 public protocol Analytics: AnyObject {
 	
 	init?(apiKey: String, hostAdress: String) throws
+	
+	func turnOff()
+	func turnOn()
 	
 	var eventsQueueSize: Int {get set}
 	var sendingBatchesPeriod: TimeInterval {get set}
@@ -65,10 +70,10 @@ public protocol Analytics: AnyObject {
 	var logLevel: LogLevel {get set}
 }
 
+
 public enum LogLevel: Int {
 	case debug, info, warnings, errors, critical, none
 }
-
 
 
 // MARK: - Draft zone
