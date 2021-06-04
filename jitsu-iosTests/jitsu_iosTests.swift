@@ -19,9 +19,10 @@ class jitsu_iosTests: XCTestCase {
     }
 
     func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
+		let test = EventName.showedScreen
+		
+		XCTAssertEqual(test, "sh")
+	}
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
