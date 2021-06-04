@@ -1,8 +1,8 @@
-Jitsu iOS SDK Features
+# Jitsu iOS SDK Features
  
  
-# Installation
-Cocoapods or Carthage or Swift Package Manager
+## Installation
+You can install with [Cocoapods](https://cocoapods.org), Carthage, or Swift Package Manager.
 
 ### Cocoapods
 Add the pod to your Podfile:
@@ -13,8 +13,6 @@ And then run:
 
 After installing the cocoapod into your project import Jistu with
 `import Jitsu`
-
-More on Cocoapods: https://cocoapods.org
 
 ### Carthage
 Add Jitsu to your Cartfile:
@@ -28,28 +26,7 @@ In your application targets “General” tab under the “Linked Frameworks and
 More on Carthage: https://github.com/Carthage/Carthage
 
 
-### Swift Package Manager
-``` swift
-// swift-tools-version:5.1
-
-import PackageDescription
-
-let package = Package(
-  name: "YourTestProject",
-  platforms: [
-       .iOS(.v12),
-  ],
-  dependencies: [
-    .package(url: "https://github.com/jitsu/jitsu-ios.git")
-  ],
-  targets: [
-    .target(name: "YourTestProject", dependencies: ["Jitsu"])
-  ]
-)
-```
-And then import wherever needed: ```import Jitsu```
-
-#### Adding it to an existent iOS Project via Swift Package Manager
+#### Swift Package Manager
 
 1. Using Xcode 11 go to File > Swift Packages > Add Package Dependency
 2. Paste the project URL: https://github.com/jitsu/jitsu-ios.git
@@ -68,57 +45,52 @@ If you have doubts, please, check the following links:
 After successfully retrieved the package and added it to your project, just import `Jitsu` and you can get the full benefits of it.
 
 
-# Initialisation
+## Initialisation
 SDK is configured with an `apiKey` and `hostAdress`
+
  
- 
-# Infrastructure
-1) Uses an internal queue to make calls fast and non-blocking
-2) Batches requests and flushes asynchronously:
-* Waits until `n` events queue. Then these events are sent in a single batch.
-* And it can send events every `t` seconds
-* When the app is closed, SDK persists events that were not sent, and sends them on the next app launch (not immediately at launch, but with a little delay, in order not to slow down app launch processes).
- 
-Clients can manually set the number of events `n` in the queue and time period `t`.
- 
+## Infrastructure
+* Jitsu uses an internal queue to make calls fast and non-blocking.
+* Jitsu doesn't send all events at once, they are sent by batches. SDK sends a new batch either when the batch reaches `eventsQueueSize`, or every `sendingBatchesPeriod`. Also events are sent when application enters background. If the app gets closed or crashes, events are sent on the next launch.
+You can manually set the number of events `n` in the queue and time period `t`.
+```
+	analytics.eventsQueueSize = 20
+	analytics.sendingBatchesPeriod = TimeInterval(seconds: 10)
+```
  
 # Identifying user
 We set UUID automatically to any user. UUID is stored between launches.
-Clients can get it by `analytics.getUserId()`.
-Clients can reset this UUID when they need to.
-`analytics.resetUserId()`.
+You can get it by `analytics.anonymousUserId`
+You can also reset this UUID when they need to `analytics.reset()`.
  
-Also, clients can set several identifiers to one user and associate these identifiers with one another.
+Also, you can set several identifiers to one user and associate these identifiers with one another.
 It would be useful in case when client wants to identify user before and after login or registration.
-`analytics.identify(id1, id2)`
+`analytics.identify("newId")`
  
  
 # Sending events
 
 ### Sending events
 Telling SDK to track events. There are two options:
-a) client can send an event as something conforming to JitsuEvent protocol
-`sendEvent(_ event: JitsuEvent)`
+a) client can send an event as something conforming to `Event` protocol
+`sendEvent(_ event: Event)`
 b) or pass it as a name of event and Dict of event params.
-`sendEvent(_ name: Strings, params: Dict)`
+`sendEvent(_ name: "user pressed like", params: ["to_user_id: "234kj"])`
  
 ### Passing context with events
-Clients can set the context to the SDK that will be passed with the events.
+You can set the context to the SDK that will be passed with the events.
 It can be helpful in A/B testing, passing user info, or passing user's device characteristics with every event.
  
-Client can set context to sdk, then context is added to all events.
-`analytics.setContext(_ context: JitsuContext)`
-`analytics.setContext(_ context: Dict)`
+`analytics.context.addValues(["age": 32])`
+`analytics.context.addValue(32, for: "age"])`
  
-Client can add or change or remove context values
-`analytics.context.setValue(for key: String)`
-`analytics.context.removeValue(for key: String)`
- 
+You can remove context values by calling `removeValue(for key: Context.Key)`, or even clear the context with `clear()`
 SDK can automatically add context values that are gathered by SDK (more on that in *Automatically sent values*).
  
-### Send screen event
-Client can send event from screen in one line
  
+### Send screen event
+You can send event from screen in one line. SDK will add all the screen description for you
+`analytics.sendScreenEvent(screen: myVC, name: "user pressedLike")`
  
 # Out-of-the-box Tracking
 1) Main app lifecycle events:
