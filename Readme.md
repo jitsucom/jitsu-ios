@@ -73,10 +73,14 @@ It would be useful in case when client wants to identify user before and after l
 ### Sending events
 Telling SDK to track events. There are two options:
 a) client can send an event as something conforming to `Event` protocol
-`sendEvent(_ event: Event)`
+```
+analytics.sendEvent(_ event: Event)
+```
 b) or pass it as a name of event and Dict of event params.
-`sendEvent(_ name: "user pressed like", params: ["to_user_id: "234kj"])`
- 
+```
+analytics.sendEvent(_ name: "user pressed like", params: ["to_user_id: "234kj"])
+```
+
 ### Passing context with events
 You can set the context to the SDK that will be passed with the events.
 It can be helpful in A/B testing, passing user info, or passing user's device characteristics with every event.
@@ -90,7 +94,9 @@ SDK can automatically add context values that are gathered by SDK (more on that 
  
 ### Send screen event
 You can send event from screen in one line. SDK will add all the screen description for you
-`analytics.sendScreenEvent(screen: myVC, name: "user pressedLike")`
+```
+analytics.sendScreenEvent(screen: myVC, name: "user pressedLike")
+```
  
 # Out-of-the-box Tracking
 1) Main app lifecycle events:
@@ -107,19 +113,23 @@ For instance:
 * device info: model, screen size, OS version
 `analytics.shouldGatherDeviceInfo = true`
 * System language
- 
+* Location. It is turned off, but you can turn it on. with `analytics.shouldAddLocationInfoToContext = true`. // todo: add info about location
+
+3) SDK can send events when: 
+* User received push notification, user opened a push notification. You can turn it off by `analytics.shouldCapturePushEvents = false`
+* App was opened from a deeplink. You can turn it off by `analytics.shouldCaptureDeeplinks = false`
  
 # Privacy
 Disable/enable data collection.
 
-`analytics.turnOff()`
+```analytics.turnOff()```
 
-`analytics.turnOn()`
+```analytics.turnOn()```
  
  
 # Logging
 You can set log level.
-`analytics.setLogLevel(_ logLevel: JitsuLogLevel)`,
+```analytics.setLogLevel(_ logLevel: JitsuLogLevel)```,
 
 where `JitsuLogLevel` has values `debug`, `info`, `warnings`, `errors`, `critical`
  
