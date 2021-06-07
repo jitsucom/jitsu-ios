@@ -71,7 +71,7 @@ public protocol UserManagement: AnyObject {
 	/// We set UUID automatically to any user. UUID is stored between launches.
 	var anonymousUserId: UserId {get}
 	
-	/// Also, clients can set several identifiers to one user and associate these identifiers with one another.
+	/// Also, you can set several identifiers to one user and associate these identifiers with one another.
 	/// - Parameter newId: new user id to identify with existing ones.
 	func identify(newId: UserId)
 	
@@ -87,7 +87,7 @@ public protocol Analytics: AnyObject {
 	/// - Parameters:
 	///   - apiKey: Api Key (you can get it in ...) // todo
 	///   - hostAdress: adress of Jitsu server
-	init?(apiKey: String, hostAdress: String) throws
+	init(apiKey: String, hostAdress: String)
 	
 	/// If user wants to disable all the analytics, call `turnOff` method.
 	/// If user wants to turn it on back - call `turnOn`.
