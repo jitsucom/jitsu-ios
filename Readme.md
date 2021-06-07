@@ -1,5 +1,10 @@
 # Jitsu iOS SDK Features
- 
+
+[![CI Status](https://img.shields.io/travis/rebbdif/Jitsu.svg?style=flat)](https://travis-ci.org/rebbdif/Jitsu)
+[![Version](https://img.shields.io/cocoapods/v/Jitsu.svg?style=flat)](https://cocoapods.org/pods/Jitsu)
+[![License](https://img.shields.io/cocoapods/l/Jitsu.svg?style=flat)](https://cocoapods.org/pods/Jitsu)
+[![Platform](https://img.shields.io/cocoapods/p/Jitsu.svg?style=flat)](https://cocoapods.org/pods/Jitsu)
+
  
 ## Installation
 You can install with [Cocoapods](https://cocoapods.org), [Carthage](https://github.com/Carthage/Carthage), or Swift Package Manager.
