@@ -54,13 +54,14 @@ public protocol Context: AnyObject {
 	/// Clears context
 	func clear()
 	
-	/// Default is true. If device info is added to Context: device, screen resolution, OS version.
+	/// Default is true. If device info is added to Context: device, screen resolution, OS version, app version
 	/// Is updated on every new launch of the app.
 	var shouldCollectDeviceInfo: Bool {get set}
 	
 	/// Default is true. If we should automatically add user's locale to Context.
 	/// Is updated on every new launch of the app.
 	var shouldCollectLanguage: Bool {get set}
+	
 }
 
 
