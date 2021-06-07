@@ -3,18 +3,15 @@ API for backend - specification
 
 # Auth
 With OAuth? 
-<!-- 
-SDK sends Auth token in body of POST, and receives token that we use in our future requests. 
-
 get-token
-We get token -->
+We get token, and use it in further requests
 
 
 # Receive batches of events
 
 Base url: `https://jitsu/app=APP_ID/send`
 
-Events arrive in batches. 
+Receives batch of events. 
 
 Headers:
 ```
