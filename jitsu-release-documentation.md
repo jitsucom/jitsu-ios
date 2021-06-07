@@ -9,3 +9,4 @@ To add contributor use `$ pod trunk add-owner EMAIL`.
 At the time being leosilver@yandex.ru is the person who can add contributors.
 
 ### In Carthage
+Check that it builds https://github.com/Carthage/Carthage#supporting-carthage-for-your-framework
