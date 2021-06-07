@@ -51,9 +51,9 @@ let analytics = Jitsu(apiKey: YOUR_KEY, hostAdress: YOUR_HOST)
 * Jitsu uses an internal queue to make calls fast and non-blocking.
 * Jitsu doesn't send all events at once, they are sent by batches. SDK sends a new batch either when the batch reaches `eventsQueueSize`, or every `sendingBatchesPeriod`. Also events are sent when application enters background. If the app gets closed or crashes, events are sent on the next launch.
 You can manually set the number of events `n` in the queue and time period `t`.
-```
-	analytics.eventsQueueSize = 20
-	analytics.sendingBatchesPeriod = TimeInterval(seconds: 10)
+```swift
+analytics.eventsQueueSize = 20
+analytics.sendingBatchesPeriod = TimeInterval(seconds: 10)
 ```
 Also you can forse SDK to send batch immediately by calling `sendEvents()`.
 
@@ -71,14 +71,14 @@ It would be useful in case when you want to identify user before and after login
 
 ### Sending events
 Telling SDK to track events. There are two options:
-<<<<<<< HEAD
+
 a) client can send an event as something conforming to `Event` protocol
-```
+```swift
 analytics.sendEvent(_ event: Event)
 ```
 b) or pass it as a name of event and Dict of event params.
-```
-analytics.sendEvent(_ name: "user pressed like", params: ["to_user_id: "234kj"])
+```swift
+analytics.sendEvent(_ name: "user pressed like", params: ["to_user_id: "NEW_VALUE"])
 ```
 
 ### Passing context with events
@@ -96,17 +96,12 @@ Also, you can clear context when needed. It will not clear automatically gathere
  
  
 ### Send screen event
-<<<<<<< HEAD
-You can send event from screen in one line. SDK will add all the screen description for you
-```
-analytics.sendScreenEvent(screen: myVC, name: "user pressedLike")
-=======
 You can send an event from a screen in one line. This event will contain screen info as well as event data. 
-```analytics.sendScreenEvent(screen: someVC, name: "screen appeared", params: ["foo": "bar"])
->>>>>>> d
+```swift
+analytics.sendScreenEvent(screen: someVC, name: "screen appeared", params: ["foo": "bar"])
 ```
  
-# Out-of-the-box Trackings
+## Out-of-the-box Trackings
 1) Main app lifecycle events:
 - App installed
 - App updated
@@ -114,11 +109,13 @@ You can send an event from a screen in one line. This event will contain screen 
 - App did enter background
 - Sending the screen name on which the app was closed (on the next launch)
 You can disable tracking these events if you want to.
-```analytics.shouldTrackAppEvents = false```
+```swift
+analytics.shouldTrackAppEvents = false
+```
  
 2) SDK can gather info about:
-* device info: model, screen size, OS version
-`analytics.shouldGatherDeviceInfo = true`
+* device info: model, screen size, OS version. You can disable it with 
+`analytics.shouldGatherDeviceInfo = false`
 * System language
 * Location. It is turned off, but you can turn it on. with `analytics.shouldAddLocationInfoToContext = true`. // todo: add info about location
 
@@ -126,17 +123,23 @@ You can disable tracking these events if you want to.
 * User received push notification, user opened a push notification. You can turn it off by `analytics.shouldCapturePushEvents = false`
 * App was opened from a deeplink. You can turn it off by `analytics.shouldCaptureDeeplinks = false`
  
-# Privacy
+## Privacy
 Disable/enable data collection.
 
-```analytics.turnOff()```
+```swift
+analytics.turnOff()
+```
 
-```analytics.turnOn()```
+```swift
+analytics.turnOn()
+```
  
  
-# Logging
+## Logging
 You can set log level.
-```analytics.setLogLevel(_ logLevel: JitsuLogLevel)```,
+```swift
+analytics.setLogLevel(_ logLevel: JitsuLogLevel)
+```
 
 where `JitsuLogLevel` has values `debug`, `info`, `warnings`, `errors`, `critical`
  
