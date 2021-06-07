@@ -116,6 +116,7 @@ analytics.shouldTrackAppEvents = false
 2) SDK can gather info about:
 * device info: model, screen size, OS version. You can disable it with 
 `analytics.shouldGatherDeviceInfo = false`
+* app version
 * System language
 * Location. It is turned off, but you can turn it on. with `analytics.shouldAddLocationInfoToContext = true`. // todo: add info about location
 
