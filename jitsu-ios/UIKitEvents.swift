@@ -17,8 +17,8 @@ public protocol SendsUIKitEvents {
 	/// - Parameters:
 	///   - screen: name of the screen
 	///   - name: event name
-	///   - params: event params
-	func sendScreenEvent(screen: UIViewController, name: EventName, params: [String : Any])
+	///   - payload: event params
+	func sendScreenEvent(screen: UIViewController, name: EventName, payload: [String : Any])
 	
 	/// Sending the event with screen info
 	/// Works like `sendEvent`, but also passes screen info
