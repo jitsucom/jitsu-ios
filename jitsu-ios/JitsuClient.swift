@@ -8,7 +8,7 @@
 import Foundation
 
 
-public typealias EventName = String
+public typealias EventType = String
 
 
 /// Manages SDK behaviour.
@@ -22,10 +22,11 @@ public typealias EventName = String
 	/// You can send events as separate instance, only their names, or their names plus dict of payload.
 	/// Context is added to all events sent.
 	func trackEvent(_ event: Event)
-	func trackEvent(name: EventName)
-	func trackEvent(name: EventName, payload: [String: Any])
+	func trackEvent(name: EventType)
+	func trackEvent(name: EventType, payload: [String: Any])
 	
-	var context: EventContext {get}
+	/// Context is added to all the events. It consists of event keys and values. Some values are added to context automatically.
+	var context: JitsuContext {get}
 	
 	/// User properties are added to events that SDK sends.
 	var userProperties: UserProperties {get}
@@ -56,7 +57,7 @@ public typealias EventName = String
 @objc public protocol Event: AnyObject {
 	
 	/// Name of the event
-	var name: EventName {get}
+	var name: EventType {get}
 	
 	/// Parameters describing the event
 	var payload: [String: Any] {get set}
@@ -65,15 +66,21 @@ public typealias EventName = String
 /// Context is added to all the events. It consists of event keys and values.
 /// Some values are added to context automatically.
 /// You can add, change and remove context values.
-@objc public protocol EventContext: AnyObject {
+@objc public protocol JitsuContext: AnyObject {
 	typealias Key = String
 	
-	/// Use this methods to add or update values in context.
-	func addValues(_ values: [EventContext.Key: Any])
-	func addValue(_ value: Any, for key: EventContext.Key)
+	/// Sets permanent properties for certain event types, that can be saved between launches.
+	/// - Parameters:
+	///   - values: properties
+	///   - eventTypes: apply permanent properties to only certain event types (applied to all types by default)
+	///   - persist: if true, properties are saved between launches. true by default
+	func addValues(_ values: [JitsuContext.Key: Any], for eventTypes: [EventType]?, persist: Bool)
 	
-	/// Use this method to remove value for key.
-	func removeValue(for key: EventContext.Key)
+	/// Use this method to remove value for key for certain event types.
+	/// - Parameters:
+	///   - key: key of property to be removed
+	///   - eventTypes: types of events for which you want to remove the property.
+	func removeValue(for key: JitsuContext.Key, for eventTypes: [EventType]?)
 	
 	/// Clears context. Automatically collected values are reset and then added again.
 	func clear()
@@ -114,12 +121,15 @@ public typealias EventName = String
 	func resetUserProperties()
 }
 
-
 /// Configuration options for Jitsu.
 @objc public class JitsuOptions: NSObject {
 	
 	/// API Key
 	var apiKey: String
+	
+	/// Tracking host (where API calls will be sent). If not set,
+	/// we'd try to do the best to "guess" it. Last resort is t.jitsu.com.
+	var trackingHost: String?
 	
 	/// Should automatically capture this events. Default: true
 	var shouldCaptureDeeplinks: Bool = true
@@ -130,12 +140,12 @@ public typealias EventName = String
 	/// You can set different log levels, depending on how detailed you want sdk logs to be
 	var logLevel: LogLevel = .warnings
 	
-	@objc public init(apiKey: String) {
+	@objc public init(apiKey: String, trackingHost: String?) {
 		self.apiKey = apiKey
+		self.trackingHost = trackingHost
 		super.init()
 	}
 }
-
 
 /// Capturing location
 @objc public protocol CapturesLocationEvents: AnyObject {
@@ -151,7 +161,6 @@ public typealias EventName = String
 	/// Default: false
 	var shouldTrackLocation: Bool {get set}
 }
-
 
 /// Settings different log levels to the SDK.
 @objc public enum LogLevel: Int {

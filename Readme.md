@@ -50,8 +50,9 @@ After successfully retrieved the package and added it to your project, just impo
 
 ## Initialisation
 SDK is configured with  `JitsuOptions`.
+You should pass your API key to it, and a tracking host, if you want to use custom host. 
 ```swift
-let options = JitsuOptions(apiKey: YOUR_KEY)
+let options = JitsuOptions(apiKey: YOUR_KEY, trackingHost: YOUR_HOST)
 let analytics = JitsuClient(options: options)
 ```
 
@@ -105,7 +106,6 @@ You can set additional user identifiers.
 analytics.userProperties.otherIdentifiers["pager"] = "234" 
 ```
 
-
 You can set multiple properties user by calling: 
 ```swift
 analytics.userProperties.identify(
@@ -124,19 +124,31 @@ You can reset all users properties by calling
 analytics.userProperties.reset()
 ```
 
- 
-### Passing context with events
-Context is added to all the events. It consists of event keys and values. Some values are added to context automatically.
-You can add, change and remove context values. It can be helpful in A/B testing, passing user info, or passing user's device characteristics with every event.
+### Context
+You can set properties that will always be added to events of certain types. 
+You can add, change and remove context values.
+You can either add properties to certain event types or do not specify event type - then it will be added to all the event types. 
+
+You can also set if you want context values persisted between launches. By default context events are persisted.
+
 ``` swift 
-analytics.context.addValues(["age": 32, "codes": "Swift"])
-analytics.context.addValue(32, for: "age"])
+analytics.context.addValues(
+	["age": 32, "codes": "Swift"], 
+	for: ["event sign up"],
+	persist: true
+	)
 ```
 
-SDK can automatically add context values that are gathered by SDK.
+You can remove context values by calling
+```swift
+analytics.context.removeValue(for key: "age", for eventTypes: [])
+```
 
-You can remove context values by calling `removeValue(for key: Context.Key)`. You can clear context when needed. It will not clear automatically gathered values (only update them). 
+You can clear context when needed. It will not clear automatically gathered values (only update them). 
 `analytics.context.clear()`
+
+SDK automatically gathers some context values.
+
 
 #### Automatically gathered context values
 * device info: model, screen size, OS version
