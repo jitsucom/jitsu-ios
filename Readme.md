@@ -7,7 +7,7 @@
 
  
 ## Installation
-You can install with [Cocoapods](https://cocoapods.org), [Carthage](https://github.com/Carthage/Carthage), or Swift Package Manager.
+You can install with [Cocoapods](https://cocoapods.org), [Carthage](https://github.com/Carthage/Carthage), or [Swift Package Manager](https://swift.org/package-manager/).
 
 ### Cocoapods
 Add the pod to your Podfile:
@@ -28,7 +28,7 @@ And then run:
 
 Open `Carthage/Build/iOS` directory, and drag jitsu-ios.framework to your application targets “General” tab under the “Linked Frameworks and Libraries” section.
 
-If your app can't find jitsu-ios, go to your target's build settings, and add `$(SRCROOT) recursive`  to your `Framework search path` .
+If your app can't find jitsu-ios, go to your target's build settings, and add `$(SRCROOT)`  `recursive`  to your `Framework search path` .
 
 ### Swift Package Manager
 1. Go to File > Swift Packages > Add Package Dependency
@@ -57,8 +57,8 @@ let analytics = JitsuClient(options: options)
 
 ## Infrastructure
 * Jitsu uses an internal queue to make calls fast and non-blocking.
-* Jitsu doesn't send all events at once, they are sent by batches. SDK sends a new batch either when the batch reaches `eventsQueueSize`, or every `sendingBatchesPeriod`. Also, events are sent when an application enters background. If the app gets closed or crashes, events are sent on the next launch.
-You can manually set the number of events `n` in the queue and time period `t`.
+* Jitsu doesn't send all events at once, they are sent in batches. SDK sends a new batch either when the batch reaches `eventsQueueSize`, or every `sendingBatchesPeriod`. Also, events are sent when an application enters background. If the app gets closed or crashes, events are sent on the next launch.
+You can manually set the number of events in the queue and time period.
 ```swift
 analytics.eventsQueueSize = 20
 analytics.sendingBatchesPeriod = TimeInterval(seconds: 10)
@@ -85,13 +85,13 @@ analytics.sendEvent(_ name: "user pressed like", params: ["to_user_id: "NEW_VALU
 Information about user is passed with events.
 
 Use `analytics.userProperties` to manage user info.
-UserProperties consist of an anonymousUserId, and custom identifiers that you can set to the user.
+UserProperties consist of an anonymous user id and custom identifiers that you can set to the user.
 
-**anonymousUserId**
+**anonymous user id**
 Jitsu automatically sets a UUID to any user, that is stored between launches. 
 You can get it by `analytics.userProperties.anonymousUserId`. 
 
-**userIdentifier**
+**user identifier**
 You can set your own identifier to user. 
 You can access it it by `analytics.userProperties.userIdentifier`. 
 
@@ -99,7 +99,7 @@ You can access it it by `analytics.userProperties.userIdentifier`.
 You can set email. 
 You can access it it by `analytics.userProperties.email`. 
 
-**otherIdentifiers**
+**other identifiers**
 You can set additional user identifiers.
 ```swift
 analytics.userProperties.otherIdentifiers["pager"] = "234" 
@@ -111,7 +111,8 @@ You can set multiple properties user by calling:
 analytics.userProperties.identify(
 	userIdentifier: "my_id",
 	email: "foo@bar.com",
-	[ "name": "Foo",
+	[
+	"name": "Foo",
 	"surname": "Johnson",
 	],
 	sendIdentificationEvent: true
@@ -129,12 +130,10 @@ Context is added to all the events. It consists of event keys and values. Some v
 You can add, change and remove context values. It can be helpful in A/B testing, passing user info, or passing user's device characteristics with every event.
 `analytics.context.addValues(["age": 32])`
 `analytics.context.addValue(32, for: "age"])`
- 
-You can remove context values by calling `removeValue(for key: Context.Key)`, or even clear the context with `clear()`
 
 SDK can automatically add context values that are gathered by SDK.
 
-Also, you can clear context when needed. It will not clear automatically gathered values (only update them). 
+You can remove context values by calling `removeValue(for key: Context.Key)`. You can clear context when needed. It will not clear automatically gathered values (only update them). 
 `analytics.context.clear()`
 
 #### Automatically gathered context values
@@ -158,7 +157,7 @@ analytics.sendScreenEvent(screen: someVC, name: "screen appeared", params: ["foo
 - App did enter background
  
  2) SDK can send events when: 
- * A user receives push notification, and user opens a push notification. You can turn it off by `analytics.shouldCapturePushEvents = false`
+ * A user receives a push notification, and user opens a push notification. You can turn it off by `analytics.shouldCapturePushEvents = false`
  * App was opened from a deeplink. You can turn it off by `analytics.shouldCaptureDeeplinks = false`
  
  
