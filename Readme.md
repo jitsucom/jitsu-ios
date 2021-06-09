@@ -24,9 +24,11 @@ Add Jitsu to your Cartfile:
 `github "jitsu/jitsu-ios" "master"`
 
 And then run:
-`carthage update` 
+`carthage update --use-xcframeworks` 
 
 Open `Carthage/Build/iOS` directory, and drag jitsu-ios.framework to your application targets “General” tab under the “Linked Frameworks and Libraries” section.
+
+If your app can't find jitsu-ios, go to your target's build settings, and add `$(SRCROOT) recursive`  to your `Framework search path` .
 
 ### Swift Package Manager
 1. Go to File > Swift Packages > Add Package Dependency
@@ -47,31 +49,23 @@ After successfully retrieved the package and added it to your project, just impo
 
 
 ## Initialisation
-SDK is configured with an `apiKey` and `hostAdress`
+SDK is configured with  `JitsuOptions`.
 ```swift
-let analytics = Jitsu(apiKey: YOUR_KEY, hostAdress: YOUR_HOST)
+let options = JitsuOptions(apiKey: YOUR_KEY)
+let analytics = JitsuClient(options: options)
 ```
 
 ## Infrastructure
 * Jitsu uses an internal queue to make calls fast and non-blocking.
-* Jitsu doesn't send all events at once, they are sent by batches. SDK sends a new batch either when the batch reaches `eventsQueueSize`, or every `sendingBatchesPeriod`. Also events are sent when application enters background. If the app gets closed or crashes, events are sent on the next launch.
+* Jitsu doesn't send all events at once, they are sent by batches. SDK sends a new batch either when the batch reaches `eventsQueueSize`, or every `sendingBatchesPeriod`. Also, events are sent when an application enters background. If the app gets closed or crashes, events are sent on the next launch.
 You can manually set the number of events `n` in the queue and time period `t`.
 ```swift
 analytics.eventsQueueSize = 20
 analytics.sendingBatchesPeriod = TimeInterval(seconds: 10)
 ```
-Also you can forse SDK to send batch immediately by calling `sendEvents()`.
+Also, you can force SDK to send batch immediately by calling `sendBatch()`.
 
 
-## Identifying user
-Jitsu automatically sets a UUID to any user, it is stored between launches. You can get it by `analytics.anonymousUserId`. 
-You can reset it with `analytics.reset()`.
- 
-Also, you can set several identifiers to one user and associate these identifiers with one another.
-It would be useful in case when you want to identify user before and after login or registration.	
-`analytics.identify(newId: NEW_VALUE)`
-
- 
 ## Sending events
 
 ### Sending events
@@ -86,6 +80,50 @@ b) or pass it as a name of event and Dict of event params.
 analytics.sendEvent(_ name: "user pressed like", params: ["to_user_id: "NEW_VALUE"])
 ```
 
+
+### Identifying user
+Information about user is passed with events.
+
+Use `analytics.userProperties` to manage user info.
+UserProperties consist of an anonymousUserId, and custom identifiers that you can set to the user.
+
+**anonymousUserId**
+Jitsu automatically sets a UUID to any user, that is stored between launches. 
+You can get it by `analytics.userProperties.anonymousUserId`. 
+
+**userIdentifier**
+You can set your own identifier to user. 
+You can access it it by `analytics.userProperties.userIdentifier`. 
+
+**email**
+You can set email. 
+You can access it it by `analytics.userProperties.email`. 
+
+**otherIdentifiers**
+You can set additional user identifiers.
+```swift
+analytics.userProperties.otherIdentifiers["pager"] = "234" 
+```
+
+
+You can set multiple properties user by calling: 
+```swift
+analytics.userProperties.identify(
+	userIdentifier: "my_id",
+	email: "foo@bar.com",
+	[ "name": "Foo",
+	"surname": "Johnson",
+	],
+	sendIdentificationEvent: true
+)
+```
+
+You can reset all users properties by calling 
+``` swift
+analytics.userProperties.reset()
+```
+
+ 
 ### Passing context with events
 Context is added to all the events. It consists of event keys and values. Some values are added to context automatically.
 You can add, change and remove context values. It can be helpful in A/B testing, passing user info, or passing user's device characteristics with every event.
@@ -94,10 +132,15 @@ You can add, change and remove context values. It can be helpful in A/B testing,
  
 You can remove context values by calling `removeValue(for key: Context.Key)`, or even clear the context with `clear()`
 
-SDK can automatically add context values that are gathered by SDK (more on that in *Automatically sent values*).
+SDK can automatically add context values that are gathered by SDK.
 
-Also, you can clear context when needed. It will not clear automatically gathered values. 
-```analytics.context.clear()```
+Also, you can clear context when needed. It will not clear automatically gathered values (only update them). 
+`analytics.context.clear()`
+
+#### Automatically gathered context values
+* device info: model, screen size, OS version
+* app version, app name, sdk version
+* system language
  
  
 ### Send screen event
@@ -105,6 +148,7 @@ You can send an event from a screen in one line. This event will contain screen 
 ```swift
 analytics.sendScreenEvent(screen: someVC, name: "screen appeared", params: ["foo": "bar"])
 ```
+
  
 ## Out-of-the-box Trackings
 1) Main app lifecycle events:
@@ -112,23 +156,29 @@ analytics.sendScreenEvent(screen: someVC, name: "screen appeared", params: ["foo
 - App updated
 - App launched
 - App did enter background
-- Sending the screen name on which the app was closed (on the next launch)
-You can disable tracking these events if you want to.
+ 
+ 2) SDK can send events when: 
+ * A user receives push notification, and user opens a push notification. You can turn it off by `analytics.shouldCapturePushEvents = false`
+ * App was opened from a deeplink. You can turn it off by `analytics.shouldCaptureDeeplinks = false`
+ 
+ 
+ ### Location
+SDK can gather info about location.
+1) You can add location to context by calling 
 ```swift
-analytics.shouldTrackAppEvents = false
+analytics.captureLocation(latitude: "12343.43", longitude: "12343.43")
 ```
- 
-2) SDK can gather info about:
-* device info: model, screen size, OS version. You can disable it with 
-`analytics.shouldGatherDeviceInfo = false`
-* app version
-* System language
-* Location. It is turned off, but you can turn it on. with `analytics.shouldAddLocationInfoToContext = true`. // todo: add info about location
+2) If user allows app to access location, we gather new location every time app launches. `false` by default.
+```swift
+analytics.shouldAutomaticallyAddLocationOnAppLaunch = true
+```
 
-3) SDK can send events when: 
-* User received push notification, user opened a push notification. You can turn it off by `analytics.shouldCapturePushEvents = false`
-* App was opened from a deeplink. You can turn it off by `analytics.shouldCaptureDeeplinks = false`
- 
+3) If user allows app to acces  location, we track location changes during the use of the app. `false` by default.
+```swift
+analytics.shouldTrackLocation = true
+```
+
+
 ## Privacy
 Disable/enable data collection.
 
@@ -142,14 +192,13 @@ analytics.turnOn()
  
  
 ## Logging
-You can set log level.
+You can set log level when initializing SDK with JitsuOptions .
 ```swift
-analytics.setLogLevel(_ logLevel: JitsuLogLevel)
+options.setLogLevel(_ logLevel: JitsuLogLevel)
 ```
-
 where `JitsuLogLevel` has values `debug`, `info`, `warnings`, `errors`, `critical`
  
  
-# UnitTestMode
+## UnitTestMode
 We need to ensure that events are not being sent during unit tests.
  
