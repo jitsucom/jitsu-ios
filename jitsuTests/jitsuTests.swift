@@ -6,12 +6,12 @@
 //
 
 import XCTest
-@testable import jitsu_ios
+@testable import jitsu
 
 
 // MARK: - Draft zone
 
-extension EventName {
+extension EventType {
 	static let showedScreen = "sh"
 }
 
@@ -27,7 +27,7 @@ class jitsu_iosTests: XCTestCase {
     }
 
     func testExample() throws {
-		let test = EventName.showedScreen
+		let test = EventType.showedScreen
 		
 		XCTAssertEqual(test, "sh")
 	}

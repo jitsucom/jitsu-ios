@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8EC5924E2669848700357A59"
-               BuildableName = "jitsu_ios.framework"
-               BlueprintName = "jitsu-ios"
-               ReferencedContainer = "container:jitsu-ios.xcodeproj">
+               BuildableName = "jitsu.framework"
+               BlueprintName = "jitsu"
+               ReferencedContainer = "container:jitsu.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8EC592572669848700357A59"
-               BuildableName = "jitsu-iosTests.xctest"
-               BlueprintName = "jitsu-iosTests"
-               ReferencedContainer = "container:jitsu-ios.xcodeproj">
+               BuildableName = "jitsuTests.xctest"
+               BlueprintName = "jitsuTests"
+               ReferencedContainer = "container:jitsu.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -61,9 +61,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8EC5924E2669848700357A59"
-            BuildableName = "jitsu_ios.framework"
-            BlueprintName = "jitsu-ios"
-            ReferencedContainer = "container:jitsu-ios.xcodeproj">
+            BuildableName = "jitsu.framework"
+            BlueprintName = "jitsu"
+            ReferencedContainer = "container:jitsu.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
