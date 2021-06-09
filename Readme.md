@@ -73,11 +73,11 @@ Telling SDK to track events. There are two options:
 
 a) client can send an event as something conforming to `Event` protocol
 ```swift
-analytics.sendEvent(_ event: Event)
+analytics.trackEvent(_ event: Event)
 ```
 b) or pass it as a name of event and Dict of event params.
 ```swift
-analytics.sendEvent(_ name: "user pressed like", params: ["to_user_id: "NEW_VALUE"])
+analytics.trackEvent(_ name: "user pressed like", params: ["to_user_id: "NEW_VALUE"])
 ```
 
 
@@ -87,19 +87,19 @@ Information about user is passed with events.
 Use `analytics.userProperties` to manage user info.
 UserProperties consist of an anonymous user id and custom identifiers that you can set to the user.
 
-**anonymous user id**
+* **anonymous user id**: 
 Jitsu automatically sets a UUID to any user, that is stored between launches. 
 You can get it by `analytics.userProperties.anonymousUserId`. 
 
-**user identifier**
+* **user identifier**: 
 You can set your own identifier to user. 
 You can access it it by `analytics.userProperties.userIdentifier`. 
 
-**email**
+* **email**: 
 You can set email. 
 You can access it it by `analytics.userProperties.email`. 
 
-**other identifiers**
+* **other identifiers**:
 You can set additional user identifiers.
 ```swift
 analytics.userProperties.otherIdentifiers["pager"] = "234" 
@@ -112,8 +112,8 @@ analytics.userProperties.identify(
 	userIdentifier: "my_id",
 	email: "foo@bar.com",
 	[
-	"name": "Foo",
-	"surname": "Johnson",
+		"name": "Foo",
+		"surname": "Johnson",
 	],
 	sendIdentificationEvent: true
 )
@@ -128,8 +128,10 @@ analytics.userProperties.reset()
 ### Passing context with events
 Context is added to all the events. It consists of event keys and values. Some values are added to context automatically.
 You can add, change and remove context values. It can be helpful in A/B testing, passing user info, or passing user's device characteristics with every event.
-`analytics.context.addValues(["age": 32])`
-`analytics.context.addValue(32, for: "age"])`
+``` swift 
+analytics.context.addValues(["age": 32, "codes": "Swift"])
+analytics.context.addValue(32, for: "age"])
+```
 
 SDK can automatically add context values that are gathered by SDK.
 
