@@ -16,12 +16,7 @@ Add the pod to your Podfile:
 And then run:
 `pod install`
 
-After installing the cocoa pod into your project, import Jitsu with
-```swift 
-import Jitsu
-```Objective-C
-@import Jitsu;
-```
+After installing the cocoa pod into your project, import Jitsu into your project. 
 
 ### Carthage
 Add Jitsu to your Cartfile:
@@ -34,12 +29,8 @@ Open `Carthage/Build` directory, and drag Jitsu.framework to your application ta
 
 If your app can't find Jitsu, go to your target's build settings, and add `$(SRCROOT)`  `recursive`  to your `Framework search path` .
 
-Then import Jitsu with 
-```swift 
-import Jitsu
-```Objective-C
-@import Jitsu;
-```
+Then import Jitsu into your project.
+
 
 ### Swift Package Manager
 1. Go to File > Swift Packages > Add Package Dependency
@@ -50,9 +41,16 @@ import Jitsu
   
   <img src="_Gifs/spm-branch.png" alt="Example" width="600"/>
 
-After successfully retrieved the package and added it to your project, just import Jitsu with 
+After successfully retrieved the package and added it to your project, import Jitsu.
+
+### Importing Jitsu
+
+Swift: 
 ```swift 
 import Jitsu
+```
+
+Objective-C: 
 ```Objective-C
 @import Jitsu;
 ```
