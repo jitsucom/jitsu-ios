@@ -11,24 +11,35 @@ You can install with [Cocoapods](https://cocoapods.org), [Carthage](https://gith
 
 ### Cocoapods
 Add the pod to your Podfile:
-`pod 'jitsu-ios'`
+`pod 'Jitsu'`
 
 And then run:
 `pod install`
 
 After installing the cocoa pod into your project, import Jitsu with
-`import Jitsu`
+```swift 
+import Jitsu
+```Objective-C
+@import Jitsu;
+```
 
 ### Carthage
 Add Jitsu to your Cartfile:
-`github "jitsu/jitsu-ios" "master"`
+`github "jitsu/jitsu-ios" "develop"`
 
 And then run:
 `carthage update --use-xcframeworks` 
 
-Open `Carthage/Build/iOS` directory, and drag jitsu-ios.framework to your application targets “General” tab under the “Linked Frameworks and Libraries” section.
+Open `Carthage/Build` directory, and drag Jitsu.framework to your application targets “General” tab under the “Linked Frameworks and Libraries” section.
 
-If your app can't find jitsu-ios, go to your target's build settings, and add `$(SRCROOT)`  `recursive`  to your `Framework search path` .
+If your app can't find Jitsu, go to your target's build settings, and add `$(SRCROOT)`  `recursive`  to your `Framework search path` .
+
+Then import Jitsu with 
+```swift 
+import Jitsu
+```Objective-C
+@import Jitsu;
+```
 
 ### Swift Package Manager
 1. Go to File > Swift Packages > Add Package Dependency
@@ -39,14 +50,12 @@ If your app can't find jitsu-ios, go to your target's build settings, and add `$
   
   <img src="_Gifs/spm-branch.png" alt="Example" width="600"/>
 
-If you have doubts, please, check the following links:
-
-[How to use](https://developer.apple.com/videos/play/wwdc2019/408/)
-
-[Creating Swift Packages](https://developer.apple.com/videos/play/wwdc2019/410/)
-
-After successfully retrieved the package and added it to your project, just import `Jitsu`, and you can get the full benefits of it.
-
+After successfully retrieved the package and added it to your project, just import Jitsu with 
+```swift 
+import Jitsu
+```Objective-C
+@import Jitsu;
+```
 
 ## Initialisation
 SDK is configured with  `JitsuOptions`.
