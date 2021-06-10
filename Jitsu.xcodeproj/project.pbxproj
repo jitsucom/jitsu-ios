@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8EC592592669848700357A59 /* jitsu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EC5924F2669848700357A59 /* jitsu.framework */; };
-		8EC5925E2669848700357A59 /* jitsuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC5925D2669848700357A59 /* jitsuTests.swift */; };
+		8EC592592669848700357A59 /* Jitsu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EC5924F2669848700357A59 /* Jitsu.framework */; };
+		8EC5925E2669848700357A59 /* JitsuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC5925D2669848700357A59 /* JitsuTests.swift */; };
 		8EC592602669848700357A59 /* jitsu.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EC592522669848700357A59 /* jitsu.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8EC5926C266984C900357A59 /* JitsuClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC5926B266984C900357A59 /* JitsuClient.swift */; };
 		8EC59276266A3E1300357A59 /* UIKitEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC59275266A3E1300357A59 /* UIKitEvents.swift */; };
@@ -25,11 +25,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8EC5924F2669848700357A59 /* jitsu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = jitsu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8EC5924F2669848700357A59 /* Jitsu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Jitsu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EC592522669848700357A59 /* jitsu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jitsu.h; sourceTree = "<group>"; };
 		8EC592532669848700357A59 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8EC592582669848700357A59 /* jitsuTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = jitsuTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8EC5925D2669848700357A59 /* jitsuTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = jitsuTests.swift; sourceTree = "<group>"; };
+		8EC592582669848700357A59 /* JitsuTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JitsuTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8EC5925D2669848700357A59 /* JitsuTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsuTests.swift; sourceTree = "<group>"; };
 		8EC5925F2669848700357A59 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8EC5926B266984C900357A59 /* JitsuClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsuClient.swift; sourceTree = "<group>"; };
 		8EC59275266A3E1300357A59 /* UIKitEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitEvents.swift; sourceTree = "<group>"; };
@@ -47,7 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8EC592592669848700357A59 /* jitsu.framework in Frameworks */,
+				8EC592592669848700357A59 /* Jitsu.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -57,8 +57,8 @@
 		8EC592452669848600357A59 = {
 			isa = PBXGroup;
 			children = (
-				8EC592512669848700357A59 /* jitsu */,
-				8EC5925C2669848700357A59 /* jitsuTests */,
+				8EC592512669848700357A59 /* Sources */,
+				8EC5925C2669848700357A59 /* Tests */,
 				8EC592502669848700357A59 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -66,13 +66,13 @@
 		8EC592502669848700357A59 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8EC5924F2669848700357A59 /* jitsu.framework */,
-				8EC592582669848700357A59 /* jitsuTests.xctest */,
+				8EC5924F2669848700357A59 /* Jitsu.framework */,
+				8EC592582669848700357A59 /* JitsuTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		8EC592512669848700357A59 /* jitsu */ = {
+		8EC592512669848700357A59 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				8EC592522669848700357A59 /* jitsu.h */,
@@ -80,16 +80,16 @@
 				8EC5926B266984C900357A59 /* JitsuClient.swift */,
 				8EC59275266A3E1300357A59 /* UIKitEvents.swift */,
 			);
-			path = jitsu;
+			path = Sources;
 			sourceTree = "<group>";
 		};
-		8EC5925C2669848700357A59 /* jitsuTests */ = {
+		8EC5925C2669848700357A59 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				8EC5925D2669848700357A59 /* jitsuTests.swift */,
+				8EC5925D2669848700357A59 /* JitsuTests.swift */,
 				8EC5925F2669848700357A59 /* Info.plist */,
 			);
-			path = jitsuTests;
+			path = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -106,9 +106,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8EC5924E2669848700357A59 /* jitsu */ = {
+		8EC5924E2669848700357A59 /* Jitsu */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8EC592632669848700357A59 /* Build configuration list for PBXNativeTarget "jitsu" */;
+			buildConfigurationList = 8EC592632669848700357A59 /* Build configuration list for PBXNativeTarget "Jitsu" */;
 			buildPhases = (
 				8EC5924A2669848700357A59 /* Headers */,
 				8EC5924B2669848700357A59 /* Sources */,
@@ -119,14 +119,14 @@
 			);
 			dependencies = (
 			);
-			name = jitsu;
+			name = Jitsu;
 			productName = "jitsu-ios";
-			productReference = 8EC5924F2669848700357A59 /* jitsu.framework */;
+			productReference = 8EC5924F2669848700357A59 /* Jitsu.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		8EC592572669848700357A59 /* jitsuTests */ = {
+		8EC592572669848700357A59 /* JitsuTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8EC592662669848700357A59 /* Build configuration list for PBXNativeTarget "jitsuTests" */;
+			buildConfigurationList = 8EC592662669848700357A59 /* Build configuration list for PBXNativeTarget "JitsuTests" */;
 			buildPhases = (
 				8EC592542669848700357A59 /* Sources */,
 				8EC592552669848700357A59 /* Frameworks */,
@@ -137,9 +137,9 @@
 			dependencies = (
 				8EC5925B2669848700357A59 /* PBXTargetDependency */,
 			);
-			name = jitsuTests;
+			name = JitsuTests;
 			productName = "jitsu-iosTests";
-			productReference = 8EC592582669848700357A59 /* jitsuTests.xctest */;
+			productReference = 8EC592582669848700357A59 /* JitsuTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -160,7 +160,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 8EC592492669848600357A59 /* Build configuration list for PBXProject "jitsu" */;
+			buildConfigurationList = 8EC592492669848600357A59 /* Build configuration list for PBXProject "Jitsu" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -173,8 +173,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8EC5924E2669848700357A59 /* jitsu */,
-				8EC592572669848700357A59 /* jitsuTests */,
+				8EC5924E2669848700357A59 /* Jitsu */,
+				8EC592572669848700357A59 /* JitsuTests */,
 			);
 		};
 /* End PBXProject section */
@@ -210,7 +210,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8EC5925E2669848700357A59 /* jitsuTests.swift in Sources */,
+				8EC5925E2669848700357A59 /* JitsuTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,7 +219,7 @@
 /* Begin PBXTargetDependency section */
 		8EC5925B2669848700357A59 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8EC5924E2669848700357A59 /* jitsu */;
+			target = 8EC5924E2669848700357A59 /* Jitsu */;
 			targetProxy = 8EC5925A2669848700357A59 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -357,7 +357,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "$(SRCROOT)/jitsu/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -383,7 +383,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "$(SRCROOT)/jitsu/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -404,7 +404,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4BVAFGEHDW;
-				INFOPLIST_FILE = jitsuTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -423,7 +423,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4BVAFGEHDW;
-				INFOPLIST_FILE = jitsuTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -439,7 +439,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8EC592492669848600357A59 /* Build configuration list for PBXProject "jitsu" */ = {
+		8EC592492669848600357A59 /* Build configuration list for PBXProject "Jitsu" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8EC592612669848700357A59 /* Debug */,
@@ -448,7 +448,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8EC592632669848700357A59 /* Build configuration list for PBXNativeTarget "jitsu" */ = {
+		8EC592632669848700357A59 /* Build configuration list for PBXNativeTarget "Jitsu" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8EC592642669848700357A59 /* Debug */,
@@ -457,7 +457,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8EC592662669848700357A59 /* Build configuration list for PBXNativeTarget "jitsuTests" */ = {
+		8EC592662669848700357A59 /* Build configuration list for PBXNativeTarget "JitsuTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8EC592672669848700357A59 /* Debug */,

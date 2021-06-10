@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import jitsu
+@testable import Jitsu
 
 
 // MARK: - Draft zone
@@ -16,7 +16,7 @@ extension EventType {
 }
 
 
-class jitsu_iosTests: XCTestCase {
+class JitsuTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
