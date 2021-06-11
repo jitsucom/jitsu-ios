@@ -151,7 +151,7 @@ public typealias EventType = String
 @objc public protocol CapturesLocationEvents: AnyObject {
 
 	/// Captures user's location, so it gets added to all the future events
-	func captureLocation(latitude: String, longitude: String)
+	func captureLocation(latitude: Double, longitude: Double)
 	
 	/// If user granted access to location, we gather new location every time app launches
 	/// Default: false

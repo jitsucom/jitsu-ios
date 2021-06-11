@@ -66,16 +66,6 @@ let options = JitsuOptions(apiKey: YOUR_KEY, trackingHost: YOUR_HOST)
 let analytics = JitsuClient(options: options)
 ```
 
-## Infrastructure
-* Jitsu uses an internal queue to make calls fast and non-blocking.
-* Jitsu doesn't send all events at once, they are sent in batches. SDK sends a new batch either when the batch reaches `eventsQueueSize`, or every `sendingBatchesPeriod`. Also, events are sent when an application enters background. If the app gets closed or crashes, events are sent on the next launch.
-You can manually set the number of events in the queue and time period.
-```swift
-analytics.eventsQueueSize = 20
-analytics.sendingBatchesPeriod = TimeInterval(seconds: 10)
-```
-Also, you can force SDK to send batch immediately by calling `sendBatch()`.
-
 
 ## Sending events
 
@@ -189,7 +179,7 @@ analytics.sendScreenEvent(screen: someVC, name: "screen appeared", params: ["foo
 SDK can gather info about location.
 1) You can add location to context by calling 
 ```swift
-analytics.captureLocation(latitude: "12343.43", longitude: "12343.43")
+analytics.captureLocation(latitude: -33.85663289818548, longitude: 151.2153074248861)
 ```
 2) If user allows app to access location, we gather new location every time app launches. `false` by default.
 ```swift
@@ -225,3 +215,13 @@ where `JitsuLogLevel` has values `debug`, `info`, `warnings`, `errors`, `critica
 ## UnitTestMode
 We need to ensure that events are not being sent during unit tests.
  
+ 
+ ## Advanced Settings
+ * Jitsu uses an internal queue to make calls fast and non-blocking.
+ * Jitsu doesn't send all events at once, they are sent in batches. SDK sends a new batch either when the batch reaches `eventsQueueSize`, or every `sendingBatchesPeriod`. Also, events are sent when an application enters background. If the app gets closed or crashes, events are sent on the next launch.
+ You can manually set the number of events in the queue and time period.
+ ```swift
+ analytics.eventsQueueSize = 20
+ analytics.sendingBatchesPeriod = TimeInterval(seconds: 10)
+ ```
+ Also, you can force SDK to send batch immediately by calling `sendBatch()`.
