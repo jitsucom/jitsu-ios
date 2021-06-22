@@ -45,8 +45,8 @@ class EventsController {
 		self.networkService = networkService
 	}
 	
-	var eventsCount: Int {
-		return 0
+	var unbatchedEventsCount: Int {
+		return unbatchedEvents.count
 	}
 	
 	func add(event: Event, context: JitsuContext, userProperties: UserProperties) {
@@ -76,7 +76,7 @@ class EventsController {
 			switch result {
 			case .failure(let error):
 				print(error)
-				// retry
+				// todo retry
 			case .success(let batchId):
 				self.batchStorage.removeBatch(with: batchId)
 			}

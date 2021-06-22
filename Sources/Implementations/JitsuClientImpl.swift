@@ -29,24 +29,27 @@ class JitsuClientImpl: JitsuClient {
 	func trackEvent(_ event: Event) {
 		eventsController.add(event: event, context: context, userProperties: userProperties)
 		
-		if eventsController.eventsCount > eventsQueueSize {
+		if eventsController.unbatchedEventsCount >= eventsQueueSize {
 			eventsController.sendEvents()
 		}
 	}
 	
 	func trackEvent(name: EventType) {
-		// calls trackEvent(_ event: Event)
+		let event = JitsuBasicEvent(name: name)
+		trackEvent(event)
 	}
 	
 	func trackEvent(name: EventType, payload: [String : Any]) {
-		// calls trackEvent(_ event: Event)
+		let event = JitsuBasicEvent(name: name)
+		event.payload = payload
+		trackEvent(event)
 	}
 	
 	// MARK: - Sendinng Batches
 	
-	var eventsQueueSize: Int = 20
+	var eventsQueueSize: Int = 2
 	
-	var sendingBatchesPeriod: TimeInterval = 10
+	var sendingBatchesPeriod: TimeInterval = 10 // todo
 	
 	func sendBatch() {
 		

@@ -9,13 +9,6 @@ import UIKit
 import Jitsu
 
 class ViewController: UIViewController {
-	
-//	var sdk: JitsuClient = {
-//		let options = JitsuOptions(
-//			apiKey: "s2s.kxp33.5shyyg0f7ryliseocab2oo",
-//			trackingHost: "t.jitsu.com/api/v1/event"
-//		)
-//	}()
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -23,7 +16,7 @@ class ViewController: UIViewController {
 		
 		let options = JitsuOptions(
 			apiKey: "js.kxp33.aefbvu0v5guetjki2ymz6",
-			trackingHost: "t.jitsu.com/api/v1/event"
+			trackingHost: "https://t.jitsu.com/api/v1/event"
 		)
 		
 		Jitsu.setupClient(with: options)

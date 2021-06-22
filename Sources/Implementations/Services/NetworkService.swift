@@ -40,20 +40,21 @@ class NetworkService {
 	typealias SendBatchCompletion = (Result<EventsBatch.BatchId, NetworkServiceError>) -> Void
 	
 	func sendBatch(_ batch: EventsBatch, completion: @escaping SendBatchCompletion) {
-		
 		let url = URL(string: host)!
 		var request = URLRequest(url: url)
 		request.httpMethod = "POST"
  		request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 		request.addValue(apiKey, forHTTPHeaderField: "x-auth-token")
+		
+		let body = jsonFromBatch(batch, apiKey: apiKey)
 		request.httpBody = try? JSONSerialization.data(
-			withJSONObject: jsonFromBatch(batch, apiKey: apiKey),
+			withJSONObject: body,
 			options: .prettyPrinted
 		)
 		
 		let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
 			guard let response = response as? HTTPURLResponse else {
-				completion(.failure(.networkError(description: "No network")))
+				completion(.failure(.networkError(description: "\(String(describing: error))")))
 				return
 			}
 			if response.statusCode == 200 {
