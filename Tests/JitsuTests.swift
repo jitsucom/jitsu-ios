@@ -16,27 +16,36 @@ extension EventType {
 }
 
 
-class JitsuTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-		let test = EventType.showedScreen
-		
-		XCTAssertEqual(test, "sh")
+class TestEvent: Event {
+	var name: EventType
+	
+	var payload = [String : Any]()
+	
+	init(name: EventType) {
+		self.name = name
 	}
+}
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
+
+class JitsuTests: XCTestCase {
+	
+	var sdk: JitsuClient!
+	
+    func testExample() throws {
+		
+		// arrange
+		let options = JitsuOptions(
+			apiKey: "s2s.kxp33.5shyyg0f7ryliseocab2oo",
+			trackingHost: "t.jitsu.com/api/v1/event"
+		)
+		sdk = JitsuClientImpl(options: options)
+		
+		// act
+		sdk.trackEvent(TestEvent(name: "test event"))
+		
+		// assert
+		wait(for: [], timeout: 30)
+		
+	}
 
 }

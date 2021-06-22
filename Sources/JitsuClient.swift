@@ -84,6 +84,8 @@ public typealias EventType = String
 	
 	/// Clears context. Automatically collected values are reset and then added again.
 	func clear()
+	
+	func values(for eventType: EventType) -> [String : Any]
 }
 
 /// Manages user properties.
@@ -119,6 +121,8 @@ public typealias EventType = String
 	
 	/// Resetting all user ids. New `anonymousUserId` will be generated.
 	func resetUserProperties()
+	
+	func values() -> [String : Any]
 }
 
 /// Configuration options for Jitsu.
