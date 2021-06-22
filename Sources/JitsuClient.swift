@@ -8,8 +8,30 @@
 import Foundation
 
 
-public typealias EventType = String
+@objc public final class Jitsu: NSObject {
+	
+	@objc static public var shared: JitsuClient {
+		if let _shared = _shared {
+			return _shared
+		}
+		fatalError("Jitsu: you should initialize Jitsu with setupClient before using it")
+	}
+	
+	@objc public static func setupClient(with options: JitsuOptions) {
+		if (_shared == nil) {
+			_shared = JitsuClientImpl(options: options)
+		}
+	}
+	
+	static private var _shared: JitsuClient?
+	
+	private override init() {
+		super.init()
+	}
+}
 
+
+public typealias EventType = String
 
 /// Manages SDK behaviour.
 @objc public protocol JitsuClient: AnyObject {
