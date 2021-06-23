@@ -27,8 +27,8 @@ class JitsuContextImpl: JitsuContext {
 	
 	private var deviceInfoProvider: DeviceInfoProvider
 	
-	init() {
-		self.deviceInfoProvider = DeviceInfoProvider()
+	init(deviceInfoProvider: DeviceInfoProvider) {
+		self.deviceInfoProvider = deviceInfoProvider
 		
 		addValues(localeInfo, for: nil, persist: false)
 		addValues(appInformation, for: nil, persist: false)

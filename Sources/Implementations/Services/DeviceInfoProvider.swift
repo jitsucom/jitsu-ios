@@ -23,8 +23,12 @@ struct DeviceInfo {
 	var screenResolution: String // e.g "1440x900"
 }
 
+protocol DeviceInfoProvider {
+	var deviceInfo: DeviceInfo? { get }
+	func getDeviceInfo(_ completion: @escaping (DeviceInfo) -> Void)
+}
 
-class DeviceInfoProvider {
+class DeviceInfoProviderImpl: DeviceInfoProvider {
 	
 	var deviceInfo: DeviceInfo?
 	
@@ -47,7 +51,7 @@ class DeviceInfoProvider {
 
 
 
-public extension UIDevice {
+extension UIDevice {
 	// use https://www.theiphonewiki.com/wiki/Models to add new versions when they are released
 	// source: https://stackoverflow.com/questions/26028918/how-to-determine-the-current-iphone-device-model
 	

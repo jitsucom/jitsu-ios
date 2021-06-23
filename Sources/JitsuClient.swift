@@ -19,7 +19,13 @@ import Foundation
 	
 	@objc public static func setupClient(with options: JitsuOptions) {
 		if (_shared == nil) {
-			_shared = JitsuClientImpl(options: options)
+			let networkService = NetworkServiceImpl(apiKey: options.apiKey, host: options.trackingHost!) // todo: fix force unwrap
+			let deviceInfoProvider = DeviceInfoProviderImpl()
+			_shared = JitsuClientImpl(
+				options: options,
+				networkService: networkService,
+				deviceInfoProvider: deviceInfoProvider
+			)
 		}
 	}
 	
@@ -35,9 +41,6 @@ public typealias EventType = String
 
 /// Manages SDK behaviour.
 @objc public protocol JitsuClient: AnyObject {
-	
-	/// Initializing SDK
-	init(options: JitsuOptions)
 	
 	// MARK: - Tracks events
 	

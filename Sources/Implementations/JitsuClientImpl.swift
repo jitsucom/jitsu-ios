@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 class JitsuClientImpl: JitsuClient {
 	
 	var context: JitsuContext
@@ -15,12 +16,10 @@ class JitsuClientImpl: JitsuClient {
 	
 	private var eventsController: EventsController
 	
-	required init(options: JitsuOptions) {
-		self.context = JitsuContextImpl()
+	init(options: JitsuOptions, networkService: NetworkService, deviceInfoProvider: DeviceInfoProvider) {
+		self.context = JitsuContextImpl(deviceInfoProvider: deviceInfoProvider)
 		self.userProperties = JitsuUserPropertiesImpl()
-		
-		let networkService = NetworkService (apiKey: options.apiKey, host: options.trackingHost!) // todo: fix force unwrap
-		
+				
 		self.eventsController = EventsController(networkService: networkService)
 	}
 	

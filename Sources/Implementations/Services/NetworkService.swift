@@ -27,17 +27,23 @@ enum NetworkServiceError: ErrorWithDescription {
 }
 
 
-class NetworkService {
+protocol NetworkService {
+	init(apiKey: String, host: String)
+	
+	typealias SendBatchCompletion = (Result<EventsBatch.BatchId, NetworkServiceError>) -> Void
+	func sendBatch(_ batch: EventsBatch, completion: @escaping SendBatchCompletion)
+}
+
+
+class NetworkServiceImpl: NetworkService {
 	
 	private var apiKey: String
 	private var host: String
 	
-	init(apiKey: String, host: String) {
+	required init(apiKey: String, host: String) {
 		self.apiKey = apiKey
 		self.host = host
 	}
-	
-	typealias SendBatchCompletion = (Result<EventsBatch.BatchId, NetworkServiceError>) -> Void
 	
 	func sendBatch(_ batch: EventsBatch, completion: @escaping SendBatchCompletion) {
 		let url = URL(string: host)!
