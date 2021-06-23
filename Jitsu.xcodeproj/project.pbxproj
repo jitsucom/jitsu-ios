@@ -14,6 +14,7 @@
 		8E314C2F2682296200886F8A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E314C2E2682296200886F8A /* Assets.xcassets */; };
 		8E314C322682296200886F8A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E314C302682296200886F8A /* LaunchScreen.storyboard */; };
 		8E314C3D2682460A00886F8A /* JitsuBasicEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E314C3C2682460A00886F8A /* JitsuBasicEvent.swift */; };
+		8E314C4926827BB600886F8A /* DeviceInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E314C4826827BB600886F8A /* DeviceInfoProvider.swift */; };
 		8E42F793267B853100421ABE /* JitsuClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E42F792267B853100421ABE /* JitsuClientImpl.swift */; };
 		8E42F79A267B85B200421ABE /* JitsuContextImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E42F799267B85B200421ABE /* JitsuContextImpl.swift */; };
 		8E42F79E267B866500421ABE /* JitsuUserPropertiesImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E42F79D267B866500421ABE /* JitsuUserPropertiesImpl.swift */; };
@@ -48,6 +49,7 @@
 		8E314C312682296200886F8A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8E314C332682296200886F8A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E314C3C2682460A00886F8A /* JitsuBasicEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsuBasicEvent.swift; sourceTree = "<group>"; };
+		8E314C4826827BB600886F8A /* DeviceInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfoProvider.swift; sourceTree = "<group>"; };
 		8E42F792267B853100421ABE /* JitsuClientImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsuClientImpl.swift; sourceTree = "<group>"; };
 		8E42F799267B85B200421ABE /* JitsuContextImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsuContextImpl.swift; sourceTree = "<group>"; };
 		8E42F79D267B866500421ABE /* JitsuUserPropertiesImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsuUserPropertiesImpl.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				8EAA74F8267B9E7F00ED9E9C /* NetworkService.swift */,
+				8E314C4826827BB600886F8A /* DeviceInfoProvider.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -331,6 +334,7 @@
 				8E42F79E267B866500421ABE /* JitsuUserPropertiesImpl.swift in Sources */,
 				8EAA74F9267B9E7F00ED9E9C /* NetworkService.swift in Sources */,
 				8E314C3D2682460A00886F8A /* JitsuBasicEvent.swift in Sources */,
+				8E314C4926827BB600886F8A /* DeviceInfoProvider.swift in Sources */,
 				8E42F7A4267B8EF400421ABE /* EventsController.swift in Sources */,
 				8EAA74FD267BA42900ED9E9C /* EventStorage.swift in Sources */,
 				8EAA74F4267B9CA300ED9E9C /* BatchStorage.swift in Sources */,
@@ -384,12 +388,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 4BVAFGEHDW;
 				INFOPLIST_FILE = ExampleApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jitsu.ExampleApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -403,12 +409,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 4BVAFGEHDW;
 				INFOPLIST_FILE = ExampleApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jitsu.ExampleApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
