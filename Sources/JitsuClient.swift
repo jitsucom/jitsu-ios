@@ -97,20 +97,24 @@ public typealias EventType = String
 	/// Sets permanent properties for certain event types, that can be saved between launches.
 	/// - Parameters:
 	///   - values: properties
-	///   - eventTypes: apply permanent properties to only certain event types (applied to all types by default)
+	///   - eventTypes: apply permanent properties to only certain event types (applied to all types if `nil`).
 	///   - persist: if true, properties are saved between launches. true by default
 	func addValues(_ values: [JitsuContext.Key: Any], for eventTypes: [EventType]?, persist: Bool)
 	
 	/// Use this method to remove value for key for certain event types.
 	/// - Parameters:
 	///   - key: key of property to be removed
-	///   - eventTypes: types of events for which you want to remove the property.
+	///   - eventTypes: types of events for which you want to remove the property. Removed from all types if `nil`.
 	func removeValue(for key: JitsuContext.Key, for eventTypes: [EventType]?)
 	
 	/// Clears context. Automatically collected values are reset and then added again.
 	func clear()
 	
-	func values(for eventType: EventType) -> [String : Any]
+	/// Get values for certain event type (plus values that don't have specified event type).
+	/// If `nil` - you will get all generic values.
+	/// Value applied to specific type overshadows general value
+	/// (e.g. if general context has "foo": "1", and private has "foo": "2", you will get "foo": "2").
+	func values(for eventType: EventType?) -> [String : Any]
 }
 
 /// Manages user properties.

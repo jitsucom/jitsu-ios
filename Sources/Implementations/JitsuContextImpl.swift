@@ -10,13 +10,53 @@ import Foundation
 
 
 class JitsuContextImpl: JitsuContext {
+	
+	private var contextValues = [EventType : [JitsuContext.Key : Any]]()
+	private var generalContextValues = [JitsuContext.Key : Any]()
 		
-	func addValues(_ values: [String : Any], for eventTypes: [EventType]?, persist: Bool) {
+	func addValues(_ values: [JitsuContext.Key : Any], for eventTypes: [EventType]?, persist: Bool) {
+		print("adding \(values) for types: \(String(describing: eventTypes))")
+		guard let eventTypes = eventTypes else {
+			generalContextValues.merge(values) {(old, new) in return new }
+			for eventType in contextValues.keys {
+				contextValues[eventType]?.merge(values) {(old, new) in return new }
+			}
+			// todo: save to coredata
+			return
+		}
 		
+		eventTypes.forEach { eventType in
+			if contextValues[eventType] == nil {
+				contextValues[eventType] = values
+			} else {
+				contextValues[eventType]?.merge(values) {(old, new) in return new }
+			}
+		}
+		// todo: save to coredata
 	}
 	
-	func removeValue(for key: String, for eventTypes: [EventType]?) {
-		
+	func removeValue(for key: JitsuContext.Key, for eventTypes: [EventType]?) {
+		guard let eventTypes = eventTypes else {
+			generalContextValues.removeValue(forKey: key)
+			
+			for eventType in contextValues.keys {
+				contextValues[eventType]?.removeValue(forKey: key)
+			}
+			// todo: save to coredata
+			return
+		}
+		eventTypes.forEach { eventType in
+			contextValues.removeValue(forKey: eventType)
+		}
+		// todo: save to coredata
+	}
+	
+	func values(for eventType: EventType?) -> [String : Any] {
+		guard let eventType = eventType else {
+			return generalContextValues
+		}
+		let eventSpecificValues = contextValues[eventType] ?? [:]
+		return eventSpecificValues.merging(generalContextValues)  {(context, general) in return context }
 	}
 	
 	func clear() {
@@ -33,7 +73,7 @@ class JitsuContextImpl: JitsuContext {
 		addValues(localeInfo, for: nil, persist: false)
 		addValues(appInformation, for: nil, persist: false)
 		// todo: addValues: accessibility info
-		
+
 		getDeviceInfo { [weak self] in
 			guard let self = self else {return}
 			if let deviceInfo = self.deviceInfo {
@@ -86,8 +126,4 @@ class JitsuContextImpl: JitsuContext {
 			"user_language": Bundle.main.preferredLocalizations.first ?? Locale.current.languageCode ?? "unknown",
 		]
 	}()
-	
-	func values(for eventType: EventType) -> [String : Any] {
-		return [:]
-	}
 }

@@ -27,7 +27,6 @@ struct EventsBatch {
 	
 	var events: [EnrichedEvent]
 	var template: [String: Any]
-	
 }
 
 class EventsController {
