@@ -18,9 +18,15 @@ class JitsuClientImpl: JitsuClient {
 	
 	init(options: JitsuOptions, networkService: NetworkService, deviceInfoProvider: DeviceInfoProvider) {
 		self.context = JitsuContextImpl(deviceInfoProvider: deviceInfoProvider)
-		self.userProperties = JitsuUserPropertiesImpl()
-				
 		self.eventsController = EventsController(networkService: networkService)
+
+		let userProperties = JitsuUserPropertiesImpl()
+		self.userProperties = userProperties
+		
+		userProperties.out = { [weak self] event in
+			self?.trackEvent(event)
+		}
+				
 	}
 	
 	// MARK: - Tracking events

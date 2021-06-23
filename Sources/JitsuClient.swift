@@ -126,14 +126,17 @@ public typealias EventType = String
 	var anonymousUserId: UserId {get}
 	
 	/// You can set your own user id. If not set, first known id from `otherIdentifiers` will be taken.
-	var userIdentifier: UserId? {get set}
-	
+	var userIdentifier: UserId? {get}
+	func updateUserIdentifier(_ newValue: String?, sendIdentificationEvent: Bool)
+
 	/// User's email
-	var email: String? {get set}
+	var email: String? {get}
+	func updateEmail(_ newValue: String?, sendIdentificationEvent: Bool)
 	
 	/// You can set additional user identifiers.
-	var otherIdentifiers: [UserPropertyKey: String] {get set}
-	
+	var otherIdentifiers: [UserPropertyKey: String] {get}
+	func updateOtherIdentifier(_ value: String, forKey: UserPropertyKey, sendIdentificationEvent: Bool)
+
 	/// Identifies user with data.
 	/// anonymousUserId stays  same.
 	/// - Parameters:

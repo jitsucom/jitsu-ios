@@ -54,7 +54,7 @@ class DeviceInfoProviderMock: DeviceInfoProvider {
 }
 
 
-class JitsuTests: XCTestCase {
+class JitsuContextTests: XCTestCase {
 	
 	let key1 = "key1"
 	let key2 = "key2"
