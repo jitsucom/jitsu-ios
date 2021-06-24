@@ -41,7 +41,7 @@ class DeviceInfoProviderImpl: DeviceInfoProvider {
 				deviceName: UIDevice.modelName,
 				systemName: UIDevice.current.systemName,
 				systemVersion: UIDevice.current.systemVersion,
-				screenResolution: "\(UIScreen.main.bounds.size)"
+				screenResolution: "\(UIScreen.main.bounds.size.width)x\(UIScreen.main.bounds.size.height)"
 			)
 			self.deviceInfo = deviceInfo
 			completion(deviceInfo)

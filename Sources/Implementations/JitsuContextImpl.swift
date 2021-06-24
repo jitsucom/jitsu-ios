@@ -60,7 +60,9 @@ class JitsuContextImpl: JitsuContext {
 	}
 	
 	func clear() {
-		
+		contextValues.removeAll()
+		generalContextValues.removeAll()
+		addAutomaticallyGatheredValues()
 	}
 	
 	// MARK: - -
@@ -69,16 +71,18 @@ class JitsuContextImpl: JitsuContext {
 	
 	init(deviceInfoProvider: DeviceInfoProvider) {
 		self.deviceInfoProvider = deviceInfoProvider
-		
+		addAutomaticallyGatheredValues()
+	}
+	
+	func addAutomaticallyGatheredValues() {
 		addValues(localeInfo, for: nil, persist: false)
 		addValues(appInformation, for: nil, persist: false)
 		// todo: addValues: accessibility info
-
-		getDeviceInfo { [weak self] in
+		
+		getDeviceInfo { [weak self] deviceInfo in
 			guard let self = self else {return}
-			if let deviceInfo = self.deviceInfo {
-				self.addValues(deviceInfo, for: nil, persist: false)
-			}
+			self.deviceInfo = deviceInfo
+			self.addValues(deviceInfo, for: nil, persist: false)
 		}
 	}
 	
@@ -102,12 +106,11 @@ class JitsuContextImpl: JitsuContext {
 		return info
 	}()
 	
-	private var deviceInfo: [String: [String: String]]?
+	private var deviceInfo: [String: Any]?
 	
-	func getDeviceInfo(_ completion: @escaping () -> Void) {
-		deviceInfoProvider.getDeviceInfo {[weak self] (deviceInfo) in
-			guard let self = self else {return}
-			self.deviceInfo = [
+	func getDeviceInfo(_ completion: @escaping ([String: Any]) -> Void) {
+		deviceInfoProvider.getDeviceInfo {(deviceInfo) in
+			completion([
 				"parsed_ua":
 					[
 						"device_brand": deviceInfo.manufacturer, // e.g. "Apple"
@@ -117,7 +120,7 @@ class JitsuContextImpl: JitsuContext {
 						"os_version": deviceInfo.systemVersion, // e.g. "13.3"
 						"screen_resolution": deviceInfo.screenResolution // e.g "1440x900" // todo: here?
 					]
-			]
+			])
 		}
 	}
 	
