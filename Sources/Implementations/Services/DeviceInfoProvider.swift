@@ -18,7 +18,7 @@ struct DeviceInfo {
 	
 	var systemName: String // e.g. "iOS"
 	
-	var systemVersion: String // e.g. // e.g. "13.3"
+	var systemVersion: String // e.g. "13.3"
 	
 	var screenResolution: String // e.g "1440x900"
 }
@@ -48,7 +48,6 @@ class DeviceInfoProviderImpl: DeviceInfoProvider {
 		}
 	}
 }
-
 
 
 extension UIDevice {

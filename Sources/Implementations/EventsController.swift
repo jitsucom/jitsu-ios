@@ -14,6 +14,8 @@ struct EnrichedEvent {
 	
 	var name: String
 	
+	var utcTime: String
+	
 	var payload: [String: Any]
 	
 	var context: [String: Any]
@@ -52,6 +54,7 @@ class EventsController {
 		let enrichedEvent = EnrichedEvent(
 			eventId: UUID().uuidString,
 			name: event.name,
+			utcTime: Date().utcTime,
 			payload: event.payload,
 			context: context.values(for: event.name),
 			userProperties: userProperties.values()

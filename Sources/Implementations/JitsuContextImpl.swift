@@ -6,83 +6,92 @@
 //
 
 import Foundation
-//import UIKit // todo: move extracting device info to another class
 
 
 class JitsuContextImpl: JitsuContext {
 	
 	private var contextValues = [EventType : [JitsuContext.Key : Any]]()
 	private var generalContextValues = [JitsuContext.Key : Any]()
+	
+	private let contextQueue = DispatchQueue(label: "com.jitsu.contextQueue", attributes: .concurrent)
 		
 	func addValues(_ values: [JitsuContext.Key : Any], for eventTypes: [EventType]?, persist: Bool) {
-		print("adding \(values) for types: \(String(describing: eventTypes))")
-		guard let eventTypes = eventTypes else {
-			generalContextValues.merge(values) {(old, new) in return new }
-			for eventType in contextValues.keys {
-				contextValues[eventType]?.merge(values) {(old, new) in return new }
+		contextQueue.async(flags: .barrier) { [self] in
+			print("adding \(values) for types: \(String(describing: eventTypes))")
+			guard let eventTypes = eventTypes else {
+				generalContextValues.merge(values) {(old, new) in return new }
+				for eventType in contextValues.keys {
+					contextValues[eventType]?.merge(values) {(old, new) in return new }
+				}
+				// todo: save to coredata
+				return
 			}
-			// todo: save to coredata
-			return
-		}
-		
-		eventTypes.forEach { eventType in
-			if contextValues[eventType] == nil {
-				contextValues[eventType] = values
-			} else {
-				contextValues[eventType]?.merge(values) {(old, new) in return new }
+			
+			eventTypes.forEach { eventType in
+				if contextValues[eventType] == nil {
+					contextValues[eventType] = values
+				} else {
+					contextValues[eventType]?.merge(values) {(old, new) in return new }
+				}
+				// todo: save to coredata
 			}
 		}
-		// todo: save to coredata
 	}
 	
 	func removeValue(for key: JitsuContext.Key, for eventTypes: [EventType]?) {
-		guard let eventTypes = eventTypes else {
-			generalContextValues.removeValue(forKey: key)
-			
-			for eventType in contextValues.keys {
-				contextValues[eventType]?.removeValue(forKey: key)
+		contextQueue.async(flags: .barrier) { [self] in
+			guard let eventTypes = eventTypes else {
+				generalContextValues.removeValue(forKey: key)
+				
+				for eventType in contextValues.keys {
+					contextValues[eventType]?.removeValue(forKey: key)
+				}
+				// todo: save to coredata
+				return
+			}
+			eventTypes.forEach { eventType in
+				contextValues.removeValue(forKey: eventType)
 			}
 			// todo: save to coredata
-			return
 		}
-		eventTypes.forEach { eventType in
-			contextValues.removeValue(forKey: eventType)
-		}
-		// todo: save to coredata
 	}
 	
 	func values(for eventType: EventType?) -> [String : Any] {
-		guard let eventType = eventType else {
-			return generalContextValues
+		contextQueue.sync {
+			guard let eventType = eventType else {
+				return generalContextValues
+			}
+			let eventSpecificValues = contextValues[eventType] ?? [:]
+			return eventSpecificValues.merging(generalContextValues)  {(context, general) in return context }
 		}
-		let eventSpecificValues = contextValues[eventType] ?? [:]
-		return eventSpecificValues.merging(generalContextValues)  {(context, general) in return context }
 	}
 	
 	func clear() {
-		contextValues.removeAll()
-		generalContextValues.removeAll()
-		addAutomaticallyGatheredValues()
+		contextQueue.async(flags: .barrier) { [self] in
+			contextValues.removeAll()
+			generalContextValues.removeAll()
+			setup {}
+		}
 	}
-	
-	// MARK: - -
-	
+		
 	private var deviceInfoProvider: DeviceInfoProvider
 	
 	init(deviceInfoProvider: DeviceInfoProvider) {
 		self.deviceInfoProvider = deviceInfoProvider
-		addAutomaticallyGatheredValues()
 	}
 	
-	func addAutomaticallyGatheredValues() {
-		addValues(localeInfo, for: nil, persist: false)
-		addValues(appInformation, for: nil, persist: false)
-		// todo: addValues: accessibility info
-		
-		getDeviceInfo { [weak self] deviceInfo in
-			guard let self = self else {return}
-			self.deviceInfo = deviceInfo
-			self.addValues(deviceInfo, for: nil, persist: false)
+	func setup(_ completion: @escaping () -> Void) {
+		contextQueue.async(flags: .barrier) { [self] in
+			addValues(localeInfo, for: nil, persist: false)
+			addValues(appInformation, for: nil, persist: false)
+			// todo: addValues: accessibility info
+			
+			getDeviceInfo { [weak self] deviceInfo in
+				guard let self = self else {return}
+				self.deviceInfo = deviceInfo
+				self.addValues(deviceInfo, for: nil, persist: false)
+				completion()
+			}
 		}
 	}
 	

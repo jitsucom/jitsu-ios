@@ -62,9 +62,7 @@ class JitsuUserPropertiesImpl: UserProperties {
 		self.email = nil
 		self.otherIdentifiers.removeAll()
 	}
-	
-	// MARK: - -
-	
+		
 	func values() -> [String : Any] {
 		return [
 			"anonymous_id": self.anonymousUserId,
@@ -73,7 +71,12 @@ class JitsuUserPropertiesImpl: UserProperties {
 		].merging(self.otherIdentifiers) {return $1}
 	}
 	
+	// MARK: - -
 	
+	func setup(_ completion: @escaping () -> Void) {
+		completion()
+	}
+
 	class IdentifyEvent: Event {
 		var name: EventType
 		var payload: [String : Any]

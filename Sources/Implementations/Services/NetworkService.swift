@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 // todo: move
 protocol ErrorWithDescription: Error {
 	var errorDescription: String? { get }
@@ -91,7 +92,9 @@ class NetworkServiceImpl: NetworkService {
 	private func jsonFromEvent(_ event: EnrichedEvent) -> [String: Any] {
 		var dict: [String: Any] = [
 			"event_id": event.eventId,
-			"event_type": event.name
+			"event_type": event.name,
+			"utc_time": event.utcTime, 
+			// todo: add time offset
 		]
 		
 		dict.merge(event.payload) { (val1, val2) in return val1 }

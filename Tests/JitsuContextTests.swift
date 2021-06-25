@@ -242,9 +242,6 @@ class JitsuContextTests: XCTestCase {
 }
 
 
-
-
-
 extension Equatable {
 	func anyEqual(to value: Any?) -> Bool {
 		guard let value = value as? Self else {
