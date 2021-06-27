@@ -17,7 +17,7 @@
                BlueprintIdentifier = "8EC5924E2669848700357A59"
                BuildableName = "Jitsu.framework"
                BlueprintName = "Jitsu"
-               ReferencedContainer = "container:jitsu.xcodeproj">
+               ReferencedContainer = "container:Jitsu.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -28,16 +28,6 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8EC592572669848700357A59"
-               BuildableName = "JitsuTests.xctest"
-               BlueprintName = "JitsuTests"
-               ReferencedContainer = "container:jitsu.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -63,7 +53,7 @@
             BlueprintIdentifier = "8EC5924E2669848700357A59"
             BuildableName = "Jitsu.framework"
             BlueprintName = "Jitsu"
-            ReferencedContainer = "container:jitsu.xcodeproj">
+            ReferencedContainer = "container:Jitsu.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

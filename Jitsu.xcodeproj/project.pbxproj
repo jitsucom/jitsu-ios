@@ -28,6 +28,9 @@
 		8EC592602669848700357A59 /* jitsu.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EC592522669848700357A59 /* jitsu.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8EC5926C266984C900357A59 /* JitsuClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC5926B266984C900357A59 /* JitsuClient.swift */; };
 		8EC59276266A3E1300357A59 /* UIKitEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC59275266A3E1300357A59 /* UIKitEvents.swift */; };
+		8EE4D3D62688A0AB00888879 /* EnrichedEventMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE4D3D52688A0AB00888879 /* EnrichedEventMO.swift */; };
+		8EE4D3DE2688A12100888879 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE4D3DD2688A12100888879 /* CoreDataStack.swift */; };
+		8EE4D3F52688B0F700888879 /* ManualCoreDataHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE4D3F42688B0F700888879 /* ManualCoreDataHelpers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +70,9 @@
 		8EC5925F2669848700357A59 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8EC5926B266984C900357A59 /* JitsuClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsuClient.swift; sourceTree = "<group>"; };
 		8EC59275266A3E1300357A59 /* UIKitEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitEvents.swift; sourceTree = "<group>"; };
+		8EE4D3D52688A0AB00888879 /* EnrichedEventMO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrichedEventMO.swift; sourceTree = "<group>"; };
+		8EE4D3DD2688A12100888879 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		8EE4D3F42688B0F700888879 /* ManualCoreDataHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualCoreDataHelpers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +132,7 @@
 		8EAA74F2267B9C9000ED9E9C /* Storages */ = {
 			isa = PBXGroup;
 			children = (
+				8EB1E4D22686459D00AFBC32 /* CoreData */,
 				8EAA74F3267B9CA300ED9E9C /* BatchStorage.swift */,
 				8EAA74FC267BA42900ED9E9C /* EventStorage.swift */,
 			);
@@ -140,6 +147,16 @@
 				8EBDBEAB2686032F00EF8756 /* DateService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		8EB1E4D22686459D00AFBC32 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				8EE4D3D52688A0AB00888879 /* EnrichedEventMO.swift */,
+				8EE4D3DD2688A12100888879 /* CoreDataStack.swift */,
+				8EE4D3F42688B0F700888879 /* ManualCoreDataHelpers.swift */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		8EC592452669848600357A59 = {
@@ -333,17 +350,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8EE4D3DE2688A12100888879 /* CoreDataStack.swift in Sources */,
 				8EC5926C266984C900357A59 /* JitsuClient.swift in Sources */,
 				8E42F79E267B866500421ABE /* JitsuUserPropertiesImpl.swift in Sources */,
 				8EAA74F9267B9E7F00ED9E9C /* NetworkService.swift in Sources */,
 				8EBDBEAC2686032F00EF8756 /* DateService.swift in Sources */,
 				8E314C3D2682460A00886F8A /* JitsuBasicEvent.swift in Sources */,
+				8EE4D3D62688A0AB00888879 /* EnrichedEventMO.swift in Sources */,
 				8E314C4926827BB600886F8A /* DeviceInfoProvider.swift in Sources */,
 				8E42F7A4267B8EF400421ABE /* EventsController.swift in Sources */,
 				8EAA74FD267BA42900ED9E9C /* EventStorage.swift in Sources */,
 				8EAA74F4267B9CA300ED9E9C /* BatchStorage.swift in Sources */,
 				8E42F793267B853100421ABE /* JitsuClientImpl.swift in Sources */,
 				8EC59276266A3E1300357A59 /* UIKitEvents.swift in Sources */,
+				8EE4D3F52688B0F700888879 /* ManualCoreDataHelpers.swift in Sources */,
 				8E42F79A267B85B200421ABE /* JitsuContextImpl.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
