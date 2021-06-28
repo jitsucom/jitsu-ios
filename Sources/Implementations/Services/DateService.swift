@@ -10,9 +10,14 @@ import Foundation
 extension Date {
 	
 	var utcTime: String {
-		let formatter = DateFormatter()
+		let formatter = ISO8601DateFormatter()
 		formatter.timeZone = TimeZone(identifier: "UTC")
 		return formatter.string(from: self)
+	}
+	
+	var minutesFromUTC: Int {
+		let timezone = TimeZone.current
+		return timezone.secondsFromGMT() / 60
 	}
 	
 }

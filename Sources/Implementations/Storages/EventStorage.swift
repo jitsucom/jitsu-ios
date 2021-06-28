@@ -27,6 +27,7 @@ class EventStorage {
 			
 		} catch {
 			print("\(#function) events fetch failed")
+			fatalError()
 			completion([])
 		}
 	}
@@ -38,6 +39,7 @@ class EventStorage {
 			eventMO.eventId = event.eventId
 			eventMO.name = event.name
 			eventMO.utcTime = event.utcTime
+			eventMO.timezone = event.localTimezoneOffset
 			eventMO.payload = NSDictionary(dictionary: event.payload)
 			eventMO.context = NSDictionary(dictionary: event.context)
 			eventMO.userProperties = NSDictionary(dictionary: event.userProperties)
@@ -46,6 +48,7 @@ class EventStorage {
 				try context.save()
 			} catch {
 				print("Failed to save event: \(error)")
+				fatalError()
 			}
 		}
 	}
@@ -68,6 +71,7 @@ class EventStorage {
 
 		} catch {
 			print("oops")
+			fatalError()
 		}
 		
 	}
@@ -79,6 +83,7 @@ extension EnrichedEvent {
 			eventId: eventMO.eventId,
 			name: eventMO.name,
 			utcTime: eventMO.utcTime,
+			localTimezoneOffset: eventMO.timezone,
 			payload: Dictionary(_immutableCocoaDictionary: eventMO.payload),
 			context: Dictionary(_immutableCocoaDictionary: eventMO.context),
 			userProperties: Dictionary(_immutableCocoaDictionary: eventMO.userProperties)

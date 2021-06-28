@@ -17,6 +17,7 @@ public class EnrichedEventMO: NSManagedObject {
 	@NSManaged public var name: String
 	
 	@NSManaged public var utcTime: String
+	@NSManaged public var timezone: Int
 	
 	@NSManaged public var payload: NSDictionary
 	

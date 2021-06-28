@@ -16,6 +16,8 @@ class JitsuClientImpl: JitsuClient {
 	
 	private var eventsController: EventsController
 	
+	private var eventsQueue = DispatchQueue(label: "com.jitsu.eventsQueue")
+	
 	init(options: JitsuOptions, networkService: NetworkService, deviceInfoProvider: DeviceInfoProvider) {
 		let context = JitsuContextImpl(deviceInfoProvider: deviceInfoProvider)
 		self.context = context
@@ -45,16 +47,18 @@ class JitsuClientImpl: JitsuClient {
 			// init events
 			setupGroup.wait()
 		}
-		
 	}
-	
-	private var eventsQueue = DispatchQueue(label: "com.jitsu.eventsQueue")
-	
+		
 	// MARK: - Tracking events
 	
 	func trackEvent(_ event: Event) {
 		eventsQueue.async {
-			self.eventsController.add(event: event, context: self.context, userProperties: self.userProperties)
+			
+			self.eventsController.add(
+				event: event,
+				context: self.context.values(for: event.name),
+				userProperties: self.userProperties.values()
+			)
 			
 			if self.eventsController.unbatchedEventsCount >= self.eventsQueueSize {
 				self.eventsController.sendEvents()

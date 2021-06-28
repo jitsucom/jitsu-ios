@@ -93,8 +93,8 @@ class NetworkServiceImpl: NetworkService {
 		var dict: [String: Any] = [
 			"event_id": event.eventId,
 			"event_type": event.name,
-			"utc_time": event.utcTime, 
-			// todo: add time offset
+			"utc_time": event.utcTime,
+			"local_tz_offset": event.localTimezoneOffset,
 		]
 		
 		dict.merge(event.payload) { (val1, val2) in return val1 }

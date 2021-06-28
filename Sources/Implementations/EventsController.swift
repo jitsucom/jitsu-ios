@@ -15,6 +15,7 @@ struct EnrichedEvent {
 	var name: String
 	
 	var utcTime: String
+	var localTimezoneOffset: Int
 	
 	var payload: [String: Any]
 	
@@ -46,24 +47,27 @@ class EventsController {
 		self.eventStorage = EventStorage()
 		self.networkService = networkService
 		
-//		eventStorage.loadEvents { [weak self] storedEvents in
-//			guard let self = self else {return}
-//			self.unbatchedEvents.append(contentsOf: storedEvents)
-//		}
+		eventStorage.loadEvents { [weak self] storedEvents in
+			guard let self = self else {return}
+			self.unbatchedEvents.append(contentsOf: storedEvents)
+		}
 	}
 	
 	var unbatchedEventsCount: Int {
 		return unbatchedEvents.count
 	}
 	
-	func add(event: Event, context: JitsuContext, userProperties: UserProperties) {
+	func add(event: Event, context: [String : Any], userProperties: [String : Any]) {
+		print("dbg adding event \(event.name), context \(context), userProperties \(userProperties)")
+
 		let enrichedEvent = EnrichedEvent(
 			eventId: UUID().uuidString,
 			name: event.name,
 			utcTime: Date().utcTime,
+			localTimezoneOffset: Date().minutesFromUTC,
 			payload: event.payload,
-			context: context.values(for: event.name),
-			userProperties: userProperties.values()
+			context: context,
+			userProperties: userProperties
 		)
 		
 		unbatchedEvents.append(enrichedEvent)

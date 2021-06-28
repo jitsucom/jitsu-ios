@@ -21,6 +21,8 @@ class CoreDataStack: NSObject {
 		
 		companyEntity.addProperty(NSAttributeDescription(name: "name", ofType: .stringAttributeType))
 		companyEntity.addProperty(NSAttributeDescription(name: "utcTime", ofType: .stringAttributeType))
+		companyEntity.addProperty(NSAttributeDescription(name: "timezone", ofType: .integer64AttributeType))
+
 		companyEntity.addProperty(NSAttributeDescription(name: "payload", ofType: .transformableAttributeType, valueTransformerName: DictTransformer.name))
 		
 		companyEntity.addProperty(NSAttributeDescription(name: "context", ofType: .transformableAttributeType, valueTransformerName: DictTransformer.name))
