@@ -21,7 +21,7 @@ class ViewController: UIViewController {
 		
 		Jitsu.setupClient(with: options)
 		
-		Jitsu.shared.trackEvent(name: "first tracer bullet event")
+		Jitsu.shared.trackEvent(name: "first tracer bullet event", payload: ["first event payload": "boo"])
 		
 		Jitsu.shared.context.addValues(["custom key": "cool"], for: nil, persist: false)
 		Jitsu.shared.userProperties.identify(

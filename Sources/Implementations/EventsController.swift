@@ -19,6 +19,7 @@ struct EnrichedEvent {
 	var payload: [String: Any]
 	
 	var context: [String: Any]
+	
 	var userProperties: [String: Any]
 }
 
@@ -33,7 +34,7 @@ struct EventsBatch {
 
 class EventsController {
 	
-	private var unbatchedEvents = [EnrichedEvent]()
+	@Atomic private var unbatchedEvents = [EnrichedEvent]()
 	
 	private var batchStorage: BatchStorage
 	private var eventStorage: EventStorage
@@ -44,6 +45,11 @@ class EventsController {
 		self.batchStorage = BatchStorage()
 		self.eventStorage = EventStorage()
 		self.networkService = networkService
+		
+//		eventStorage.loadEvents { [weak self] storedEvents in
+//			guard let self = self else {return}
+//			self.unbatchedEvents.append(contentsOf: storedEvents)
+//		}
 	}
 	
 	var unbatchedEventsCount: Int {
@@ -71,7 +77,7 @@ class EventsController {
 		let batch = createBatch(unbatchedEvents: unbatchedEvents)
 		
 		batchStorage.saveBatch(batch)
-		eventStorage.removeEvents(with: unbatchedEvents.map{$0.eventId})
+		removeEvents(with: unbatchedEvents.map { $0.eventId } )
 		
 		networkService.sendBatch(batch) { [weak self] result in
 			guard let self = self else {return}
@@ -83,6 +89,15 @@ class EventsController {
 				self.batchStorage.removeBatch(with: batchId)
 			}
 		}
+	}
+	
+	func removeEvents(with eventIds: [String]) {
+		print("planning to remove \(eventIds)")
+		let ids = Set(eventIds)
+		unbatchedEvents.removeAll { (event) -> Bool in
+			ids.contains(event.eventId)
+		}
+		eventStorage.removeEvents(with: ids)
 	}
 	
 }

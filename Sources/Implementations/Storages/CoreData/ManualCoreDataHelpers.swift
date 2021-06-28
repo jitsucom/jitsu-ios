@@ -23,10 +23,20 @@ extension NSEntityDescription {
 
 
 extension NSAttributeDescription {
-	convenience init(name: String, ofType: NSAttributeType, isOptional: Bool = false) {
+	convenience init(
+		name: String,
+		ofType: NSAttributeType,
+		isOptional: Bool = false,
+		valueTransformerName: NSValueTransformerName? = nil
+	) {
 		self.init()
 		self.name = name
 		self.attributeType = ofType
 		self.isOptional = isOptional
+		
+		if let valueTransformerName = valueTransformerName {
+			self.valueTransformerName = valueTransformerName.rawValue
+		}
+
 	}
 }

@@ -11,7 +11,18 @@ import CoreData
 
 @objc(EnrichedEventMO)
 public class EnrichedEventMO: NSManagedObject {
+	
+	@NSManaged public var eventId: String
+	
 	@NSManaged public var name: String
+	
+	@NSManaged public var utcTime: String
+	
+	@NSManaged public var payload: NSDictionary
+	
+	@NSManaged public var context: NSDictionary
+
+	@NSManaged public var userProperties: NSDictionary
 }
 
 
