@@ -24,6 +24,7 @@
 		8E95AE51268B3B3800FA0B77 /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E95AE50268B3B3800FA0B77 /* Mocks.swift */; };
 		8E95AE6B268B532400FA0B77 /* BatchMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E95AE6A268B532400FA0B77 /* BatchMO.swift */; };
 		8E95AE7B268B615C00FA0B77 /* BatchesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E95AE7A268B615C00FA0B77 /* BatchesController.swift */; };
+		8E95AE83268B8EFF00FA0B77 /* ContextStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E95AE82268B8EFF00FA0B77 /* ContextStorage.swift */; };
 		8EAA74F4267B9CA300ED9E9C /* BatchStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAA74F3267B9CA300ED9E9C /* BatchStorage.swift */; };
 		8EAA74F9267B9E7F00ED9E9C /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAA74F8267B9E7F00ED9E9C /* NetworkService.swift */; };
 		8EAA74FD267BA42900ED9E9C /* EventStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAA74FC267BA42900ED9E9C /* EventStorage.swift */; };
@@ -69,6 +70,7 @@
 		8E95AE50268B3B3800FA0B77 /* Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mocks.swift; sourceTree = "<group>"; };
 		8E95AE6A268B532400FA0B77 /* BatchMO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchMO.swift; sourceTree = "<group>"; };
 		8E95AE7A268B615C00FA0B77 /* BatchesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchesController.swift; sourceTree = "<group>"; };
+		8E95AE82268B8EFF00FA0B77 /* ContextStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextStorage.swift; sourceTree = "<group>"; };
 		8EAA74F3267B9CA300ED9E9C /* BatchStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchStorage.swift; sourceTree = "<group>"; };
 		8EAA74F8267B9E7F00ED9E9C /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		8EAA74FC267BA42900ED9E9C /* EventStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStorage.swift; sourceTree = "<group>"; };
@@ -144,13 +146,40 @@
 			path = Implementations;
 			sourceTree = "<group>";
 		};
+		8E95AE7F268B8EB400FA0B77 /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				8EAA74FC267BA42900ED9E9C /* EventStorage.swift */,
+				8EE4D3D52688A0AB00888879 /* EnrichedEventMO.swift */,
+			);
+			path = Events;
+			sourceTree = "<group>";
+		};
+		8E95AE80268B8EC900FA0B77 /* Batches */ = {
+			isa = PBXGroup;
+			children = (
+				8EAA74F3267B9CA300ED9E9C /* BatchStorage.swift */,
+				8E95AE6A268B532400FA0B77 /* BatchMO.swift */,
+			);
+			path = Batches;
+			sourceTree = "<group>";
+		};
+		8E95AE81268B8EE400FA0B77 /* Context */ = {
+			isa = PBXGroup;
+			children = (
+				8E95AE82268B8EFF00FA0B77 /* ContextStorage.swift */,
+			);
+			path = Context;
+			sourceTree = "<group>";
+		};
 		8EAA74F2267B9C9000ED9E9C /* Storages */ = {
 			isa = PBXGroup;
 			children = (
-				8EB1E4D22686459D00AFBC32 /* CoreData */,
-				8EAA74F3267B9CA300ED9E9C /* BatchStorage.swift */,
-				8EAA74FC267BA42900ED9E9C /* EventStorage.swift */,
 				8E95AE3F268B33FA00FA0B77 /* StorageLocator.swift */,
+				8E95AE81268B8EE400FA0B77 /* Context */,
+				8E95AE80268B8EC900FA0B77 /* Batches */,
+				8E95AE7F268B8EB400FA0B77 /* Events */,
+				8EB1E4D22686459D00AFBC32 /* CoreData */,
 			);
 			path = Storages;
 			sourceTree = "<group>";
@@ -168,8 +197,6 @@
 		8EB1E4D22686459D00AFBC32 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				8EE4D3D52688A0AB00888879 /* EnrichedEventMO.swift */,
-				8E95AE6A268B532400FA0B77 /* BatchMO.swift */,
 				8EE4D3DD2688A12100888879 /* CoreDataStack.swift */,
 				8EE4D3F42688B0F700888879 /* ManualCoreDataHelpers.swift */,
 			);
@@ -381,6 +408,7 @@
 				8E314C4926827BB600886F8A /* DeviceInfoProvider.swift in Sources */,
 				8E42F7A4267B8EF400421ABE /* EventsController.swift in Sources */,
 				8EAA74FD267BA42900ED9E9C /* EventStorage.swift in Sources */,
+				8E95AE83268B8EFF00FA0B77 /* ContextStorage.swift in Sources */,
 				8EAA74F4267B9CA300ED9E9C /* BatchStorage.swift in Sources */,
 				8E95AE7B268B615C00FA0B77 /* BatchesController.swift in Sources */,
 				8E95AE6B268B532400FA0B77 /* BatchMO.swift in Sources */,
