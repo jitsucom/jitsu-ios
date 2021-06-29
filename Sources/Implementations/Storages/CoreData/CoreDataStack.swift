@@ -50,7 +50,7 @@ class CoreDataStack: NSObject {
 
 @objc final class ArrayTransformer: NSSecureUnarchiveFromDataTransformer {
 	override class func transformedValueClass() -> AnyClass {
-		return ArrayTransformer.self
+		return NSArray.self
 	}
 	
 	override class func allowsReverseTransformation() -> Bool {

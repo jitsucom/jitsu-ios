@@ -57,6 +57,7 @@ class EventsController {
 	
 	func prepare() {
 		eventStorage.loadEvents { [weak self] storedEvents in
+			print("\(#function) loaded \(storedEvents.count) events")
 			self?.unbatchedEvents.append(contentsOf: storedEvents)
 		}
 	}
@@ -84,6 +85,7 @@ class EventsController {
 	}
 	
 	func sendEvents() {
+		print("events controller: passing \(unbatchedEvents.map{$0.name})")
 		let batchEventIds = Set(unbatchedEvents.map {$0.eventId})
 		unbatchedEvents.removeAll { batchEventIds.contains($0.eventId) }
 		

@@ -33,14 +33,18 @@ class BatchesController {
 	
 	func prepare() {
 		batchStorage.loadBatches { [weak self] unsentBatches in
+			print("\(#function) loaded \(unsentBatches.count) batches")
 			self?.unsentBatches.append(contentsOf: unsentBatches)
 		}
 	}
 	
 	func processEvents(_ events: [EnrichedEvent], completion: @escaping SendEventsCompletion) {
 		let batch = buildBatch(unbatchedEvents: events)
+		completion(true)
+		
 		unsentBatches.append(batch)
 		batchStorage.saveBatch(batch)
+		print("batch controller: sending \(batch.batchId)")
 		out(batch) { [weak self] result in
 			guard let self = self else {return}
 			switch result {
