@@ -31,8 +31,8 @@ enum NetworkServiceError: ErrorWithDescription {
 protocol NetworkService {
 	init(apiKey: String, host: String)
 	
-	typealias SendBatchCompletion = (Result<EventsBatch.BatchId, NetworkServiceError>) -> Void
-	func sendBatch(_ batch: EventsBatch, completion: @escaping SendBatchCompletion)
+	typealias SendBatchCompletion = (Result<Batch.BatchId, NetworkServiceError>) -> Void
+	func sendBatch(_ batch: Batch, completion: @escaping SendBatchCompletion)
 }
 
 
@@ -46,7 +46,7 @@ class NetworkServiceImpl: NetworkService {
 		self.host = host
 	}
 	
-	func sendBatch(_ batch: EventsBatch, completion: @escaping SendBatchCompletion) {
+	func sendBatch(_ batch: Batch, completion: @escaping SendBatchCompletion) {
 		let url = URL(string: host)!
 		var request = URLRequest(url: url)
 		request.httpMethod = "POST"
@@ -77,7 +77,7 @@ class NetworkServiceImpl: NetworkService {
 		task.resume()
 	}
 			
-	private func jsonFromBatch(_ batch: EventsBatch, apiKey: String) -> [String: Any] {
+	private func jsonFromBatch(_ batch: Batch, apiKey: String) -> [String: Any] {
 		
 		var template = batch.template
 		template["api_key"] = apiKey

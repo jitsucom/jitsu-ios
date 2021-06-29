@@ -19,11 +19,11 @@ class NetworkMock: NetworkService {
 	required init(apiKey: String, host: String) {}
 	init() {}
 	
-	func sendBatch(_ batch: EventsBatch, completion: @escaping SendBatchCompletion) {
+	func sendBatch(_ batch: Batch, completion: @escaping SendBatchCompletion) {
 		sendBatchBlock?(batch)
 	}
 	
-	var sendBatchBlock: ((EventsBatch)-> Void)?
+	var sendBatchBlock: ((Batch)-> Void)?
 }
 
 
@@ -66,11 +66,11 @@ class EventStorageMock: EventStorage {
 }
 
 class BatchStorageMock: BatchStorage {
-	func loadBatches(_ completion: @escaping ([EventsBatch]) -> Void) {
+	func loadBatches(_ completion: @escaping ([Batch]) -> Void) {
 		
 	}
 	
-	func saveBatch(_ batch: EventsBatch) {
+	func saveBatch(_ batch: Batch) {
 		
 	}
 	

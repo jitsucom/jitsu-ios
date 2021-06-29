@@ -40,40 +40,28 @@ struct EnrichedEvent {
 	}
 }
 
-struct EventsBatch {
-	typealias BatchId = String
-	
-	var batchId: BatchId
-	
-	var events: [[String: Any]]
-	var template: [String: Any]
-}
+typealias SendEventsCompletion = (Bool) -> Void
+typealias SendEvents = ([EnrichedEvent], @escaping SendEventsCompletion) -> Void
 
 class EventsController {
 	
 	@Atomic private var unbatchedEvents = [EnrichedEvent]()
-	@Atomic private var unsentBatches = [EventsBatch]()
-	
-	private var batchStorage: BatchStorage
 	private var eventStorage: EventStorage
 	
-	private var networkService: NetworkService
+	private var out: SendEvents
+
+	init(storage: EventStorage, sendEvents: @escaping SendEvents) {
+		self.eventStorage = storage
+		self.out = sendEvents
+	}
 	
-	init(networkService: NetworkService, storage: StorageLocator) {
-		self.batchStorage = storage.batchStorage
-		self.eventStorage = storage.eventStorage
-		self.networkService = networkService
-		
+	func prepare() {
 		eventStorage.loadEvents { [weak self] storedEvents in
 			self?.unbatchedEvents.append(contentsOf: storedEvents)
 		}
-		
-		batchStorage.loadBatches { [weak self] unsentBatches in
-			self?.unsentBatches.append(contentsOf: unsentBatches)
-		}
 	}
 	
-	var unbatchedEventsCount: Int {
+	var unbatchedEventsCount: Int { // todo: make private
 		return unbatchedEvents.count
 	}
 	
@@ -96,43 +84,18 @@ class EventsController {
 	}
 	
 	func sendEvents() {
-		let unbatchedEvents = self.unbatchedEvents
-		self.unbatchedEvents.removeAll()
-		let batch = createBatch(unbatchedEvents: unbatchedEvents)
-		unsentBatches.append(batch)
+		let batchEventIds = Set(unbatchedEvents.map {$0.eventId})
+		unbatchedEvents.removeAll { batchEventIds.contains($0.eventId) }
 		
-		batchStorage.saveBatch(batch)
-		removeEvents(with: unbatchedEvents.map { $0.eventId } )
-		
-		networkService.sendBatch(batch) { [weak self] result in
-			guard let self = self else {return}
-			switch result {
-			case .failure(let error):
-				print(error)
-				// todo retry
-			case .success(let batchId):
-				self.unsentBatches.removeAll { $0.batchId == batchId }
-				self.batchStorage.removeBatch(with: batchId)
+		out(unbatchedEvents) {[weak self] success in
+			if success {
+				self?.eventStorage.removeEvents(with: batchEventIds)
+			} else {
+				// todo: retry?
 			}
 		}
 	}
 	
-	func removeEvents(with eventIds: [String]) {
-		print("planning to remove \(eventIds)")
-		let ids = Set(eventIds)
-		unbatchedEvents.removeAll { (event) -> Bool in
-			ids.contains(event.eventId)
-		}
-		eventStorage.removeEvents(with: ids)
-	}
-	
 }
 
-func createBatch(unbatchedEvents: [EnrichedEvent]) -> EventsBatch {
-	return EventsBatch(
-		batchId: UUID().uuidString,
-		events: unbatchedEvents.map {$0.buildJson()},
-		template: [:]
-	)
-}
 

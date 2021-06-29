@@ -9,8 +9,8 @@ import Foundation
 import CoreData
 
 protocol BatchStorage {
-	func loadBatches(_ completion: @escaping ([EventsBatch]) -> Void)
-	func saveBatch(_ batch: EventsBatch)
+	func loadBatches(_ completion: @escaping ([Batch]) -> Void)
+	func saveBatch(_ batch: Batch)
 	func removeBatch(with batchId: String)
 }
 
@@ -21,14 +21,14 @@ class BatchStorageImpl: BatchStorage {
 		self.coreDataStack = coreDataStack
 	}
 	
-	func loadBatches(_ completion: @escaping ([EventsBatch]) -> Void) {
+	func loadBatches(_ completion: @escaping ([Batch]) -> Void) {
 		let context = coreDataStack.persistentContainer.viewContext
 		let fetchRequest: NSFetchRequest<BatchMO> = BatchMO.fetchRequest()
 		do {
 			let result: [BatchMO] = try context.fetch(fetchRequest)
 			print("fetched batches: \(result.map{$0.batchId})")
 		
-			let batchesFromDatabase = result.map { EventsBatch(batchMO: $0) }
+			let batchesFromDatabase = result.map { Batch(batchMO: $0) }
 			completion(batchesFromDatabase)
 			
 		} catch {
@@ -38,7 +38,7 @@ class BatchStorageImpl: BatchStorage {
 		}
 	}
 
-	func saveBatch(_ batch: EventsBatch) {
+	func saveBatch(_ batch: Batch) {
 		let context = coreDataStack.persistentContainer.newBackgroundContext()
 		context.perform {
 			let mo = BatchMO(context: context)
@@ -74,7 +74,7 @@ class BatchStorageImpl: BatchStorage {
 	}
 }
 
-extension EventsBatch {
+extension Batch {
 	init(batchMO: BatchMO) {
 		self.init(
 			batchId: batchMO.batchId,

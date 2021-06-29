@@ -11,30 +11,27 @@ import Foundation
 class JitsuClientImpl: JitsuClient {
 	
 	var context: JitsuContext
-	
 	var userProperties: UserProperties
 	
-	private var eventsController: EventsController
+	private var networkService: NetworkService
+	private var storageLocator: StorageLocator
 	
 	private var eventsQueue = DispatchQueue(label: "com.jitsu.eventsQueue")
 	
 	init(deps: ServiceLocator) {
+		self.networkService = deps.networkService
+		self.storageLocator = deps.storageLocator
+		
 		let context = JitsuContextImpl(deviceInfoProvider: deps.deviceInfoProvider)
 		self.context = context
 		
-		self.eventsController = EventsController(
-			networkService: deps.networkService,
-			storage: deps.storageLocator
-		)
-
 		let userProperties = JitsuUserPropertiesImpl()
 		self.userProperties = userProperties
-		
 		userProperties.out = { [weak self] event in
 			self?.trackEvent(event)
 		}
 		
-		self.eventsQueue.async {
+		self.eventsQueue.async { [self] in
 			let setupGroup = DispatchGroup()
 			
 			setupGroup.enter()
@@ -47,9 +44,37 @@ class JitsuClientImpl: JitsuClient {
 				setupGroup.leave()
 			}
 			
-			// init events
+			eventsController.prepare()
+			batchesController.prepare()
+			
 			setupGroup.wait()
 		}
+	}
+	
+	// MARK: - Events pipeline
+	
+	private lazy var eventsController: EventsController = {
+		let eventsController = EventsController(
+			storage: storageLocator.eventStorage,
+			sendEvents: sendEventsOut
+		)
+		return eventsController
+	}()
+	
+	func sendEventsOut(events: [EnrichedEvent], completion: @escaping SendEventsCompletion) {
+		self.batchesController.processEvents(events, completion: completion)
+	}
+	
+	private lazy var batchesController: BatchesController = {
+		let batchesController = BatchesController(
+			storage: storageLocator.batchStorage,
+			sendBatch: sendBatchOut
+		)
+		return batchesController
+	}()
+	
+	func sendBatchOut(batch: Batch, completion: @escaping SendBatchCompletion) {
+		networkService.sendBatch(batch, completion: completion)
 	}
 		
 	// MARK: - Tracking events
@@ -87,7 +112,7 @@ class JitsuClientImpl: JitsuClient {
 	var sendingBatchesPeriod: TimeInterval = 10 // todo
 	
 	func sendBatch() {
-		
+		// todo
 	}
 	
 	// MARK: - On/Off
