@@ -18,11 +18,14 @@ class JitsuClientImpl: JitsuClient {
 	
 	private var eventsQueue = DispatchQueue(label: "com.jitsu.eventsQueue")
 	
-	init(options: JitsuOptions, networkService: NetworkService, deviceInfoProvider: DeviceInfoProvider) {
-		let context = JitsuContextImpl(deviceInfoProvider: deviceInfoProvider)
+	init(deps: ServiceLocator) {
+		let context = JitsuContextImpl(deviceInfoProvider: deps.deviceInfoProvider)
 		self.context = context
 		
-		self.eventsController = EventsController(networkService: networkService)
+		self.eventsController = EventsController(
+			networkService: deps.networkService,
+			storage: deps.storageLocator
+		)
 
 		let userProperties = JitsuUserPropertiesImpl()
 		self.userProperties = userProperties

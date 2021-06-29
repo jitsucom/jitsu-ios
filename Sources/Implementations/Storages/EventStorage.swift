@@ -8,8 +8,13 @@
 import Foundation
 import CoreData
 
+protocol EventStorage {
+	func loadEvents(_ completion: @escaping ([EnrichedEvent]) -> Void)
+	func saveEvent(_ event: EnrichedEvent)
+	func removeEvents(with eventIds: Set<String>)
+}
 
-class EventStorage {
+class EventStorageImpl: EventStorage {
 	private lazy var coreDataStack: CoreDataStack = {
 		return CoreDataStack()
 	}()
@@ -19,7 +24,10 @@ class EventStorage {
 		let fetchRequest: NSFetchRequest<EnrichedEventMO> = EnrichedEventMO.fetchRequest()
 		do {
 			let result: [EnrichedEventMO] = try context.fetch(fetchRequest)
-			print("fetched events: \(result)")
+			print("fetched events: ")
+			result.forEach {
+				print($0.name)
+			}
 			let eventsFromDatabase = result.map {
 				EnrichedEvent(eventMO: $0)
 			}
@@ -27,7 +35,7 @@ class EventStorage {
 			
 		} catch {
 			print("\(#function) events fetch failed")
-			fatalError()
+			fatalError() //todo: remove later
 			completion([])
 		}
 	}

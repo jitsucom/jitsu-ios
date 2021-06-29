@@ -19,13 +19,8 @@ import Foundation
 	
 	@objc public static func setupClient(with options: JitsuOptions) {
 		if (_shared == nil) {
-			let networkService = NetworkServiceImpl(apiKey: options.apiKey, host: options.trackingHost!) // todo: fix force unwrap
-			let deviceInfoProvider = DeviceInfoProviderImpl()
-			_shared = JitsuClientImpl(
-				options: options,
-				networkService: networkService,
-				deviceInfoProvider: deviceInfoProvider
-			)
+			let serviceLocator = ServiceLocatorImpl(options: options)
+			_shared = JitsuClientImpl(deps: serviceLocator)
 		}
 	}
 	
@@ -165,7 +160,8 @@ public typealias EventType = String
 	
 	/// Tracking host (where API calls will be sent). If not set,
 	/// we'd try to do the best to "guess" it. Last resort is t.jitsu.com.
-	var trackingHost: String?
+	var trackingHost: String
+	private static let defaultTrackingHost: String = "https://t.jitsu.com/api/v1/event"
 	
 	/// Should automatically capture this events. Default: true
 	var shouldCaptureDeeplinks: Bool = true
@@ -178,7 +174,7 @@ public typealias EventType = String
 	
 	@objc public init(apiKey: String, trackingHost: String?) {
 		self.apiKey = apiKey
-		self.trackingHost = trackingHost
+		self.trackingHost = trackingHost ?? JitsuOptions.defaultTrackingHost
 		super.init()
 	}
 }

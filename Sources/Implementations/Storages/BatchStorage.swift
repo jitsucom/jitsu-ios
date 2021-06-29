@@ -7,7 +7,12 @@
 
 import Foundation
 
-class BatchStorage {
+protocol BatchStorage {
+	func saveBatch(_ batch: EventsBatch)
+	func removeBatch(with batchId: String) 
+}
+
+class BatchStorageImpl: BatchStorage {
 	
 	private var batches = [EventsBatch]()
 	

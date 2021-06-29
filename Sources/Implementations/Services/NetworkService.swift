@@ -54,7 +54,11 @@ class NetworkServiceImpl: NetworkService {
 		request.addValue(apiKey, forHTTPHeaderField: "x-auth-token")
 		
 		let body = jsonFromBatch(batch, apiKey: apiKey)
-		print("sending: \(body)")
+//		print("sending: \(body)")
+		for event in batch.events {
+			print("sending \(event.name)")
+		}
+		
 		request.httpBody = try? JSONSerialization.data(
 			withJSONObject: body,
 			options: .prettyPrinted

@@ -42,9 +42,9 @@ class EventsController {
 	
 	private var networkService: NetworkService
 	
-	init(networkService: NetworkService) {
-		self.batchStorage = BatchStorage()
-		self.eventStorage = EventStorage()
+	init(networkService: NetworkService, storage: StorageLocator) {
+		self.batchStorage = storage.batchStorage
+		self.eventStorage = storage.eventStorage
 		self.networkService = networkService
 		
 		eventStorage.loadEvents { [weak self] storedEvents in

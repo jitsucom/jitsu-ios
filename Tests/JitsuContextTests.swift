@@ -9,13 +9,6 @@ import XCTest
 @testable import Jitsu
 
 
-// MARK: - Draft zone
-
-extension EventType {
-	static let showedScreen = "sh"
-}
-
-
 class TestEvent: Event {
 	var name: EventType
 	
@@ -25,34 +18,6 @@ class TestEvent: Event {
 		self.name = name
 	}
 }
-
-class NetworkMock: NetworkService {
-	required init(apiKey: String, host: String) {}
-	init() {}
-	
-	func sendBatch(_ batch: EventsBatch, completion: @escaping SendBatchCompletion) {
-		sendBatchBlock?(batch)
-	}
-	
-	var sendBatchBlock: ((EventsBatch)-> Void)?
-}
-
-class DeviceInfoProviderMock: DeviceInfoProvider {
-	var deviceInfo: DeviceInfo?
-	
-	func getDeviceInfo(_ completion: @escaping (DeviceInfo) -> Void) {
-		completion(DeviceInfoProviderMock.mockDeviceInfo)
-	}
-	
-	static let mockDeviceInfo = DeviceInfo(
-		manufacturer: "Apple",
-		deviceName: "iPhone",
-		systemName: "iOS",
-		systemVersion: "10",
-		screenResolution: "1440x900"
-	)
-}
-
 
 class JitsuContextTests: XCTestCase {
 	
@@ -72,15 +37,14 @@ class JitsuContextTests: XCTestCase {
 	var network: NetworkMock!
 	
 	override func setUp() {
-		let options = JitsuOptions(apiKey: "key", trackingHost: "t.jitsu.com/api/v1/event")
 		
+		let serviceLocator = MockServiceLocator()
+		serviceLocator.deviceInfoProvider = DeviceInfoProviderMock()
 		network = NetworkMock()
-		let deviceInfoProvider = DeviceInfoProviderMock()
-		sdk = JitsuClientImpl(
-			options: options,
-			networkService: network,
-			deviceInfoProvider: deviceInfoProvider
-		)
+		serviceLocator.networkService = network
+	
+		sdk = JitsuClientImpl(deps: serviceLocator)
+		sleep(1)
 	}
 	
 	func testContext_addValues() throws {
@@ -109,7 +73,7 @@ class JitsuContextTests: XCTestCase {
 		// act
 		sdk.context.addValues(firstParam, for: nil, persist: false)
 		sdk.trackEvent(firstEvent)
-		
+		sleep(1)
 		sdk.context.addValues(secondParam, for: nil, persist: false)
 		sdk.trackEvent(secondEvent)
 
@@ -139,7 +103,8 @@ class JitsuContextTests: XCTestCase {
 		sdk.context.addValues([key1: "value1"], for: nil, persist: false)
 		sdk.context.addValues([key2: "OLD"], for: nil, persist: false)
 		sdk.trackEvent(firstEvent)
-		
+		sleep(1)
+
 		sdk.context.addValues([key2: "NEW"], for: nil, persist: false)
 		sdk.trackEvent(secondEvent)
 		
@@ -168,7 +133,8 @@ class JitsuContextTests: XCTestCase {
 		
 		sdk.context.addValues([key1: "OLD"], for: nil, persist: false)
 		sdk.trackEvent(firstEvent)
-		
+		sleep(1)
+
 		sdk.context.addValues([key1: "NEW"], for: [firstEvent.name], persist: false)
 		sdk.trackEvent(firstEvent)
 		
@@ -198,7 +164,8 @@ class JitsuContextTests: XCTestCase {
 		
 		sdk.context.addValues([key1: "OLD"], for: [firstEvent.name], persist: false)
 		sdk.trackEvent(firstEvent)
-		
+		sleep(1)
+
 		sdk.context.addValues([key1: "NEW"], for: nil, persist: false)
 		sdk.trackEvent(firstEvent)
 		
@@ -217,7 +184,6 @@ class JitsuContextTests: XCTestCase {
 			let firstEvent = batch.events[0]
 			XCTAssertTrue("OLD".anyEqual(to: firstEvent.context[key1]))
 			XCTAssertTrue("value_2".anyEqual(to: firstEvent.context[key2]))
-
 			
 			let secondEvent = batch.events[1]
 			XCTAssertNil(secondEvent.context[key1])
@@ -230,11 +196,10 @@ class JitsuContextTests: XCTestCase {
 		
 		sdk.context.addValues([key1: "OLD"], for: [firstEvent.name], persist: false)
 		sdk.context.addValues([key2: "value_2"], for: nil, persist: false)
-
 		sdk.trackEvent(firstEvent)
-		
+		sleep(1)
+
 		sdk.context.removeValue(for: key1, for: nil)
-		
 		sdk.trackEvent(firstEvent)
 		
 		wait(for: [expectation], timeout: 2)
