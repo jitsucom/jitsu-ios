@@ -22,6 +22,22 @@ struct EnrichedEvent {
 	var context: [String: Any]
 	
 	var userProperties: [String: Any]
+	
+	func buildJson() -> [String: Any] {
+		var dict: [String: Any] = [
+			"event_id": eventId,
+			"event_type": name,
+			
+			"utc_time": utcTime,
+			"local_tz_offset": localTimezoneOffset,
+		]
+		
+		dict.merge(payload) { (val1, val2) in return val1 }
+		dict.merge(userProperties) { (val1, val2) in return val1 }
+		dict.merge(context) { (val1, val2) in return val1 }
+		
+		return dict
+	}
 }
 
 struct EventsBatch {
@@ -29,13 +45,14 @@ struct EventsBatch {
 	
 	var batchId: BatchId
 	
-	var events: [EnrichedEvent]
+	var events: [[String: Any]]
 	var template: [String: Any]
 }
 
 class EventsController {
 	
 	@Atomic private var unbatchedEvents = [EnrichedEvent]()
+	@Atomic private var unsentBatches = [EventsBatch]()
 	
 	private var batchStorage: BatchStorage
 	private var eventStorage: EventStorage
@@ -48,8 +65,11 @@ class EventsController {
 		self.networkService = networkService
 		
 		eventStorage.loadEvents { [weak self] storedEvents in
-			guard let self = self else {return}
-			self.unbatchedEvents.append(contentsOf: storedEvents)
+			self?.unbatchedEvents.append(contentsOf: storedEvents)
+		}
+		
+		batchStorage.loadBatches { [weak self] unsentBatches in
+			self?.unsentBatches.append(contentsOf: unsentBatches)
 		}
 	}
 	
@@ -79,6 +99,7 @@ class EventsController {
 		let unbatchedEvents = self.unbatchedEvents
 		self.unbatchedEvents.removeAll()
 		let batch = createBatch(unbatchedEvents: unbatchedEvents)
+		unsentBatches.append(batch)
 		
 		batchStorage.saveBatch(batch)
 		removeEvents(with: unbatchedEvents.map { $0.eventId } )
@@ -90,6 +111,7 @@ class EventsController {
 				print(error)
 				// todo retry
 			case .success(let batchId):
+				self.unsentBatches.removeAll { $0.batchId == batchId }
 				self.batchStorage.removeBatch(with: batchId)
 			}
 		}
@@ -106,11 +128,11 @@ class EventsController {
 	
 }
 
-
-fileprivate func createBatch(unbatchedEvents: [EnrichedEvent]) -> EventsBatch {
+func createBatch(unbatchedEvents: [EnrichedEvent]) -> EventsBatch {
 	return EventsBatch(
 		batchId: UUID().uuidString,
-		events: unbatchedEvents,
+		events: unbatchedEvents.map {$0.buildJson()},
 		template: [:]
 	)
 }
+

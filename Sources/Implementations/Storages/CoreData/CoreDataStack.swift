@@ -15,20 +15,12 @@ class CoreDataStack: NSObject {
 		let _model = NSManagedObjectModel()
 		
 		ValueTransformer.setValueTransformer(DictTransformer(), forName: DictTransformer.name)
-
-		let companyEntity = NSEntityDescription(from: EnrichedEventMO.self)
-		companyEntity.addProperty(NSAttributeDescription(name: "eventId", ofType: .stringAttributeType))
+		ValueTransformer.setValueTransformer(ArrayTransformer(), forName: ArrayTransformer.name)
 		
-		companyEntity.addProperty(NSAttributeDescription(name: "name", ofType: .stringAttributeType))
-		companyEntity.addProperty(NSAttributeDescription(name: "utcTime", ofType: .stringAttributeType))
-		companyEntity.addProperty(NSAttributeDescription(name: "timezone", ofType: .integer64AttributeType))
-
-		companyEntity.addProperty(NSAttributeDescription(name: "payload", ofType: .transformableAttributeType, valueTransformerName: DictTransformer.name))
-		
-		companyEntity.addProperty(NSAttributeDescription(name: "context", ofType: .transformableAttributeType, valueTransformerName: DictTransformer.name))
-		companyEntity.addProperty(NSAttributeDescription(name: "userProperties", ofType: .transformableAttributeType, valueTransformerName: DictTransformer.name))
-
-		_model.entities = [companyEntity]
+		_model.entities = [
+			EnrichedEventMO.eventEntity,
+			BatchMO.batchEntity,
+		]
 		return _model
 	}
 	
@@ -53,4 +45,17 @@ class CoreDataStack: NSObject {
 	}
 	
 	static let name = NSValueTransformerName(rawValue: "DictTransformer")
+}
+
+
+@objc final class ArrayTransformer: NSSecureUnarchiveFromDataTransformer {
+	override class func transformedValueClass() -> AnyClass {
+		return ArrayTransformer.self
+	}
+	
+	override class func allowsReverseTransformation() -> Bool {
+		return true
+	}
+	
+	static let name = NSValueTransformerName(rawValue: "ArrayTransformer")
 }

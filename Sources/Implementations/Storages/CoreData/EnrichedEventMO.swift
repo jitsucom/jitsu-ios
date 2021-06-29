@@ -28,6 +28,25 @@ public class EnrichedEventMO: NSManagedObject {
 
 
 extension EnrichedEventMO {
+	static let eventEntity: NSEntityDescription = {
+		let eventEntity = NSEntityDescription(from: EnrichedEventMO.self)
+		
+		eventEntity.addProperty(NSAttributeDescription(name: "eventId", ofType: .stringAttributeType))
+		eventEntity.addProperty(NSAttributeDescription(name: "name", ofType: .stringAttributeType))
+		
+		eventEntity.addProperty(NSAttributeDescription(name: "utcTime", ofType: .stringAttributeType))
+		eventEntity.addProperty(NSAttributeDescription(name: "timezone", ofType: .integer64AttributeType))
+		
+		eventEntity.addProperty(NSAttributeDescription(name: "payload", ofType: .transformableAttributeType, valueTransformerName: DictTransformer.name))
+		
+		eventEntity.addProperty(NSAttributeDescription(name: "context", ofType: .transformableAttributeType, valueTransformerName: DictTransformer.name))
+		eventEntity.addProperty(NSAttributeDescription(name: "userProperties", ofType: .transformableAttributeType, valueTransformerName: DictTransformer.name))
+		
+		return eventEntity
+	}()
+}
+
+extension EnrichedEventMO {
 	
 	@nonobjc public class func fetchRequest() -> NSFetchRequest<EnrichedEventMO> {
 		return NSFetchRequest<EnrichedEventMO>(entityName: NSStringFromClass(self))
@@ -35,7 +54,5 @@ extension EnrichedEventMO {
 	
 }
 
-extension EnrichedEventMO : Identifiable {
-	
-}
+extension EnrichedEventMO : Identifiable {}
 

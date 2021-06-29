@@ -35,3 +35,10 @@ If you have already made a release of new version in Jitsu repo, then you are al
 #### To use updated SDK in your project
 You can update to the latest version of any packages you depend on at any time by selecting File ▸ Swift Packages ▸ Update to Latest Package Versions.
 
+
+
+## Core Data
+Managed Object Model is created manually. This means no UI is used to generate and describe core data entities. 
+Entities are described in classes ending with "MO" (BatchMO, EnrichedEventMO, etc).
+
+

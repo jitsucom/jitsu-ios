@@ -15,12 +15,14 @@ protocol StorageLocator {
 
 
 class StorageLocatorImpl: StorageLocator {
+	lazy var stack = CoreDataStack()
+	
 	lazy var eventStorage: EventStorage = {
-		return EventStorageImpl()
+		return EventStorageImpl(coreDataStack: stack)
 	}()
 	
 	lazy var batchStorage: BatchStorage = {
-		return BatchStorageImpl()
+		return BatchStorageImpl(coreDataStack: stack)
 	}()
 	
 	

@@ -22,6 +22,7 @@
 		8E95AE40268B33FA00FA0B77 /* StorageLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E95AE3F268B33FA00FA0B77 /* StorageLocator.swift */; };
 		8E95AE49268B354C00FA0B77 /* JitsuServiceLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E95AE48268B354C00FA0B77 /* JitsuServiceLocator.swift */; };
 		8E95AE51268B3B3800FA0B77 /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E95AE50268B3B3800FA0B77 /* Mocks.swift */; };
+		8E95AE6B268B532400FA0B77 /* BatchMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E95AE6A268B532400FA0B77 /* BatchMO.swift */; };
 		8EAA74F4267B9CA300ED9E9C /* BatchStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAA74F3267B9CA300ED9E9C /* BatchStorage.swift */; };
 		8EAA74F9267B9E7F00ED9E9C /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAA74F8267B9E7F00ED9E9C /* NetworkService.swift */; };
 		8EAA74FD267BA42900ED9E9C /* EventStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAA74FC267BA42900ED9E9C /* EventStorage.swift */; };
@@ -65,6 +66,7 @@
 		8E95AE3F268B33FA00FA0B77 /* StorageLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageLocator.swift; sourceTree = "<group>"; };
 		8E95AE48268B354C00FA0B77 /* JitsuServiceLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsuServiceLocator.swift; sourceTree = "<group>"; };
 		8E95AE50268B3B3800FA0B77 /* Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mocks.swift; sourceTree = "<group>"; };
+		8E95AE6A268B532400FA0B77 /* BatchMO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchMO.swift; sourceTree = "<group>"; };
 		8EAA74F3267B9CA300ED9E9C /* BatchStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchStorage.swift; sourceTree = "<group>"; };
 		8EAA74F8267B9E7F00ED9E9C /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		8EAA74FC267BA42900ED9E9C /* EventStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStorage.swift; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				8EE4D3D52688A0AB00888879 /* EnrichedEventMO.swift */,
+				8E95AE6A268B532400FA0B77 /* BatchMO.swift */,
 				8EE4D3DD2688A12100888879 /* CoreDataStack.swift */,
 				8EE4D3F42688B0F700888879 /* ManualCoreDataHelpers.swift */,
 			);
@@ -376,6 +379,7 @@
 				8E42F7A4267B8EF400421ABE /* EventsController.swift in Sources */,
 				8EAA74FD267BA42900ED9E9C /* EventStorage.swift in Sources */,
 				8EAA74F4267B9CA300ED9E9C /* BatchStorage.swift in Sources */,
+				8E95AE6B268B532400FA0B77 /* BatchMO.swift in Sources */,
 				8E42F793267B853100421ABE /* JitsuClientImpl.swift in Sources */,
 				8EC59276266A3E1300357A59 /* UIKitEvents.swift in Sources */,
 				8EE068A0268A312900B2EE67 /* ConcurrencyTools.swift in Sources */,

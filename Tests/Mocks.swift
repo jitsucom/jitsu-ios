@@ -66,6 +66,10 @@ class EventStorageMock: EventStorage {
 }
 
 class BatchStorageMock: BatchStorage {
+	func loadBatches(_ completion: @escaping ([EventsBatch]) -> Void) {
+		
+	}
+	
 	func saveBatch(_ batch: EventsBatch) {
 		
 	}

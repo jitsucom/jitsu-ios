@@ -8,33 +8,32 @@
 import Foundation
 import CoreData
 
+
 protocol EventStorage {
 	func loadEvents(_ completion: @escaping ([EnrichedEvent]) -> Void)
 	func saveEvent(_ event: EnrichedEvent)
 	func removeEvents(with eventIds: Set<String>)
 }
 
+
 class EventStorageImpl: EventStorage {
-	private lazy var coreDataStack: CoreDataStack = {
-		return CoreDataStack()
-	}()
+	private var coreDataStack: CoreDataStack
+	
+	init(coreDataStack: CoreDataStack) {
+		self.coreDataStack = coreDataStack
+	}
 	
 	func loadEvents(_ completion: @escaping ([EnrichedEvent]) -> Void) {
 		let context = coreDataStack.persistentContainer.viewContext
 		let fetchRequest: NSFetchRequest<EnrichedEventMO> = EnrichedEventMO.fetchRequest()
 		do {
 			let result: [EnrichedEventMO] = try context.fetch(fetchRequest)
-			print("fetched events: ")
-			result.forEach {
-				print($0.name)
-			}
-			let eventsFromDatabase = result.map {
-				EnrichedEvent(eventMO: $0)
-			}
+			print("fetched events: \(result.map {($0.name, $0.eventId)} )")
+			let eventsFromDatabase = result.map { EnrichedEvent(eventMO: $0) }
 			completion(eventsFromDatabase)
 			
 		} catch {
-			print("\(#function) events fetch failed")
+			print("\(#function) fetch failed")
 			fatalError() //todo: remove later
 			completion([])
 		}
@@ -43,40 +42,38 @@ class EventStorageImpl: EventStorage {
 	func saveEvent(_ event: EnrichedEvent) {
 		let context = coreDataStack.persistentContainer.newBackgroundContext()
 		context.perform {
-			let eventMO = EnrichedEventMO(context: context)
-			eventMO.eventId = event.eventId
-			eventMO.name = event.name
-			eventMO.utcTime = event.utcTime
-			eventMO.timezone = event.localTimezoneOffset
-			eventMO.payload = NSDictionary(dictionary: event.payload)
-			eventMO.context = NSDictionary(dictionary: event.context)
-			eventMO.userProperties = NSDictionary(dictionary: event.userProperties)
+			let mo = EnrichedEventMO(context: context)
+			mo.eventId = event.eventId
+			mo.name = event.name
+			mo.utcTime = event.utcTime
+			mo.timezone = event.localTimezoneOffset
+			mo.payload = NSDictionary(dictionary: event.payload)
+			mo.context = NSDictionary(dictionary: event.context)
+			mo.userProperties = NSDictionary(dictionary: event.userProperties)
 
 			do {
 				try context.save()
 			} catch {
-				print("Failed to save event: \(error)")
+				print("\(#function) save failed: \(error)")
 				fatalError()
 			}
 		}
 	}
 	
 	func removeEvents(with eventIds: Set<String>) {
-		print("planning to remove \(eventIds)")
+		print("\(#function) planning to remove \(eventIds)")
 		
 		let context = coreDataStack.persistentContainer.newBackgroundContext()
 		let fetchRequest: NSFetchRequest<EnrichedEventMO> = EnrichedEventMO.fetchRequest()
 		fetchRequest.predicate = NSPredicate(format: "%K IN %@", "eventId", eventIds)
-		
 		do {
 			let eventsToRemove = try context.fetch(fetchRequest)
-			print("fetched \(eventsToRemove.count)")
+			print("\(#function) fetched \(eventsToRemove.count)")
 			
 			for eventToRemove in eventsToRemove {
 				context.delete(eventToRemove)
 			}
 			try context.save()
-
 		} catch {
 			print("oops")
 			fatalError()

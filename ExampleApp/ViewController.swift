@@ -22,15 +22,19 @@ class ViewController: UIViewController {
 		Jitsu.setupClient(with: options)
 		
 		Jitsu.shared.trackEvent(name: "first tracer bullet event", payload: ["first event payload": "boo"])
-		
-		Jitsu.shared.context.addValues(["custom key": "cool"], for: nil, persist: false)
-		Jitsu.shared.userProperties.identify(
-			userIdentifier: "leonid", email: "leosilver@yandex.ru",
-			["codename": "dinoel"],
-			sendIdentificationEvent: true
-		)
-		
+//
+//		Jitsu.shared.context.addValues(["custom key": "cool"], for: nil, persist: false)
+//		Jitsu.shared.userProperties.identify(
+//			userIdentifier: "leonid", email: "leosilver@yandex.ru",
+//			["codename": "dinoel"],
+//			sendIdentificationEvent: true
+//		)
+//
 		Jitsu.shared.trackEvent(name: "second tracer bullet event")
+//
+		Jitsu.shared.trackEvent(name: "third tracer bullet event")
+		Jitsu.shared.trackEvent(name: "forth tracer bullet event")
+
 
 	}
 

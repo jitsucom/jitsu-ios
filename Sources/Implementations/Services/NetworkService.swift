@@ -55,9 +55,6 @@ class NetworkServiceImpl: NetworkService {
 		
 		let body = jsonFromBatch(batch, apiKey: apiKey)
 //		print("sending: \(body)")
-		for event in batch.events {
-			print("sending \(event.name)")
-		}
 		
 		request.httpBody = try? JSONSerialization.data(
 			withJSONObject: body,
@@ -88,23 +85,8 @@ class NetworkServiceImpl: NetworkService {
 		return [
 			"template": template,
 			"events": {
-				batch.events.map {jsonFromEvent($0)}
+				batch.events
 			}()
 		]
-	}
-	
-	private func jsonFromEvent(_ event: EnrichedEvent) -> [String: Any] {
-		var dict: [String: Any] = [
-			"event_id": event.eventId,
-			"event_type": event.name,
-			"utc_time": event.utcTime,
-			"local_tz_offset": event.localTimezoneOffset,
-		]
-		
-		dict.merge(event.payload) { (val1, val2) in return val1 }
-		dict.merge(event.userProperties) { (val1, val2) in return val1 }
-		dict.merge(event.context) { (val1, val2) in return val1 }
-		
-		return dict
 	}
 }
