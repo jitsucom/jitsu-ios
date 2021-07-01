@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+@testable import Jitsu
 
 class MockServiceLocator: ServiceLocator {
 	var networkService: NetworkService = NetworkMock()
@@ -45,11 +45,14 @@ class DeviceInfoProviderMock: DeviceInfoProvider {
 
 
 class StorageLocatorMock: StorageLocator {
+	
 	var eventStorage: EventStorage = EventStorageMock()
 	
 	var batchStorage: BatchStorage = BatchStorageMock()
 	
 	var contextStorage: ContextStorage = ContextStorageMock()
+	
+	var userPropertiesStorage: UserPropertiesStorage = UserPropertiesStorageMock()
 }
 
 
@@ -82,9 +85,8 @@ class BatchStorageMock: BatchStorage {
 }
 
 class ContextStorageMock: ContextStorage {
-
-	func loadContext(_ completion: @escaping ([ContextValue]) -> Void) {
-		
+	func loadContext() -> [ContextValue] {
+		return []
 	}
 	
 	func saveContextValue(_ value: ContextValue) {
@@ -95,6 +97,24 @@ class ContextStorageMock: ContextStorage {
 		
 	}
 
+	func clear() {
+		
+	}
+}
+
+class UserPropertiesStorageMock: UserPropertiesStorage {
+	func loadUserProperties() -> UserPropertiesModel? {
+		return nil
+	}
+	
+	func saveUserPropertiesModel(_ value: UserPropertiesModel) {
+		
+	}
+	
+	func removeUserPropertiesModel(_ value: UserPropertiesModel) {
+		
+	}
+	
 	func clear() {
 		
 	}

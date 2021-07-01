@@ -23,7 +23,8 @@ let coreDataModel: NSManagedObjectModel = {
 	_model.entities = [
 		EnrichedEventMO.eventEntity,
 		BatchMO.batchEntity,
-		ContextMO.contextEntity
+		ContextMO.contextEntity,
+		UserPropertiesMO.userPropertiesEntity
 	]
 	return _model
 }()

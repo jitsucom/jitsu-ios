@@ -41,4 +41,6 @@ You can update to the latest version of any packages you depend on at any time b
 Managed Object Model is created manually. This means no UI is used to generate and describe core data entities. 
 Entities are described in classes ending with "MO" (BatchMO, EnrichedEventMO, etc).
 
+To create a new entity add its description to CoreDataStack class
+
 

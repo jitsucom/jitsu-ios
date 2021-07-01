@@ -28,7 +28,7 @@ class JitsuClientImpl: JitsuClient {
 		)
 		self.context = context
 		
-		let userProperties = JitsuUserPropertiesImpl()
+		let userProperties = JitsuUserPropertiesImpl(storage: storageLocator.userPropertiesStorage)
 		self.userProperties = userProperties
 		userProperties.out = { [weak self] event in
 			self?.trackEvent(event)

@@ -11,6 +11,7 @@ protocol StorageLocator {
 	var eventStorage: EventStorage { get }
 	var batchStorage: BatchStorage { get }
 	var contextStorage: ContextStorage { get }
+	var userPropertiesStorage: UserPropertiesStorage { get }
 }
 
 class StorageLocatorImpl: StorageLocator {
@@ -25,6 +26,10 @@ class StorageLocatorImpl: StorageLocator {
 	}()
 	
 	lazy var contextStorage: ContextStorage = {
-		return ContextStorageIml(coreDataStack: stack)
+		return ContextStorageImpl(coreDataStack: stack)
+	}()
+	
+	lazy var userPropertiesStorage: UserPropertiesStorage = {
+		return UserPropertiesStorageImpl(coreDataStack: stack)
 	}()
 }

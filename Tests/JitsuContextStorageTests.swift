@@ -5,9 +5,8 @@
 //  Created by Leonid Serebryanyy on 01.07.2021.
 //
 
-import Foundation
+import XCTest
 @testable import Jitsu
-
 
 class JitsuContextStorageTests: XCTestCase {
 	

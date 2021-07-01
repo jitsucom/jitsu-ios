@@ -7,28 +7,43 @@
 
 import Foundation
 
-
 class JitsuUserPropertiesImpl: UserProperties {
 	
-	var anonymousUserId: UserId
+	@Atomic var anonymousUserId: UserId
 	
-	var userIdentifier: UserId?
+	@Atomic var userIdentifier: UserId?
 	
-	var email: String?
+	@Atomic var email: String?
 	
-	var otherIdentifiers = [UserPropertyKey : String]()
+	@Atomic var otherIdentifiers = [UserPropertyKey : String]()
 	
 	typealias JitsuUserPropertiesImplOut = (Event) -> Void
 	var out: JitsuUserPropertiesImplOut?
 	
-	init() {
-		self.anonymousUserId = UUID().uuidString
+	private var storage: UserPropertiesStorage
+	
+	init(storage: UserPropertiesStorage) {
+		self.storage = storage
+		
+		let userProperties = storage.loadUserProperties()
+		if let userProperties = userProperties {
+			self.anonymousUserId = userProperties.anonymousUserId
+			self.userIdentifier = userProperties.userIdentifier
+			self.email = userProperties.email
+			self.otherIdentifiers = userProperties.otherIdentifiers
+		} else {
+			print("no anonymousUserId, creating the new one")
+			self.anonymousUserId = UUID().uuidString
+			saveUserProperties()
+		}
 	}
 	
 	func identify(userIdentifier: UserId?, email: String?, _ otherIds: [UserPropertyKey : String], sendIdentificationEvent: Bool) {
 		self.userIdentifier = userIdentifier
 		self.email = email
 		self.otherIdentifiers = otherIds
+		
+		saveUserProperties()
 		
 		if sendIdentificationEvent {
 			out?(IdentifyEvent(payload: self.values()))
@@ -37,6 +52,9 @@ class JitsuUserPropertiesImpl: UserProperties {
 	
 	func updateUserIdentifier(_ newValue: String?, sendIdentificationEvent: Bool) {
 		self.userIdentifier = newValue
+		
+		saveUserProperties()
+		
 		if sendIdentificationEvent {
 			out?(IdentifyEvent(payload: self.values()))
 		}
@@ -44,6 +62,9 @@ class JitsuUserPropertiesImpl: UserProperties {
 	
 	func updateEmail(_ newValue: String?, sendIdentificationEvent: Bool) {
 		self.email = newValue
+		
+		saveUserProperties()
+
 		if sendIdentificationEvent {
 			out?(IdentifyEvent(payload: self.values()))
 		}
@@ -51,6 +72,9 @@ class JitsuUserPropertiesImpl: UserProperties {
 	
 	func updateOtherIdentifier(_ value: String, forKey: UserPropertyKey, sendIdentificationEvent: Bool) {
 		self.otherIdentifiers[forKey] = value
+		
+		saveUserProperties()
+
 		if sendIdentificationEvent {
 			out?(IdentifyEvent(payload: self.values()))
 		}
@@ -61,6 +85,9 @@ class JitsuUserPropertiesImpl: UserProperties {
 		self.userIdentifier = nil
 		self.email = nil
 		self.otherIdentifiers.removeAll()
+		
+		self.storage.clear()
+		saveUserProperties()
 	}
 		
 	func values() -> [String : Any] {
@@ -69,6 +96,16 @@ class JitsuUserPropertiesImpl: UserProperties {
 			"internal_id": userIdentifier ?? "no value",
 			"email": email ?? "no value",
 		].merging(self.otherIdentifiers) {return $1}
+	}
+	
+	private func saveUserProperties() {
+		storage.saveUserPropertiesModel(
+			UserPropertiesModel(
+				anonymousUserId: anonymousUserId,
+				userIdentifier: userIdentifier,
+				email: email,
+				otherIdentifiers: otherIdentifiers)
+		)
 	}
 	
 	// MARK: - -
