@@ -9,53 +9,36 @@ import Foundation
 import CoreData
 
 
-class CoreDataStack: NSObject {
+protocol CoreDataStack: NSObjectProtocol {
+	var persistentContainer: NSPersistentContainer { get }
+}
+
+
+let coreDataModel: NSManagedObjectModel = {
+	let _model = NSManagedObjectModel()
 	
-	var model: NSManagedObjectModel {
-		let _model = NSManagedObjectModel()
-		
-		ValueTransformer.setValueTransformer(DictTransformer(), forName: DictTransformer.name)
-		ValueTransformer.setValueTransformer(ArrayTransformer(), forName: ArrayTransformer.name)
-		
-		_model.entities = [
-			EnrichedEventMO.eventEntity,
-			BatchMO.batchEntity,
-		]
-		return _model
-	}
+	ValueTransformer.setValueTransformer(DictTransformer(), forName: DictTransformer.name)
+	ValueTransformer.setValueTransformer(ArrayTransformer(), forName: ArrayTransformer.name)
 	
-	lazy var persistentContainer: NSPersistentContainer = {
-		let _container = NSPersistentContainer(name: "Jitsu", managedObjectModel: model)
-		_container.loadPersistentStores {
+	_model.entities = [
+		EnrichedEventMO.eventEntity,
+		BatchMO.batchEntity,
+		ContextMO.contextEntity
+	]
+	return _model
+}()
+
+
+class CoreDataStackImpl: NSObject, CoreDataStack {
+	
+	var persistentContainer: NSPersistentContainer
+	
+	override init() {
+		self.persistentContainer = NSPersistentContainer(name: "Jitsu", managedObjectModel: coreDataModel)
+		super.init()
+		self.persistentContainer.loadPersistentStores {
 			(description, error) in
 			
 		}
-		return _container
-	}()
-}
-
-
-@objc final class DictTransformer: NSSecureUnarchiveFromDataTransformer {
-	override class func transformedValueClass() -> AnyClass {
-		return NSDictionary.self
 	}
-
-	override class func allowsReverseTransformation() -> Bool {
-		return true
-	}
-	
-	static let name = NSValueTransformerName(rawValue: "DictTransformer")
-}
-
-
-@objc final class ArrayTransformer: NSSecureUnarchiveFromDataTransformer {
-	override class func transformedValueClass() -> AnyClass {
-		return NSArray.self
-	}
-	
-	override class func allowsReverseTransformation() -> Bool {
-		return true
-	}
-	
-	static let name = NSValueTransformerName(rawValue: "ArrayTransformer")
 }

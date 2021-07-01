@@ -7,15 +7,14 @@
 
 import Foundation
 
-
 protocol StorageLocator {
 	var eventStorage: EventStorage { get }
 	var batchStorage: BatchStorage { get }
+	var contextStorage: ContextStorage { get }
 }
 
-
 class StorageLocatorImpl: StorageLocator {
-	lazy var stack = CoreDataStack()
+	lazy var stack = CoreDataStackImpl()
 	
 	lazy var eventStorage: EventStorage = {
 		return EventStorageImpl(coreDataStack: stack)
@@ -25,5 +24,7 @@ class StorageLocatorImpl: StorageLocator {
 		return BatchStorageImpl(coreDataStack: stack)
 	}()
 	
-	
+	lazy var contextStorage: ContextStorage = {
+		return ContextStorageIml(coreDataStack: stack)
+	}()
 }

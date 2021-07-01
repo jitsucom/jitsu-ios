@@ -22,7 +22,10 @@ class JitsuClientImpl: JitsuClient {
 		self.networkService = deps.networkService
 		self.storageLocator = deps.storageLocator
 		
-		let context = JitsuContextImpl(deviceInfoProvider: deps.deviceInfoProvider)
+		let context = JitsuContextImpl(
+			storage: storageLocator.contextStorage,
+			deviceInfoProvider: deps.deviceInfoProvider
+		)
 		self.context = context
 		
 		let userProperties = JitsuUserPropertiesImpl()

@@ -9,223 +9,127 @@ import XCTest
 @testable import Jitsu
 
 
-class TestEvent: Event {
-	var name: EventType
-	
-	var payload = [String : Any]()
-	
-	init(name: EventType) {
-		self.name = name
-	}
-}
-
 class JitsuContextTests: XCTestCase {
 	
-	let key1 = "key1"
-	let key2 = "key2"
-	
-	var firstEvent: Event {
-		return TestEvent(name: "first event")
-	}
-	
-	var secondEvent: Event {
-		return TestEvent(name: "second event")
-	}
-	
-	var sdk: JitsuClient!
-	var network = NetworkMock()
-	var deviceInfoProvider = DeviceInfoProviderMock()
+	var networkService: NetworkMock!
+	var deviceInfoProvider: DeviceInfoProviderMock!
+	var storage: ContextStorage!
 	
 	override func setUp() {
-		
-		let serviceLocator = MockServiceLocator()
-		serviceLocator.deviceInfoProvider = deviceInfoProvider
-		serviceLocator.networkService = network
-	
-		sdk = JitsuClientImpl(deps: serviceLocator)
-		sleep(1)
+		networkService = NetworkMock()
+		deviceInfoProvider = DeviceInfoProviderMock()
+		storage = ContextStorageMock()
 	}
 	
 	func testContext_addValues() throws {
 		// arrange
-		let context = JitsuContextImpl(deviceInfoProvider: deviceInfoProvider)
+		let context = JitsuContextImpl(storage: storage, deviceInfoProvider: deviceInfoProvider)
 		
-		let firstParam = [key1: "value1"]
-		let secondParam = [key2: "value2"]
+		// act
+		context.addValues(["key_1": "value_1"], for: nil, persist: false)
+		context.addValues(["key_2": "value_2"], for: nil, persist: false)
 		
-		context.addValues(firstParam, for: nil, persist: false)
-		
-		XCTAssertTrue(context.values(for: firstEvent.name).contains(where: { key, value -> Bool in
-			"value1".anyEqual(to: value)
-		}))
-		XCTAssertTrue("value1".anyEqual(to:context.values(for: firstEvent.name)[key1]))
-		
-		context.addValues(secondParam, for: nil, persist: false)
-		XCTAssertTrue("value1".anyEqual(to:context.values(for: firstEvent.name)[key1]))
-		XCTAssertTrue("value2".anyEqual(to: context.values(for: firstEvent.name)[key2]))
-		
-//
-//		context.addValues(secondParam, for: nil, persist: false)
-//
-//		// assert
-//
-//
-//		sdk.eventsQueueSize = 2
-//
-//		let expectation = XCTestExpectation(description: "send batch was called")
-//
-//		let firstParam = [key1: "value1"]
-//		let secondParam = [key2: "value2"]
-//
-//		// arrange
-//		network.sendBatchBlock = { [self] batch in
-//			XCTAssertEqual(batch.events.count, 2)
-//
-//			let firstEvent = batch.events[0]
-//			XCTAssertTrue("value1".anyEqual(to: firstEvent.context[key1]))
-//			XCTAssertNil(firstEvent.context[key2])
-//
-//			let secondEvent = batch.events[1]
-//			XCTAssertTrue("value1".anyEqual(to: secondEvent.context[key1]))
-//			XCTAssertTrue("value2".anyEqual(to: secondEvent.context[key2]))
-//
-//			expectation.fulfill()
-//		}
-//
-//		// act
-//		sdk.context.addValues(firstParam, for: nil, persist: false)
-//		sdk.trackEvent(firstEvent)
-//		sleep(1)
-//		sdk.context.addValues(secondParam, for: nil, persist: false)
-//		sdk.trackEvent(secondEvent)
-//
-//		wait(for: [expectation], timeout: 2)
+		// assert
+		let firstEventValues = context.values(for: "first_event")
+		XCTAssertTrue("value_1".anyEqual(to: firstEventValues["key_1"]))
+		XCTAssertTrue("value_2".anyEqual(to: firstEventValues["key_2"]))
 	}
-//
-//	func testContext_new_values_update_old() throws {
-//		sdk.eventsQueueSize = 2
-//
-//		let expectation = XCTestExpectation(description: "send batch was called")
-//
-//		// arrange
-//		network.sendBatchBlock = { [self] batch in
-//			XCTAssertEqual(batch.events.count, 2)
-//
-//			let firstEvent = batch.events[0]
-//			XCTAssertTrue("value1".anyEqual(to: firstEvent.context[key1]), "value is \(String(describing: firstEvent.context[key1]))")
-//			XCTAssertTrue("OLD".anyEqual(to: firstEvent.context[key2]))
-//
-//			let secondEvent = batch.events[1]
-//			XCTAssertTrue("value1".anyEqual(to: secondEvent.context[key1]))
-//			XCTAssertTrue("NEW".anyEqual(to: secondEvent.context[key2]))
-//			expectation.fulfill()
-//		}
-//
-//		// act
-//		sdk.context.addValues([key1: "value1"], for: nil, persist: false)
-//		sdk.context.addValues([key2: "OLD"], for: nil, persist: false)
-//		sdk.trackEvent(firstEvent)
-//		sleep(1)
-//
-//		sdk.context.addValues([key2: "NEW"], for: nil, persist: false)
-//		sdk.trackEvent(secondEvent)
-//
-//		wait(for: [expectation], timeout: 2)
-//	}
-//
-//	func testContext_specific_overshadows_general() throws {
-//		sdk.eventsQueueSize = 2
-//
-//		let expectation = XCTestExpectation(description: "send batch was called")
-//
-//		// arrange
-//		network.sendBatchBlock = { [self] batch in
-//			XCTAssertEqual(batch.events.count, 2)
-//
-//			let firstEvent = batch.events[0]
-//			XCTAssertTrue("OLD".anyEqual(to: firstEvent.context[key1]))
-//
-//			let secondEvent = batch.events[1]
-//			XCTAssertTrue("NEW".anyEqual(to: secondEvent.context[key1]))
-//
-//			expectation.fulfill()
-//		}
-//
-//		// act
-//
-//		sdk.context.addValues([key1: "OLD"], for: nil, persist: false)
-//		sdk.trackEvent(firstEvent)
-//		sleep(1)
-//
-//		sdk.context.addValues([key1: "NEW"], for: [firstEvent.name], persist: false)
-//		sdk.trackEvent(firstEvent)
-//
-//		wait(for: [expectation], timeout: 2)
-//	}
-//
-//	// general for nil overwrites specific
-//	func testContext_general_applied_after_specific_replaces_it() throws {
-//		sdk.eventsQueueSize = 2
-//
-//		let expectation = XCTestExpectation(description: "send batch was called")
-//
-//		// arrange
-//		network.sendBatchBlock = { [self] batch in
-//			XCTAssertEqual(batch.events.count, 2)
-//
-//			let firstEvent = batch.events[0]
-//			XCTAssertTrue("OLD".anyEqual(to: firstEvent.context[key1]))
-//
-//			let secondEvent = batch.events[1]
-//			XCTAssertTrue("NEW".anyEqual(to: secondEvent.context[key1]))
-//
-//			expectation.fulfill()
-//		}
-//
-//		// act
-//
-//		sdk.context.addValues([key1: "OLD"], for: [firstEvent.name], persist: false)
-//		sdk.trackEvent(firstEvent)
-//		sleep(1)
-//
-//		sdk.context.addValues([key1: "NEW"], for: nil, persist: false)
-//		sdk.trackEvent(firstEvent)
-//
-//		wait(for: [expectation], timeout: 2)
-//	}
-//
-//	func testContext_removeValues() throws {
-//		sdk.eventsQueueSize = 2
-//
-//		let expectation = XCTestExpectation(description: "send batch was called")
-//
-//		// arrange
-//		network.sendBatchBlock = { [self] batch in
-//			XCTAssertEqual(batch.events.count, 2)
-//
-//			let firstEvent = batch.events[0]
-//			XCTAssertTrue("OLD".anyEqual(to: firstEvent.context[key1]))
-//			XCTAssertTrue("value_2".anyEqual(to: firstEvent.context[key2]))
-//
-//			let secondEvent = batch.events[1]
-//			XCTAssertNil(secondEvent.context[key1])
-//			XCTAssertTrue("value_2".anyEqual(to: firstEvent.context[key2]))
-//
-//			expectation.fulfill()
-//		}
-//
-//		// act
-//
-//		sdk.context.addValues([key1: "OLD"], for: [firstEvent.name], persist: false)
-//		sdk.context.addValues([key2: "value_2"], for: nil, persist: false)
-//		sdk.trackEvent(firstEvent)
-//		sleep(1)
-//
-//		sdk.context.removeValue(for: key1, for: nil)
-//		sdk.trackEvent(firstEvent)
-//
-//		wait(for: [expectation], timeout: 2)
-//	}
+	
+	func testContext_new_values_update_old() throws {
+		// arrange
+		let context = JitsuContextImpl(storage: storage, deviceInfoProvider: deviceInfoProvider)
+
+		// act
+		context.addValues(["key_1": "value1"], for: nil, persist: false)
+		context.addValues(["key_2": "OLD"], for: nil, persist: false)
+		
+		context.addValues(["key_2": "NEW"], for: nil, persist: false)
+		
+		// assert
+		let firstEventValues = context.values(for: "first_event")
+		XCTAssertTrue("value1".anyEqual(to: firstEventValues["key_1"]))
+		XCTAssertTrue("NEW".anyEqual(to: firstEventValues["key_2"]))
+	}
+	
+	func testContext_new_specific_values_update_old() throws {
+		// arrange
+		let context = JitsuContextImpl(storage: storage, deviceInfoProvider: deviceInfoProvider)
+
+		// act
+		context.addValues(["key_1": "value1"], for: ["first_event"], persist: false)
+		context.addValues(["key_2": "OLD"], for: ["first_event"], persist: false)
+		
+		context.addValues(["key_2": "NEW"], for: ["first_event"], persist: false)
+		
+		// assert
+		let firstEventValues = context.values(for: "first_event")
+		XCTAssertTrue("value1".anyEqual(to: firstEventValues["key_1"]))
+		XCTAssertTrue("NEW".anyEqual(to: firstEventValues["key_2"]))
+	}
+
+	func testContext_specific_overshadows_general() throws {
+		// arrange
+		let context = JitsuContextImpl(storage: storage, deviceInfoProvider: deviceInfoProvider)
+
+		// act
+		context.addValues(["key_1": "OLD"], for: nil, persist: false)
+		context.addValues(["key_1": "NEW"], for: ["first_event"], persist: false)
+		
+		// assert
+		let firstEventValues = context.values(for: "first_event")
+		XCTAssertTrue("NEW".anyEqual(to: firstEventValues["key_1"]))
+		
+		let secondEventValues = context.values(for: "second_event")
+		XCTAssertTrue("OLD".anyEqual(to: secondEventValues["key_1"]))
+	}
+	
+	func testContext_specific_isnt_overriten_by_general() throws {
+		// arrange
+		let context = JitsuContextImpl(storage: storage, deviceInfoProvider: deviceInfoProvider)
+
+		// act
+		context.addValues(["key_1": "OLD"], for: ["first_event"], persist: false)
+		context.addValues(["key_1": "NEW"], for: nil, persist: false)
+		
+		// assert
+		let firstEventValues = context.values(for: "first_event")
+		XCTAssertTrue("OLD".anyEqual(to: firstEventValues["key_1"]))
+	}
+	
+	func testContext_removeValues_specificStays() throws {
+		// arrange
+		let context = JitsuContextImpl(storage: storage, deviceInfoProvider: deviceInfoProvider)
+
+		// act
+		context.addValues(["key_1": "value_1"], for: ["first_event"], persist: false)
+		context.addValues(["key_2": "value_2"], for: nil, persist: false)
+		
+		context.removeValue(for: "key_1", for: nil)
+		context.removeValue(for: "key_2", for: nil)
+		
+		// assert
+		let firstEventValues = context.values(for: "first_event")
+		XCTAssertTrue("value_1".anyEqual(to: firstEventValues["key_1"]))
+		XCTAssertNil(firstEventValues["key_2"])
+	}
+	
+	func testContext_removeValues_generalStays() throws {
+		// arrange
+		let context = JitsuContextImpl(storage: storage, deviceInfoProvider: deviceInfoProvider)
+
+		// act
+		context.addValues(["key_1": "value_1"], for: ["first_event"], persist: false)
+		context.addValues(["key_1": "value_2"], for: nil, persist: false)
+		
+		context.removeValue(for: "key_1", for: ["first_event"])
+		
+		// assert
+		let firstEventValues = context.values(for: "first_event")
+		XCTAssertTrue("value_2".anyEqual(to: firstEventValues["key_1"]))
+
+		let anyEventValues = context.values(for: "second_event")
+		XCTAssertTrue("value_2".anyEqual(to: anyEventValues["key_1"]))
+	}
 }
 
 

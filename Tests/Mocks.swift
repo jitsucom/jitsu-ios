@@ -48,6 +48,8 @@ class StorageLocatorMock: StorageLocator {
 	var eventStorage: EventStorage = EventStorageMock()
 	
 	var batchStorage: BatchStorage = BatchStorageMock()
+	
+	var contextStorage: ContextStorage = ContextStorageMock()
 }
 
 
@@ -78,3 +80,23 @@ class BatchStorageMock: BatchStorage {
 		
 	}
 }
+
+class ContextStorageMock: ContextStorage {
+
+	func loadContext(_ completion: @escaping ([ContextValue]) -> Void) {
+		
+	}
+	
+	func saveContextValue(_ value: ContextValue) {
+		
+	}
+	
+	func removeContextValue(_ value: ContextValue) {
+		
+	}
+
+	func clear() {
+		
+	}
+}
+

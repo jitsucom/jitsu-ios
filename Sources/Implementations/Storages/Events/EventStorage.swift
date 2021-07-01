@@ -8,13 +8,11 @@
 import Foundation
 import CoreData
 
-
 protocol EventStorage {
 	func loadEvents(_ completion: @escaping ([EnrichedEvent]) -> Void)
 	func saveEvent(_ event: EnrichedEvent)
 	func removeEvents(with eventIds: Set<String>)
 }
-
 
 class EventStorageImpl: EventStorage {
 	private var coreDataStack: CoreDataStack

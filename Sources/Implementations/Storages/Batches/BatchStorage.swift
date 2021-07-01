@@ -69,8 +69,6 @@ class BatchStorageImpl: BatchStorage {
 			print("oops")
 			fatalError()
 		}
-
-//		batches.removeAll { $0.batchId == batchId}
 	}
 }
 

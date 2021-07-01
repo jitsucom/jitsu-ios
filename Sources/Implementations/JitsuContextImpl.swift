@@ -7,92 +7,148 @@
 
 import Foundation
 
+struct ContextValue: Hashable {
+	
+	var key: JitsuContext.Key
+	var value: Any
+	var eventType: EventType?
+	
+	func hash(into hasher: inout Hasher) {
+		guard let eventType = eventType else {
+			"\(key) : general".hash(into: &hasher)
+			return
+		}
+		let description = "\(key): \(eventType)"
+		description.hash(into: &hasher)
+	}
+	
+	static func == (lhs: ContextValue, rhs: ContextValue) -> Bool {
+		// we use this equality so values are always updated
+		return lhs.key == rhs.key
+	}
+}
 
 class JitsuContextImpl: JitsuContext {
 	
-	private var contextValues = [EventType : [JitsuContext.Key : Any]]()
-	private var generalContextValues = [JitsuContext.Key : Any]()
+	@Atomic private var specificContextValues = [EventType : Set<ContextValue>]()
+	@Atomic private var generalContextValues = Set<ContextValue>()
 	
-	private let contextQueue = DispatchQueue(label: "com.jitsu.contextQueue", attributes: .concurrent)
-		
-	func addValues(_ values: [JitsuContext.Key : Any], for eventTypes: [EventType]?, persist: Bool) {
-		contextQueue.async(flags: .barrier) { [self] in
-			print("adding \(values) for types: \(String(describing: eventTypes))")
-			guard let eventTypes = eventTypes else {
-				generalContextValues.merge(values) {(old, new) in return new }
-				for eventType in contextValues.keys {
-					contextValues[eventType]?.merge(values) {(old, new) in return new }
-				}
-				// todo: save to coredata
-				return
-			}
-			
-			eventTypes.forEach { eventType in
-				if contextValues[eventType] == nil {
-					contextValues[eventType] = values
+	private var storage: ContextStorage
+	private var deviceInfoProvider: DeviceInfoProvider
+
+	init(storage: ContextStorage, deviceInfoProvider: DeviceInfoProvider) {
+		self.storage = storage
+		self.deviceInfoProvider = deviceInfoProvider
+	}
+	
+	func setup(_ completion: @escaping () -> Void) {
+		storage.loadContext { [weak self] contextValues in
+			guard let self = self else {return}
+			for value in contextValues {
+				if let eventType = value.eventType {
+					if self.specificContextValues[eventType] != nil {
+						self.specificContextValues[eventType]?.update(with: value)
+					} else {
+						self.specificContextValues[eventType] = Set([value])
+					}
 				} else {
-					contextValues[eventType]?.merge(values) {(old, new) in return new }
+					self.generalContextValues.update(with: value)
 				}
-				// todo: save to coredata
+			}
+		}
+		
+//		addValues(localeInfo, for: nil, persist: false)
+//		addValues(appInformation, for: nil, persist: false)
+//		// todo: addValues: accessibility info
+//
+//		getDeviceInfo { [weak self] deviceInfo in
+//			guard let self = self else {return}
+//			self.deviceInfo = deviceInfo
+//			self.addValues(deviceInfo, for: nil, persist: false)
+//			completion()
+//		}
+	}
+	
+	// MARK: - JitsuContext
+	
+	func addValues(_ values: [JitsuContext.Key : Any], for eventTypes: [EventType]?, persist: Bool) {
+		if let eventTypes = eventTypes {
+			for eventType in eventTypes {
+				addEventSpecificValues(values, for: eventType, persist: persist)
+			}
+		} else {
+			addGenericValues(values, persist: persist)
+		}
+	}
+	
+	private func addGenericValues(_ values: [JitsuContext.Key : Any], persist: Bool) {
+		for (key, value) in values {
+			let new = ContextValue(key: key, value: value, eventType: nil)
+			generalContextValues.update(with: new)
+			if persist {
+				storage.saveContextValue(new)
+			}
+		}
+	}
+	
+	private func addEventSpecificValues(_ values: [JitsuContext.Key : Any], for eventType: EventType, persist: Bool) {
+		for (key, value) in values {
+			let new = ContextValue(key: key, value: value, eventType: eventType)
+			if (specificContextValues[eventType] != nil) {
+				specificContextValues[eventType]?.update(with: new)
+			} else {
+				specificContextValues[eventType] = Set([new])
+			}
+			if persist {
+				storage.saveContextValue(new)
 			}
 		}
 	}
 	
 	func removeValue(for key: JitsuContext.Key, for eventTypes: [EventType]?) {
-		contextQueue.async(flags: .barrier) { [self] in
-			guard let eventTypes = eventTypes else {
-				generalContextValues.removeValue(forKey: key)
-				
-				for eventType in contextValues.keys {
-					contextValues[eventType]?.removeValue(forKey: key)
-				}
-				// todo: save to coredata
-				return
-			}
-			eventTypes.forEach { eventType in
-				contextValues.removeValue(forKey: eventType)
-			}
-			// todo: save to coredata
+		guard let eventTypes = eventTypes else {
+			removeGenericValue(for: key)
+			return
+		}
+		
+		for type in eventTypes {
+			removeValue(for: key, for: type)
 		}
 	}
 	
-	func values(for eventType: EventType?) -> [String : Any] {
-		contextQueue.sync {
-			guard let eventType = eventType else {
-				return generalContextValues
-			}
-			let eventSpecificValues = contextValues[eventType] ?? [:]
-			return eventSpecificValues.merging(generalContextValues)  {(context, general) in return context }
+	private func removeValue(for key: JitsuContext.Key, for eventType: EventType) {
+		guard let eventValues = specificContextValues[eventType] else { return }
+		if let valueToRemove = eventValues.first(where: {$0.key == key}) {
+			specificContextValues[eventType]?.remove(valueToRemove)
+			storage.removeContextValue(valueToRemove)
+		}
+	}
+	
+	private func removeGenericValue(for key: JitsuContext.Key) {
+		if let valueToRemove = generalContextValues.first(where: {$0.key == key}) {
+			generalContextValues.remove(valueToRemove)
+			storage.removeContextValue(valueToRemove)
+		}
+	}
+		
+	func values(for eventType: EventType?) -> [String: Any] {
+		var values = Set<ContextValue>()
+		values.formUnion(generalContextValues)
+		if let eventType = eventType {
+			let eventSpecificValues = specificContextValues[eventType] ?? Set()
+			eventSpecificValues.forEach { values.update(with: $0) }
+		}
+		
+		return values.reduce(into: [:]) { (res, contextValue) in
+			res[contextValue.key] = contextValue.value
 		}
 	}
 	
 	func clear() {
-		contextQueue.async(flags: .barrier) { [self] in
-			contextValues.removeAll()
-			generalContextValues.removeAll()
-			setup {}
-		}
-	}
-		
-	private var deviceInfoProvider: DeviceInfoProvider
-	
-	init(deviceInfoProvider: DeviceInfoProvider) {
-		self.deviceInfoProvider = deviceInfoProvider
-	}
-	
-	func setup(_ completion: @escaping () -> Void) {
-		contextQueue.async(flags: .barrier) { [self] in
-			addValues(localeInfo, for: nil, persist: false)
-			addValues(appInformation, for: nil, persist: false)
-			// todo: addValues: accessibility info
-			
-			getDeviceInfo { [weak self] deviceInfo in
-				guard let self = self else {return}
-				self.deviceInfo = deviceInfo
-				self.addValues(deviceInfo, for: nil, persist: false)
-				completion()
-			}
-		}
+		specificContextValues.removeAll()
+		generalContextValues.removeAll()
+		storage.clear()
+		setup {}
 	}
 	
 	// MARK: - Automatically generated values
