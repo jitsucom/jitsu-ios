@@ -9,31 +9,31 @@ import Foundation
 import CoreData
 
 protocol ContextStorage {
-	func loadContext(_ completion: @escaping ([ContextValue]) -> Void)
+	func loadContext() -> [ContextValue]
 	func saveContextValue(_ value: ContextValue)
 	func removeContextValue(_ value: ContextValue)
 	func clear()
 }
 
-class ContextStorageIml: ContextStorage {
+class ContextStorageImpl: ContextStorage {
 	private var coreDataStack: CoreDataStack
 	
 	init(coreDataStack: CoreDataStack) {
 		self.coreDataStack = coreDataStack
 	}
 	
-	func loadContext(_ completion: @escaping ([ContextValue]) -> Void) {
+	func loadContext() -> [ContextValue] {
 		let context = coreDataStack.persistentContainer.viewContext
 		let fetchRequest: NSFetchRequest<ContextMO> = ContextMO.fetchRequest()
 		do {
 			let result: [ContextMO] = try context.fetch(fetchRequest)
 			let databaseValues = result.map { ContextValue(contextMO: $0) }
 			print("fetched contextValues: \(databaseValues.map {($0.key, $0.value, $0.eventType)} )")
-			completion(databaseValues)
+			return databaseValues
 		} catch {
 			print("\(#function) fetch failed")
 			fatalError() //todo: remove later
-			completion([])
+			return []
 		}
 	}
 	

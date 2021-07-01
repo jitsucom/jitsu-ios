@@ -38,4 +38,8 @@ class Atomic<Value> {
 			queue.sync(flags: .barrier) { _value = newValue }
 		}
 	}
+	
+	var value: Value {
+		return wrappedValue
+	}
 }

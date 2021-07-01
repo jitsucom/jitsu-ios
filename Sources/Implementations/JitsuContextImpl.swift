@@ -8,7 +8,6 @@
 import Foundation
 
 struct ContextValue: Hashable {
-	
 	var key: JitsuContext.Key
 	var value: Any
 	var eventType: EventType?
@@ -30,8 +29,8 @@ struct ContextValue: Hashable {
 
 class JitsuContextImpl: JitsuContext {
 	
-	@Atomic private var specificContextValues = [EventType : Set<ContextValue>]()
-	@Atomic private var generalContextValues = Set<ContextValue>()
+	@Atomic private var specificContext = [EventType : Set<ContextValue>]()
+	@Atomic private var generalContext = Set<ContextValue>()
 	
 	private var storage: ContextStorage
 	private var deviceInfoProvider: DeviceInfoProvider
@@ -42,66 +41,53 @@ class JitsuContextImpl: JitsuContext {
 	}
 	
 	func setup(_ completion: @escaping () -> Void) {
-		storage.loadContext { [weak self] contextValues in
-			guard let self = self else {return}
-			for value in contextValues {
-				if let eventType = value.eventType {
-					if self.specificContextValues[eventType] != nil {
-						self.specificContextValues[eventType]?.update(with: value)
-					} else {
-						self.specificContextValues[eventType] = Set([value])
-					}
-				} else {
-					self.generalContextValues.update(with: value)
-				}
-			}
+		let contextValues =  storage.loadContext()
+		for value in contextValues {
+			addValue(value, persist: false)
 		}
 		
-//		addValues(localeInfo, for: nil, persist: false)
-//		addValues(appInformation, for: nil, persist: false)
-//		// todo: addValues: accessibility info
-//
-//		getDeviceInfo { [weak self] deviceInfo in
-//			guard let self = self else {return}
-//			self.deviceInfo = deviceInfo
-//			self.addValues(deviceInfo, for: nil, persist: false)
-//			completion()
-//		}
+		addValues(localeInfo, for: nil, persist: false)
+		addValues(appInformation, for: nil, persist: false)
+		// todo: addValues: accessibility info
+
+		getDeviceInfo { [weak self] deviceInfo in
+			guard let self = self else {return}
+			self.deviceInfo = deviceInfo
+			self.addValues(deviceInfo, for: nil, persist: false)
+			completion()
+		}
 	}
 	
 	// MARK: - JitsuContext
 	
 	func addValues(_ values: [JitsuContext.Key : Any], for eventTypes: [EventType]?, persist: Bool) {
+		var newValues = [ContextValue]()
 		if let eventTypes = eventTypes {
 			for eventType in eventTypes {
-				addEventSpecificValues(values, for: eventType, persist: persist)
+				newValues = values.map { ContextValue(key: $0.key, value: $0.value, eventType: eventType) }
 			}
 		} else {
-			addGenericValues(values, persist: persist)
+			newValues = values.map { ContextValue(key: $0.key, value: $0.value, eventType: nil) }
+		}
+		
+		for new in newValues {
+			addValue(new, persist: persist)
 		}
 	}
 	
-	private func addGenericValues(_ values: [JitsuContext.Key : Any], persist: Bool) {
-		for (key, value) in values {
-			let new = ContextValue(key: key, value: value, eventType: nil)
-			generalContextValues.update(with: new)
-			if persist {
-				storage.saveContextValue(new)
-			}
-		}
-	}
-	
-	private func addEventSpecificValues(_ values: [JitsuContext.Key : Any], for eventType: EventType, persist: Bool) {
-		for (key, value) in values {
-			let new = ContextValue(key: key, value: value, eventType: eventType)
-			if (specificContextValues[eventType] != nil) {
-				specificContextValues[eventType]?.update(with: new)
+	private func addValue(_ new: ContextValue, persist: Bool) {
+		if let eventType = new.eventType {
+			if $specificContext.value[eventType] != nil {
+				$specificContext.mutate {$0[eventType]?.update(with: new)}
 			} else {
-				specificContextValues[eventType] = Set([new])
+				$specificContext.mutate {$0[eventType] = Set([new])}
 			}
-			if persist {
-				storage.saveContextValue(new)
-			}
+		} else {
+			$generalContext.mutate {$0.update(with: new)}
+		}
+		
+		if persist {
+			storage.saveContextValue(new)
 		}
 	}
 	
@@ -117,25 +103,29 @@ class JitsuContextImpl: JitsuContext {
 	}
 	
 	private func removeValue(for key: JitsuContext.Key, for eventType: EventType) {
-		guard let eventValues = specificContextValues[eventType] else { return }
+		guard let eventValues = $specificContext.value[eventType] else { return }
 		if let valueToRemove = eventValues.first(where: {$0.key == key}) {
-			specificContextValues[eventType]?.remove(valueToRemove)
+			$specificContext.mutate { state in
+				state[eventType]?.remove(valueToRemove)
+			}
 			storage.removeContextValue(valueToRemove)
 		}
 	}
 	
 	private func removeGenericValue(for key: JitsuContext.Key) {
-		if let valueToRemove = generalContextValues.first(where: {$0.key == key}) {
-			generalContextValues.remove(valueToRemove)
+		if let valueToRemove = $generalContext.value.first(where: {$0.key == key}) {
+			$generalContext.mutate { state in
+				state.remove(valueToRemove)
+			}
 			storage.removeContextValue(valueToRemove)
 		}
 	}
 		
 	func values(for eventType: EventType?) -> [String: Any] {
 		var values = Set<ContextValue>()
-		values.formUnion(generalContextValues)
+		values.formUnion($generalContext.value)
 		if let eventType = eventType {
-			let eventSpecificValues = specificContextValues[eventType] ?? Set()
+			let eventSpecificValues = $specificContext.value[eventType] ?? Set()
 			eventSpecificValues.forEach { values.update(with: $0) }
 		}
 		
@@ -145,8 +135,8 @@ class JitsuContextImpl: JitsuContext {
 	}
 	
 	func clear() {
-		specificContextValues.removeAll()
-		generalContextValues.removeAll()
+		$specificContext.mutate { $0.removeAll() }
+		$generalContext.mutate { $0.removeAll() }
 		storage.clear()
 		setup {}
 	}

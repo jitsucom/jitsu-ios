@@ -58,7 +58,8 @@ class EventsController {
 	func prepare() {
 		eventStorage.loadEvents { [weak self] storedEvents in
 			print("\(#function) loaded \(storedEvents.count) events")
-			self?.unbatchedEvents.append(contentsOf: storedEvents)
+			
+			self?.$unbatchedEvents.mutate {$0.append(contentsOf: storedEvents)}
 		}
 	}
 	
@@ -79,7 +80,7 @@ class EventsController {
 			userProperties: userProperties
 		)
 		
-		unbatchedEvents.append(enrichedEvent)
+		$unbatchedEvents.mutate {$0.append(enrichedEvent)}
 		
 		eventStorage.saveEvent(enrichedEvent)
 	}
@@ -87,7 +88,9 @@ class EventsController {
 	func sendEvents() {
 		print("events controller: passing \(unbatchedEvents.map{$0.name})")
 		let batchEventIds = Set(unbatchedEvents.map {$0.eventId})
-		unbatchedEvents.removeAll { batchEventIds.contains($0.eventId) }
+		$unbatchedEvents.mutate { state in
+			state.removeAll { batchEventIds.contains($0.eventId) }
+		}
 		
 		out(unbatchedEvents) {[weak self] success in
 			if success {
