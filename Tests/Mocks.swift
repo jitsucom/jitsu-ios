@@ -12,6 +12,7 @@ class MockServiceLocator: ServiceLocator {
 	var networkService: NetworkService = NetworkMock()
 	var deviceInfoProvider: DeviceInfoProvider = DeviceInfoProviderMock()
 	var storageLocator: StorageLocator = StorageLocatorMock()
+	var timerService: RepeatingTimer = TimerMock()
 }
 
 
@@ -120,3 +121,22 @@ class UserPropertiesStorageMock: UserPropertiesStorage {
 	}
 }
 
+class TimerMock: RepeatingTimer {
+	
+	var fireBlock: TimerBlock?
+	var cancelBlock: TimerBlock?
+	var setBlock: (() -> Void)?
+	
+	func set(time: TimeInterval, fireBlock: @escaping TimerBlock) {
+		self.fireBlock = fireBlock
+		setBlock?()
+	}
+	
+	func cancel() {
+		cancelBlock?(self)
+	}
+	
+	func fire() {
+		fireBlock?(self)
+	}
+}

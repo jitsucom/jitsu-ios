@@ -7,69 +7,40 @@
 
 import Foundation
 
-struct EnrichedEvent {
-	typealias EventId = String
-	
-	var eventId: EventId
-	
-	var name: String
-	
-	var utcTime: String
-	var localTimezoneOffset: Int
-	
-	var payload: [String: Any]
-	
-	var context: [String: Any]
-	
-	var userProperties: [String: Any]
-	
-	func buildJson() -> [String: Any] {
-		var dict: [String: Any] = [
-			"event_id": eventId,
-			"event_type": name,
-			
-			"utc_time": utcTime,
-			"local_tz_offset": localTimezoneOffset,
-		]
-		
-		dict.merge(payload) { (val1, val2) in return val1 }
-		dict.merge(userProperties) { (val1, val2) in return val1 }
-		dict.merge(context) { (val1, val2) in return val1 }
-		
-		return dict
-	}
-}
-
 typealias SendEventsCompletion = (Bool) -> Void
 typealias SendEvents = ([EnrichedEvent], @escaping SendEventsCompletion) -> Void
 
 class EventsController {
 	
-	@Atomic private var unbatchedEvents = [EnrichedEvent]()
-	private var eventStorage: EventStorage
+	private(set) var eventsQueueSize: Int = 10
+	private(set) var sendingBatchesPeriod: TimeInterval = 5
 	
+	@Atomic private var unbatchedEvents = [EnrichedEvent]()
+	
+	private var eventStorage: EventStorage
 	private var out: SendEvents
+	private var timer: RepeatingTimer
 
-	init(storage: EventStorage, sendEvents: @escaping SendEvents) {
+	init(storage: EventStorage, timer: RepeatingTimer, sendEvents: @escaping SendEvents) {
 		self.eventStorage = storage
 		self.out = sendEvents
+		self.timer = timer
+	}
+	
+	deinit {
+		
 	}
 	
 	func prepare() {
+		resetTimer()
 		eventStorage.loadEvents { [weak self] storedEvents in
 			print("\(#function) loaded \(storedEvents.count) events")
-			
 			self?.$unbatchedEvents.mutate {$0.append(contentsOf: storedEvents)}
 		}
 	}
 	
-	var unbatchedEventsCount: Int { // todo: make private
-		return unbatchedEvents.count
-	}
-	
 	func add(event: Event, context: [String : Any], userProperties: [String : Any]) {
 		print("dbg adding event \(event.name), context \(context), userProperties \(userProperties)")
-
 		let enrichedEvent = EnrichedEvent(
 			eventId: UUID().uuidString,
 			name: event.name,
@@ -79,13 +50,22 @@ class EventsController {
 			context: context,
 			userProperties: userProperties
 		)
-		
 		$unbatchedEvents.mutate {$0.append(enrichedEvent)}
-		
 		eventStorage.saveEvent(enrichedEvent)
+		
+		if $unbatchedEvents.value.count >= self.eventsQueueSize {
+			sendEvents()
+		}
 	}
 	
 	func sendEvents() {
+		if $unbatchedEvents.value.count == 0 {
+			print("events controller: zero events)")
+			return
+		}
+		
+		resetTimer()
+		
 		print("events controller: passing \(unbatchedEvents.map{$0.name})")
 		let batchEventIds = Set(unbatchedEvents.map {$0.eventId})
 		$unbatchedEvents.mutate { state in
@@ -96,8 +76,27 @@ class EventsController {
 			if success {
 				self?.eventStorage.removeEvents(with: batchEventIds)
 			} else {
-				// todo: retry?
+				
 			}
+		}
+	}
+	
+	func setEventsQueueSize(_ value: Int) {
+		eventsQueueSize = value
+		if unbatchedEvents.count >= eventsQueueSize {
+			sendEvents()
+		}
+	}
+	
+	func setSendingBatchesPeriod(_ value: TimeInterval) {
+		sendingBatchesPeriod = value
+		resetTimer()
+	}
+	
+	func resetTimer() {
+		timer.cancel()
+		timer.set(time: sendingBatchesPeriod) {[weak self] _ in
+			self?.sendEvents()
 		}
 	}
 	

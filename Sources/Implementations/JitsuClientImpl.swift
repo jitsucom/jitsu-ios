@@ -15,10 +15,12 @@ class JitsuClientImpl: JitsuClient {
 	
 	private var networkService: NetworkService
 	private var storageLocator: StorageLocator
+	private var deps: ServiceLocator
 	
 	private var eventsQueue = DispatchQueue(label: "com.jitsu.eventsQueue")
 	
 	init(deps: ServiceLocator) {
+		self.deps = deps
 		self.networkService = deps.networkService
 		self.storageLocator = deps.storageLocator
 		
@@ -59,6 +61,7 @@ class JitsuClientImpl: JitsuClient {
 	private lazy var eventsController: EventsController = {
 		let eventsController = EventsController(
 			storage: storageLocator.eventStorage,
+			timer: deps.timerService,
 			sendEvents: sendEventsOut
 		)
 		return eventsController
@@ -84,16 +87,11 @@ class JitsuClientImpl: JitsuClient {
 	
 	func trackEvent(_ event: Event) {
 		eventsQueue.async {
-			
 			self.eventsController.add(
 				event: event,
 				context: self.context.values(for: event.name),
 				userProperties: self.userProperties.values()
 			)
-			
-			if self.eventsController.unbatchedEventsCount >= self.eventsQueueSize {
-				self.eventsController.sendEvents()
-			}
 		}
 	}
 	
@@ -110,12 +108,24 @@ class JitsuClientImpl: JitsuClient {
 	
 	// MARK: - Sendinng Batches
 	
-	var eventsQueueSize: Int = 2
+	var eventsQueueSize: Int {
+		set {
+			eventsController.setEventsQueueSize(newValue)
+		} get {
+			eventsController.eventsQueueSize
+		}
+	}
 	
-	var sendingBatchesPeriod: TimeInterval = 10 // todo
+	var sendingBatchesPeriod: TimeInterval {
+		set {
+			eventsController.setSendingBatchesPeriod(newValue)
+		} get {
+			eventsController.sendingBatchesPeriod
+		}
+	}
 	
 	func sendBatch() {
-		// todo
+		eventsController.sendEvents()
 	}
 	
 	// MARK: - On/Off

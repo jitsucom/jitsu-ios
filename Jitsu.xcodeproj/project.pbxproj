@@ -15,6 +15,8 @@
 		8E314C322682296200886F8A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E314C302682296200886F8A /* LaunchScreen.storyboard */; };
 		8E314C3D2682460A00886F8A /* JitsuBasicEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E314C3C2682460A00886F8A /* JitsuBasicEvent.swift */; };
 		8E314C4926827BB600886F8A /* DeviceInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E314C4826827BB600886F8A /* DeviceInfoProvider.swift */; };
+		8E425717268DED2D00F48F92 /* EnrichedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E425716268DED2D00F48F92 /* EnrichedEvent.swift */; };
+		8E42571C268DF5EA00F48F92 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E42571B268DF5EA00F48F92 /* RepeatingTimer.swift */; };
 		8E42F793267B853100421ABE /* JitsuClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E42F792267B853100421ABE /* JitsuClientImpl.swift */; };
 		8E42F79A267B85B200421ABE /* JitsuContextImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E42F799267B85B200421ABE /* JitsuContextImpl.swift */; };
 		8E42F79E267B866500421ABE /* JitsuUserPropertiesImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E42F79D267B866500421ABE /* JitsuUserPropertiesImpl.swift */; };
@@ -43,6 +45,8 @@
 		8EE4D3D62688A0AB00888879 /* EnrichedEventMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE4D3D52688A0AB00888879 /* EnrichedEventMO.swift */; };
 		8EE4D3DE2688A12100888879 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE4D3DD2688A12100888879 /* CoreDataStack.swift */; };
 		8EE4D3F52688B0F700888879 /* ManualCoreDataHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE4D3F42688B0F700888879 /* ManualCoreDataHelpers.swift */; };
+		8EF2D902268E3EDB009B7DB9 /* EventsControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF2D901268E3EDB009B7DB9 /* EventsControllerTests.swift */; };
+		8EF2D90A268E4EA0009B7DB9 /* TestEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF2D909268E4EA0009B7DB9 /* TestEvent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +70,8 @@
 		8E314C332682296200886F8A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E314C3C2682460A00886F8A /* JitsuBasicEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsuBasicEvent.swift; sourceTree = "<group>"; };
 		8E314C4826827BB600886F8A /* DeviceInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfoProvider.swift; sourceTree = "<group>"; };
+		8E425716268DED2D00F48F92 /* EnrichedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrichedEvent.swift; sourceTree = "<group>"; };
+		8E42571B268DF5EA00F48F92 /* RepeatingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatingTimer.swift; sourceTree = "<group>"; };
 		8E42F792267B853100421ABE /* JitsuClientImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsuClientImpl.swift; sourceTree = "<group>"; };
 		8E42F799267B85B200421ABE /* JitsuContextImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsuContextImpl.swift; sourceTree = "<group>"; };
 		8E42F79D267B866500421ABE /* JitsuUserPropertiesImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsuUserPropertiesImpl.swift; sourceTree = "<group>"; };
@@ -97,6 +103,8 @@
 		8EE4D3D52688A0AB00888879 /* EnrichedEventMO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrichedEventMO.swift; sourceTree = "<group>"; };
 		8EE4D3DD2688A12100888879 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		8EE4D3F42688B0F700888879 /* ManualCoreDataHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualCoreDataHelpers.swift; sourceTree = "<group>"; };
+		8EF2D901268E3EDB009B7DB9 /* EventsControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsControllerTests.swift; sourceTree = "<group>"; };
+		8EF2D909268E4EA0009B7DB9 /* TestEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestEvent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +147,15 @@
 			path = ExampleApp;
 			sourceTree = "<group>";
 		};
+		8E425715268DECF200F48F92 /* ProcessingEvents */ = {
+			isa = PBXGroup;
+			children = (
+				8E42F7A3267B8EF400421ABE /* EventsController.swift */,
+				8E425716268DED2D00F48F92 /* EnrichedEvent.swift */,
+			);
+			path = ProcessingEvents;
+			sourceTree = "<group>";
+		};
 		8E42F796267B853B00421ABE /* Implementations */ = {
 			isa = PBXGroup;
 			children = (
@@ -146,7 +163,7 @@
 				8E42F792267B853100421ABE /* JitsuClientImpl.swift */,
 				8E42F799267B85B200421ABE /* JitsuContextImpl.swift */,
 				8E42F79D267B866500421ABE /* JitsuUserPropertiesImpl.swift */,
-				8E42F7A3267B8EF400421ABE /* EventsController.swift */,
+				8E425715268DECF200F48F92 /* ProcessingEvents */,
 				8E95AE7A268B615C00FA0B77 /* BatchesController.swift */,
 				8EAA74F7267B9E7100ED9E9C /* Services */,
 				8EAA74F2267B9C9000ED9E9C /* Storages */,
@@ -208,6 +225,7 @@
 		8EAA74F7267B9E7100ED9E9C /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				8E42571B268DF5EA00F48F92 /* RepeatingTimer.swift */,
 				8EAA74F8267B9E7F00ED9E9C /* NetworkService.swift */,
 				8E314C4826827BB600886F8A /* DeviceInfoProvider.swift */,
 				8EBDBEAB2686032F00EF8756 /* DateService.swift */,
@@ -260,12 +278,30 @@
 		8EC5925C2669848700357A59 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				8EC5925D2669848700357A59 /* JitsuContextTests.swift */,
-				8E95AE96268DA97B00FA0B77 /* JitsuContextStorageTests.swift */,
+				8EF2D900268E3EBF009B7DB9 /* Events */,
+				8EF2D8FF268E3EB4009B7DB9 /* Context */,
 				8E95AE50268B3B3800FA0B77 /* Mocks.swift */,
 				8EC5925F2669848700357A59 /* Info.plist */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		8EF2D8FF268E3EB4009B7DB9 /* Context */ = {
+			isa = PBXGroup;
+			children = (
+				8EC5925D2669848700357A59 /* JitsuContextTests.swift */,
+				8E95AE96268DA97B00FA0B77 /* JitsuContextStorageTests.swift */,
+			);
+			path = Context;
+			sourceTree = "<group>";
+		};
+		8EF2D900268E3EBF009B7DB9 /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				8EF2D901268E3EDB009B7DB9 /* EventsControllerTests.swift */,
+				8EF2D909268E4EA0009B7DB9 /* TestEvent.swift */,
+			);
+			path = Events;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -426,9 +462,11 @@
 				8E95AEA4268DB9AC00FA0B77 /* UserPropertiesStorage.swift in Sources */,
 				8EAA74F9267B9E7F00ED9E9C /* NetworkService.swift in Sources */,
 				8EBDBEAC2686032F00EF8756 /* DateService.swift in Sources */,
+				8E425717268DED2D00F48F92 /* EnrichedEvent.swift in Sources */,
 				8E314C3D2682460A00886F8A /* JitsuBasicEvent.swift in Sources */,
 				8EE4D3D62688A0AB00888879 /* EnrichedEventMO.swift in Sources */,
 				8E95AEAF268DBBA400FA0B77 /* UserPropertiesMO.swift in Sources */,
+				8E42571C268DF5EA00F48F92 /* RepeatingTimer.swift in Sources */,
 				8E95AE40268B33FA00FA0B77 /* StorageLocator.swift in Sources */,
 				8E314C4926827BB600886F8A /* DeviceInfoProvider.swift in Sources */,
 				8E42F7A4267B8EF400421ABE /* EventsController.swift in Sources */,
@@ -450,8 +488,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8EF2D90A268E4EA0009B7DB9 /* TestEvent.swift in Sources */,
 				8EC5925E2669848700357A59 /* JitsuContextTests.swift in Sources */,
 				8E95AE9E268DA9A500FA0B77 /* JitsuContextStorageTests.swift in Sources */,
+				8EF2D902268E3EDB009B7DB9 /* EventsControllerTests.swift in Sources */,
 				8E95AEB3268DC0EA00FA0B77 /* Mocks.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

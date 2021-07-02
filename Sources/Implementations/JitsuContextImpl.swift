@@ -23,7 +23,7 @@ struct ContextValue: Hashable {
 	
 	static func == (lhs: ContextValue, rhs: ContextValue) -> Bool {
 		// we use this equality so values are always updated
-		return lhs.key == rhs.key
+		return lhs.hashValue == rhs.hashValue
 	}
 }
 
@@ -120,17 +120,21 @@ class JitsuContextImpl: JitsuContext {
 			storage.removeContextValue(valueToRemove)
 		}
 	}
+	
+	private var contextQueue = DispatchQueue(label: "com.jitsu.contextQueue")
 		
 	func values(for eventType: EventType?) -> [String: Any] {
-		var values = Set<ContextValue>()
-		values.formUnion($generalContext.value)
-		if let eventType = eventType {
-			let eventSpecificValues = $specificContext.value[eventType] ?? Set()
-			eventSpecificValues.forEach { values.update(with: $0) }
-		}
-		
-		return values.reduce(into: [:]) { (res, contextValue) in
-			res[contextValue.key] = contextValue.value
+		contextQueue.sync {
+			var values = Set<ContextValue>()
+			values.formUnion($generalContext.value)
+			if let eventType = eventType {
+				let eventSpecificValues = $specificContext.value[eventType] ?? Set()
+				eventSpecificValues.forEach { values.update(with: $0) }
+			}
+			
+			return values.reduce(into: [:]) { (res, contextValue) in
+				res[contextValue.key] = contextValue.value
+			}
 		}
 	}
 	

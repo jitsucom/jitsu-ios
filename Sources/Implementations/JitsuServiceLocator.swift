@@ -14,10 +14,10 @@ protocol ServiceLocator {
 	var deviceInfoProvider: DeviceInfoProvider {get}
 	
 	var storageLocator: StorageLocator {get}
+	
+	var timerService: RepeatingTimer {get}
 }
 
-
-/// передаёт зависимости в модуль (может их создавать)
 class ServiceLocatorImpl: ServiceLocator {
 	
 	private var options: JitsuOptions
@@ -32,5 +32,6 @@ class ServiceLocatorImpl: ServiceLocator {
 	
 	lazy var storageLocator: StorageLocator = StorageLocatorImpl()
 	
+	lazy var timerService: RepeatingTimer = RepeatingTimerI()
 
 }
