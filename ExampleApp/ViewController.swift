@@ -10,20 +10,33 @@ import Jitsu
 
 class ViewController: UIViewController {
 	
-	private lazy var button: UIButton = {
+	private lazy var send: UIButton = {
 		let v = UIButton(type: .system)
 		v.addTarget(self, action: #selector(sendEvent), for: .touchUpInside)
 		v.translatesAutoresizingMaskIntoConstraints = false
 		v.setTitle("send", for: .normal)
 		return v
 	}()
+	
+	private lazy var eventsButton: UIButton = {
+		let v = UIButton(type: .system)
+		v.addTarget(self, action: #selector(addEvents), for: .touchUpInside)
+		v.translatesAutoresizingMaskIntoConstraints = false
+		v.setTitle("events", for: .normal)
+		return v
+	}()
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		view.addSubview(button)
+		view.addSubview(send)
+		view.addSubview(eventsButton)
 		NSLayoutConstraint.activate([
-			button.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-			button.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0),
+			send.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+			send.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0),
+		])
+		NSLayoutConstraint.activate([
+			eventsButton.topAnchor.constraint(equalTo: send.bottomAnchor, constant: 0),
+			eventsButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
 		])
 		
 		let options = JitsuOptions(
@@ -43,7 +56,9 @@ class ViewController: UIViewController {
 //		Jitsu.shared.context.removeValue(for: "custom key", for: nil)
 				
 		Jitsu.shared.trackEvent(name: "first tracer bullet event", payload: ["first event payload": "boo"])
-//		Jitsu.shared.sendingBatchesPeriod = 1
+//		Jitsu.shared.sendBatch()
+		
+		//		Jitsu.shared.sendingBatchesPeriod = 1
 //		Jitsu.shared.trackEvent(name: "first event")
 		
 		// output:
@@ -68,9 +83,17 @@ class ViewController: UIViewController {
 	}
 	
 	@objc private func sendEvent() {
-		Jitsu.shared.trackEvent(name: "button event", payload: ["button payload": "b"])
+		print("\n==send==\n")
+		Jitsu.shared.sendBatch()
 	}
 
+	@objc private func addEvents() {
+		print("\n==track==\n")
+		Jitsu.shared.trackEvent(name: "button event", payload: ["button payload": "b"])
+		Jitsu.shared.trackEvent(name: "second event", payload: ["button payload": "b"])
+		Jitsu.shared.trackEvent(name: "third event", payload: ["button payload": "b"])
+
+	}
 
 }
 

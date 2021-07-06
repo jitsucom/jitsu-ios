@@ -8,6 +8,7 @@
 import Foundation
 
 @objc final class DictTransformer: NSSecureUnarchiveFromDataTransformer {
+	
 	override class func transformedValueClass() -> AnyClass {
 		return NSDictionary.self
 	}
@@ -20,6 +21,7 @@ import Foundation
 }
 
 @objc final class ArrayTransformer: NSSecureUnarchiveFromDataTransformer {
+	
 	override class func transformedValueClass() -> AnyClass {
 		return NSArray.self
 	}
@@ -31,15 +33,17 @@ import Foundation
 	static let name = NSValueTransformerName(rawValue: "ArrayTransformer")
 }
 
-
-@objc final class AnyTransformer: NSSecureUnarchiveFromDataTransformer {
+@objc final class NSDataTransfomer: NSSecureUnarchiveFromDataTransformer {
+	
 	override class func transformedValueClass() -> AnyClass {
-		return NSObject.self
+		return NSData.self
 	}
 	
 	override class func allowsReverseTransformation() -> Bool {
 		return true
 	}
 	
-	static let name = NSValueTransformerName(rawValue: "AnyTransformer")
+	static let name = NSValueTransformerName(rawValue: "DataTransformer")
 }
+
+

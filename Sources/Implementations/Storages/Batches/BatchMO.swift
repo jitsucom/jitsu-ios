@@ -12,19 +12,19 @@ import CoreData
 public class BatchMO: NSManagedObject {
 	
 	@NSManaged public var batchId: String
-	@NSManaged public var events: NSArray
-	@NSManaged public var template: NSDictionary
+	@NSManaged public var events: String
+	@NSManaged public var template: String
 }
-
+//
 extension BatchMO {
 	static let batchEntity: NSEntityDescription = {
 		let entity = NSEntityDescription(from: BatchMO.self)
 		
 		entity.addProperty(NSAttributeDescription(name: "batchId", ofType: .stringAttributeType))
 		
-		entity.addProperty(NSAttributeDescription(name: "events", ofType: .transformableAttributeType, valueTransformerName: ArrayTransformer.name))
+		entity.addProperty(NSAttributeDescription(name: "events", ofType: .stringAttributeType))
 		
-		entity.addProperty(NSAttributeDescription(name: "template", ofType: .transformableAttributeType, valueTransformerName: DictTransformer.name))
+		entity.addProperty(NSAttributeDescription(name: "template", ofType: .stringAttributeType))
 		
 		return entity
 	}()
@@ -35,7 +35,6 @@ extension BatchMO {
 	@nonobjc public class func fetchRequest() -> NSFetchRequest<BatchMO> {
 		return NSFetchRequest<BatchMO>(entityName: NSStringFromClass(self))
 	}
-	
 }
 
 extension BatchMO : Identifiable {}

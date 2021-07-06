@@ -19,6 +19,7 @@ let coreDataModel: NSManagedObjectModel = {
 	
 	ValueTransformer.setValueTransformer(DictTransformer(), forName: DictTransformer.name)
 	ValueTransformer.setValueTransformer(ArrayTransformer(), forName: ArrayTransformer.name)
+//	ValueTransformer.setValueTransformer(DataTransformer(), forName: DataTransformer.name)
 	
 	_model.entities = [
 		EnrichedEventMO.eventEntity,

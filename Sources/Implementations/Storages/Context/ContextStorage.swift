@@ -42,10 +42,7 @@ class ContextStorageImpl: ContextStorage {
 		let context = coreDataStack.persistentContainer.newBackgroundContext()
 		removeContextValue(value, context: context)
 		context.perform {
-			let mo = ContextMO(context: context)
-			mo.key = value.key
-			mo.value = [value.key: value.value]
-			mo.eventType = value.eventType ?? ContextMO.genericEvent
+			ContextMO.createModel(with: value, in: context)
 			do {
 				try context.save()
 			} catch {
@@ -111,8 +108,19 @@ extension ContextValue {
 		
 		self.init(
 			key: contextMO.key,
-			value: contextMO.value[contextMO.key] ?? "empty",
+			value: JSON.fromString(contextMO.value) ?? "decoding failed".jsonValue,
 			eventType: eventType
 		)
+	}
+}
+
+extension ContextMO {
+	@discardableResult
+	static func createModel(with value: ContextValue, in context: NSManagedObjectContext) -> ContextMO {
+		let mo = ContextMO(context: context)
+		mo.key = value.key
+		mo.value = value.value.toString()
+		mo.eventType = value.eventType ?? ContextMO.genericEvent
+		return mo
 	}
 }

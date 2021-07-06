@@ -17,19 +17,19 @@ struct EnrichedEvent {
 	var utcTime: String
 	var localTimezoneOffset: Int
 	
-	var payload: [String: Any]
+	var payload: [String: JSON]
 	
-	var context: [String: Any]
+	var context: [String: JSON]
 	
-	var userProperties: [String: Any]
+	var userProperties: [String: JSON]
 	
-	func buildJson() -> [String: Any] {
-		var dict: [String: Any] = [
-			"event_id": eventId,
-			"event_type": name,
+	func buildJson() -> [String: JSON] {
+		var dict: [String: JSON] = [
+			"event_id": eventId.jsonValue,
+			"event_type": name.jsonValue,
 			
-			"utc_time": utcTime,
-			"local_tz_offset": localTimezoneOffset,
+			"utc_time": utcTime.jsonValue,
+			"local_tz_offset": localTimezoneOffset.jsonValue,
 		]
 		dict.merge(payload) { (val1, val2) in return val1 }
 		dict.merge(userProperties) { (val1, val2) in return val1 }

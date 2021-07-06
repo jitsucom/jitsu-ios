@@ -13,7 +13,7 @@ typealias SendEvents = ([EnrichedEvent], @escaping SendEventsCompletion) -> Void
 class EventsController {
 	
 	private(set) var eventsQueueSize: Int = 10
-	private(set) var sendingBatchesPeriod: TimeInterval = 5
+	private(set) var sendingBatchesPeriod: TimeInterval = 500
 	
 	@Atomic private var unbatchedEvents = [EnrichedEvent]()
 	
@@ -39,6 +39,10 @@ class EventsController {
 		}
 	}
 	
+	private func toJSON(_ input: [String: Any]) throws -> [String: JSON] {
+		return try input.mapValues { try JSON($0) }
+	}
+	
 	func add(event: Event, context: [String : Any], userProperties: [String : Any]) {
 		print("dbg adding event \(event.name), context \(context), userProperties \(userProperties)")
 		let enrichedEvent = EnrichedEvent(
@@ -46,9 +50,9 @@ class EventsController {
 			name: event.name,
 			utcTime: Date().utcTime,
 			localTimezoneOffset: Date().minutesFromUTC,
-			payload: event.payload,
-			context: context,
-			userProperties: userProperties
+			payload: try! toJSON(event.payload),
+			context: try! toJSON(context),
+			userProperties:try! toJSON(userProperties)
 		)
 		$unbatchedEvents.mutate {$0.append(enrichedEvent)}
 		eventStorage.saveEvent(enrichedEvent)
@@ -60,7 +64,7 @@ class EventsController {
 	
 	func sendEvents() {
 		if $unbatchedEvents.value.count == 0 {
-			print("events controller: zero events)")
+			print("events controller: zero events")
 			return
 		}
 		
@@ -68,9 +72,6 @@ class EventsController {
 		
 		print("events controller: passing \(unbatchedEvents.map{$0.name})")
 		let batchEventIds = Set(unbatchedEvents.map {$0.eventId})
-		$unbatchedEvents.mutate { state in
-			state.removeAll { batchEventIds.contains($0.eventId) }
-		}
 		
 		out(unbatchedEvents) {[weak self] success in
 			if success {
@@ -78,6 +79,10 @@ class EventsController {
 			} else {
 				
 			}
+		}
+		
+		$unbatchedEvents.mutate { state in
+			state.removeAll { batchEventIds.contains($0.eventId) }
 		}
 	}
 	

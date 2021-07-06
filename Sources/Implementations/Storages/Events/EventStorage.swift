@@ -27,7 +27,7 @@ class EventStorageImpl: EventStorage {
 		do {
 			let result: [EnrichedEventMO] = try context.fetch(fetchRequest)
 			print("fetched events: \(result.map {($0.name, $0.eventId)} )")
-			let eventsFromDatabase = result.map { EnrichedEvent(eventMO: $0) }
+			let eventsFromDatabase = result.map { EnrichedEvent(mo: $0) }
 			completion(eventsFromDatabase)
 			
 		} catch {
@@ -36,19 +36,11 @@ class EventStorageImpl: EventStorage {
 			completion([])
 		}
 	}
-
+	
 	func saveEvent(_ event: EnrichedEvent) {
 		let context = coreDataStack.persistentContainer.newBackgroundContext()
 		context.perform {
-			let mo = EnrichedEventMO(context: context)
-			mo.eventId = event.eventId
-			mo.name = event.name
-			mo.utcTime = event.utcTime
-			mo.timezone = event.localTimezoneOffset
-			mo.payload = NSDictionary(dictionary: event.payload)
-			mo.context = NSDictionary(dictionary: event.context)
-			mo.userProperties = NSDictionary(dictionary: event.userProperties)
-
+			EnrichedEventMO.createModel(with: event, in: context)
 			do {
 				try context.save()
 			} catch {
@@ -81,15 +73,31 @@ class EventStorageImpl: EventStorage {
 }
 
 extension EnrichedEvent {
-	init(eventMO: EnrichedEventMO) {
+	init(mo: EnrichedEventMO) {
 		self.init(
-			eventId: eventMO.eventId,
-			name: eventMO.name,
-			utcTime: eventMO.utcTime,
-			localTimezoneOffset: eventMO.timezone,
-			payload: Dictionary(_immutableCocoaDictionary: eventMO.payload),
-			context: Dictionary(_immutableCocoaDictionary: eventMO.context),
-			userProperties: Dictionary(_immutableCocoaDictionary: eventMO.userProperties)
+			eventId: mo.eventId,
+			name: mo.name,
+			utcTime: mo.utcTime,
+			localTimezoneOffset: mo.timezone,
+			payload: try! (mo.payload as! [String: String]).mapValues {try JSON($0)},
+			context: try! (mo.payload as! [String: String]).mapValues {try JSON($0)},
+			userProperties: try! (mo.payload as! [String: String]).mapValues {try JSON($0)}
 		)
+	}
+}
+
+extension EnrichedEventMO {
+	@discardableResult
+	static func createModel(with event: EnrichedEvent, in context: NSManagedObjectContext) -> EnrichedEventMO {
+		let mo = EnrichedEventMO(context: context)
+		mo.eventId = event.eventId
+		mo.name = event.name
+		mo.utcTime = event.utcTime
+		mo.timezone = event.localTimezoneOffset
+		mo.payload = event.payload.mapValues { $0.toString() } as NSDictionary
+		mo.context = event.context.mapValues { $0.toString() } as NSDictionary
+		mo.userProperties = event.userProperties.mapValues { $0.toString() } as NSDictionary
+		
+		return mo
 	}
 }

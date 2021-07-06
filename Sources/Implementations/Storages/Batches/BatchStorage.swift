@@ -28,7 +28,7 @@ class BatchStorageImpl: BatchStorage {
 			let result: [BatchMO] = try context.fetch(fetchRequest)
 			print("fetched batches: \(result.map{$0.batchId})")
 		
-			let batchesFromDatabase = result.map { Batch(batchMO: $0) }
+			let batchesFromDatabase = result.map { Batch(mo: $0) }
 			completion(batchesFromDatabase)
 			
 		} catch {
@@ -41,10 +41,7 @@ class BatchStorageImpl: BatchStorage {
 	func saveBatch(_ batch: Batch) {
 		let context = coreDataStack.persistentContainer.newBackgroundContext()
 		context.perform {
-			let mo = BatchMO(context: context)
-			mo.batchId = batch.batchId
-			mo.events = NSArray(array: batch.events)
-			mo.template = NSDictionary(dictionary: batch.template)
+			BatchMO.createModel(with: batch, in: context)
 			do {
 				try context.save()
 			} catch {
@@ -73,11 +70,35 @@ class BatchStorageImpl: BatchStorage {
 }
 
 extension Batch {
-	init(batchMO: BatchMO) {
-		self.init(
-			batchId: batchMO.batchId,
-			events: Array(_immutableCocoaArray: batchMO.events),
-			template: Dictionary(_immutableCocoaDictionary: batchMO.template)
-		)
+	init(mo: BatchMO) {
+		let events = Batch.deserializeEvents(from: mo.events)
+		self.init(batchId: mo.batchId,
+				  events: events,
+				  template: [:])
+	}
+	
+	static func deserializeEvents(from str: String) -> [[String: JSON]] {
+		let eventsJSON = JSON.fromString(str)!
+		let eventsJSONArray = eventsJSON.arrayValue!
+		let new = eventsJSONArray.map { value -> [String: JSON] in
+			let dict = value as! [String: Any]
+			let jsonDict = dict.mapValues { try! JSON($0) }
+			return jsonDict
+		}
+		return new
+	}
+}
+
+
+extension BatchMO {
+	@discardableResult
+	static func createModel(with value: Batch, in context: NSManagedObjectContext) -> BatchMO {
+		let mo = BatchMO(context: context)
+		mo.batchId = value.batchId
+		
+		mo.events = try! JSON.toString(value.events)
+
+		mo.template = try! JSON.toString(value.template)
+		return mo
 	}
 }

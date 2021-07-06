@@ -11,7 +11,7 @@ import CoreData
 @objc(ContextMO)
 public class ContextMO: NSManagedObject {
 	@NSManaged public var key: String
-	@NSManaged public var value: NSDictionary
+	@NSManaged public var value: String
 	@NSManaged public var eventType: String?
 }
 
@@ -23,7 +23,7 @@ extension ContextMO {
 		
 		entity.addProperty(NSAttributeDescription(name: "key", ofType: .stringAttributeType))
 		
-		entity.addProperty(NSAttributeDescription(name: "value", ofType: .transformableAttributeType, valueTransformerName: DictTransformer.name))
+		entity.addProperty(NSAttributeDescription(name: "value", ofType: .stringAttributeType))
 		
 		entity.addProperty(NSAttributeDescription(name: "eventType", ofType: .stringAttributeType))
 		

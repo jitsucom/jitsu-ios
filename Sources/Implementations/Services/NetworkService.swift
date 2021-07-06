@@ -47,6 +47,10 @@ class NetworkServiceImpl: NetworkService {
 	}
 	
 	func sendBatch(_ batch: Batch, completion: @escaping SendBatchCompletion) {
+		print(batch.batchId)
+		print(batch)
+		print(batch.events)
+
 		let url = URL(string: host)!
 		var request = URLRequest(url: url)
 		request.httpMethod = "POST"
@@ -56,11 +60,8 @@ class NetworkServiceImpl: NetworkService {
 		let body = jsonFromBatch(batch, apiKey: apiKey)
 		print("sending: \(body)")
 		
-		request.httpBody = try? JSONSerialization.data(
-			withJSONObject: body,
-			options: .prettyPrinted
-		)
-		
+		request.httpBody = body.data(using: .utf8)
+
 		let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
 			guard let response = response as? HTTPURLResponse else {
 				completion(.failure(.networkError(description: "\(String(describing: error))")))
@@ -77,16 +78,15 @@ class NetworkServiceImpl: NetworkService {
 		task.resume()
 	}
 			
-	private func jsonFromBatch(_ batch: Batch, apiKey: String) -> [String: Any] {
-		
+	private func jsonFromBatch(_ batch: Batch, apiKey: String) -> String {
 		var template = batch.template
-		template["api_key"] = apiKey
+		template["api_key"] = apiKey.jsonValue
 		
-		return [
+		let json = try! JSON([
 			"template": template,
-			"events": {
-				batch.events
-			}()
-		]
+			"events": batch.events
+		])
+		
+		return json.toString()
 	}
 }

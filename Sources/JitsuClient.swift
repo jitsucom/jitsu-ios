@@ -7,31 +7,6 @@
 
 import Foundation
 
-
-@objc public final class Jitsu: NSObject {
-	
-	@objc static public var shared: JitsuClient {
-		if let _shared = _shared {
-			return _shared
-		}
-		fatalError("Jitsu: you should initialize Jitsu with setupClient before using it")
-	}
-	
-	@objc public static func setupClient(with options: JitsuOptions) {
-		if (_shared == nil) {
-			let serviceLocator = ServiceLocatorImpl(options: options)
-			_shared = JitsuClientImpl(deps: serviceLocator)
-		}
-	}
-	
-	static private var _shared: JitsuClient?
-	
-	private override init() {
-		super.init()
-	}
-}
-
-
 public typealias EventType = String
 
 /// Manages SDK behaviour.
@@ -94,7 +69,7 @@ public typealias EventType = String
 	///   - values: properties
 	///   - eventTypes: apply permanent properties to only certain event types (applied to all types if `nil`).
 	///   - persist: if true, properties are saved between launches. true by default
-	func addValues(_ values: [JitsuContext.Key: Any], for eventTypes: [EventType]?, persist: Bool)
+	func addValues(_ values: [JitsuContext.Key: Any], for eventTypes: [EventType]?, persist: Bool) throws
 	
 	/// Use this method to remove value for key for certain event types.
 	/// - Parameters:
@@ -110,6 +85,17 @@ public typealias EventType = String
 	/// Value applied to specific type overshadows general value
 	/// (e.g. if general context has "foo": "1", and private has "foo": "2", you will get "foo": "2").
 	func values(for eventType: EventType?) -> [String : Any]
+	
+}
+
+extension JitsuContext {
+	public func addCodableValues<T: Codable>(_ values: [JitsuContext.Key : T], for eventTypes: [EventType]?, persist: Bool) throws {
+		let jsonValues = try values.mapValues { (value) -> JSON in
+			return try JSON(withCodable: value)
+		}
+		
+		try addValues(jsonValues, for: eventTypes, persist: persist)
+	}
 }
 
 /// Manages user properties.

@@ -9,7 +9,7 @@ import Foundation
 
 struct ContextValue: Hashable {
 	var key: JitsuContext.Key
-	var value: Any
+	var value: JSON
 	var eventType: EventType?
 	
 	func hash(into hasher: inout Hasher) {
@@ -46,25 +46,36 @@ class JitsuContextImpl: JitsuContext {
 			addValue(value, persist: false)
 		}
 		
-		addValues(localeInfo, for: nil, persist: false)
-		addValues(appInformation, for: nil, persist: false)
+		try? addValues(localeInfo, for: nil, persist: false)
+		try? addValues(appInformation, for: nil, persist: false)
 		// todo: addValues: accessibility info
 
 		getDeviceInfo { [weak self] deviceInfo in
 			guard let self = self else {return}
 			self.deviceInfo = deviceInfo
-			self.addValues(deviceInfo, for: nil, persist: false)
+			try? self.addValues(deviceInfo, for: nil, persist: false)
 			completion()
 		}
 	}
 	
 	// MARK: - JitsuContext
+	func addValues(_ values: [JitsuContext.Key : Any], for eventTypes: [EventType]?, persist: Bool) throws {
+		let jsonValues = try values.mapValues { (value) -> JSON in
+			return try JSON(value)
+		}
+		
+		addValues(jsonValues, for: eventTypes, persist: persist)
+	}
 	
-	func addValues(_ values: [JitsuContext.Key : Any], for eventTypes: [EventType]?, persist: Bool) {
+	func addValues(_ values: [JitsuContext.Key : JSON], for eventTypes: [EventType]?, persist: Bool) {
 		var newValues = [ContextValue]()
 		if let eventTypes = eventTypes {
 			for eventType in eventTypes {
-				newValues = values.map { ContextValue(key: $0.key, value: $0.value, eventType: eventType) }
+				newValues = values.map {
+					ContextValue(key: $0.key,
+								 value: $0.value,
+								 eventType: eventType)
+				}
 			}
 		} else {
 			newValues = values.map { ContextValue(key: $0.key, value: $0.value, eventType: nil) }

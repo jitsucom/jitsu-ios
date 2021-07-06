@@ -13,7 +13,6 @@ struct UserPropertiesModel {
 	var userIdentifier: String?
 	var email: String?
 	var otherIdentifiers = [String : String]()
-
 }
 
 protocol UserPropertiesStorage {
