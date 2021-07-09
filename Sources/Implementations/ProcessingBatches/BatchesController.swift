@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 typealias SendBatchCompletion = (Result<Batch.BatchId, NetworkServiceError>) -> Void
 typealias SendBatch = (Batch, @escaping SendBatchCompletion) -> Void
 
@@ -34,7 +33,7 @@ class BatchesController {
 	}
 	
 	func processEvents(_ events: [EnrichedEvent], completion: @escaping SendEventsCompletion) {
-		let batch = buildBatch(unbatchedEvents: events)
+		let batch = Self.buildBatch(unbatchedEvents: events)
 		completion(true)
 		
 		unsentBatches.append(batch)
@@ -58,7 +57,7 @@ class BatchesController {
 		}
 	}
 
-	private func buildBatch(unbatchedEvents: [EnrichedEvent]) -> Batch {
+	static func buildBatch(unbatchedEvents: [EnrichedEvent]) -> Batch {
 		return Batch(
 			batchId: UUID().uuidString,
 			events: unbatchedEvents,
