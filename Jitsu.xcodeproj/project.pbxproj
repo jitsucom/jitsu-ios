@@ -9,10 +9,14 @@
 /* Begin PBXBuildFile section */
 		8E21917026976EE6009D067A /* Jitsu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EC5924F2669848700357A59 /* Jitsu.framework */; };
 		8E21917126976EE6009D067A /* Jitsu.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8EC5924F2669848700357A59 /* Jitsu.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8E21917926986003009D067A /* ContextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E21917826986003009D067A /* ContextViewController.swift */; };
+		8E21917D26988006009D067A /* CtxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E21917C26988006009D067A /* CtxCell.swift */; };
+		8E219181269882A3009D067A /* AddContextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E219180269882A3009D067A /* AddContextCell.swift */; };
+		8E2BB712269909ED008505EE /* JsonPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2BB711269909ED008505EE /* JsonPresentation.swift */; };
 		8E2E8B062692440B00C90CBC /* SerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2E8B052692440B00C90CBC /* SerializerTests.swift */; };
 		8E314C262682295F00886F8A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E314C252682295F00886F8A /* AppDelegate.swift */; };
 		8E314C282682295F00886F8A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E314C272682295F00886F8A /* SceneDelegate.swift */; };
-		8E314C2A2682295F00886F8A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E314C292682295F00886F8A /* ViewController.swift */; };
+		8E314C2A2682295F00886F8A /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E314C292682295F00886F8A /* EventsViewController.swift */; };
 		8E314C2D2682295F00886F8A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E314C2B2682295F00886F8A /* Main.storyboard */; };
 		8E314C2F2682296200886F8A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E314C2E2682296200886F8A /* Assets.xcassets */; };
 		8E314C322682296200886F8A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E314C302682296200886F8A /* LaunchScreen.storyboard */; };
@@ -58,7 +62,7 @@
 		8EE4D3F52688B0F700888879 /* ManualCoreDataHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE4D3F42688B0F700888879 /* ManualCoreDataHelpers.swift */; };
 		8EF2D902268E3EDB009B7DB9 /* EventsControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF2D901268E3EDB009B7DB9 /* EventsControllerTests.swift */; };
 		8EF2D90A268E4EA0009B7DB9 /* TestEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF2D909268E4EA0009B7DB9 /* TestEvent.swift */; };
-		8EFFAC2D2697263A003A3A73 /* RandomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFFAC2C2697263A003A3A73 /* RandomColor.swift */; };
+		8EFFAC2D2697263A003A3A73 /* UIHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFFAC2C2697263A003A3A73 /* UIHelpers.swift */; };
 		8EFFAC3626972812003A3A73 /* AddEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFFAC3526972812003A3A73 /* AddEventCell.swift */; };
 		8EFFAC3E26972EE0003A3A73 /* SimpleEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFFAC3D26972EE0003A3A73 /* SimpleEvent.swift */; };
 /* End PBXBuildFile section */
@@ -95,11 +99,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8E21917826986003009D067A /* ContextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextViewController.swift; sourceTree = "<group>"; };
+		8E21917C26988006009D067A /* CtxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CtxCell.swift; sourceTree = "<group>"; };
+		8E219180269882A3009D067A /* AddContextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContextCell.swift; sourceTree = "<group>"; };
+		8E2BB711269909ED008505EE /* JsonPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonPresentation.swift; sourceTree = "<group>"; };
 		8E2E8B052692440B00C90CBC /* SerializerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializerTests.swift; sourceTree = "<group>"; };
 		8E314C232682295F00886F8A /* ExampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E314C252682295F00886F8A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E314C272682295F00886F8A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		8E314C292682295F00886F8A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		8E314C292682295F00886F8A /* EventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
 		8E314C2C2682295F00886F8A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8E314C2E2682296200886F8A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8E314C312682296200886F8A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -149,7 +157,7 @@
 		8EE4D3F42688B0F700888879 /* ManualCoreDataHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualCoreDataHelpers.swift; sourceTree = "<group>"; };
 		8EF2D901268E3EDB009B7DB9 /* EventsControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsControllerTests.swift; sourceTree = "<group>"; };
 		8EF2D909268E4EA0009B7DB9 /* TestEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestEvent.swift; sourceTree = "<group>"; };
-		8EFFAC2C2697263A003A3A73 /* RandomColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomColor.swift; sourceTree = "<group>"; };
+		8EFFAC2C2697263A003A3A73 /* UIHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelpers.swift; sourceTree = "<group>"; };
 		8EFFAC3526972812003A3A73 /* AddEventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventCell.swift; sourceTree = "<group>"; };
 		8EFFAC3D26972EE0003A3A73 /* SimpleEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleEvent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -188,18 +196,30 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		8E21917726985FE5009D067A /* ContextController */ = {
+			isa = PBXGroup;
+			children = (
+				8E21917826986003009D067A /* ContextViewController.swift */,
+				8E21917C26988006009D067A /* CtxCell.swift */,
+				8E219180269882A3009D067A /* AddContextCell.swift */,
+			);
+			path = ContextController;
+			sourceTree = "<group>";
+		};
 		8E314C242682295F00886F8A /* ExampleApp */ = {
 			isa = PBXGroup;
 			children = (
 				8E314C252682295F00886F8A /* AppDelegate.swift */,
 				8E314C272682295F00886F8A /* SceneDelegate.swift */,
 				8EFFAC3D26972EE0003A3A73 /* SimpleEvent.swift */,
+				8E21917726985FE5009D067A /* ContextController */,
 				8EFFAC3426972801003A3A73 /* EventsController */,
-				8EFFAC2C2697263A003A3A73 /* RandomColor.swift */,
+				8EFFAC2C2697263A003A3A73 /* UIHelpers.swift */,
 				8E314C2B2682295F00886F8A /* Main.storyboard */,
 				8E314C2E2682296200886F8A /* Assets.xcassets */,
 				8E314C302682296200886F8A /* LaunchScreen.storyboard */,
 				8E314C332682296200886F8A /* Info.plist */,
+				8E2BB711269909ED008505EE /* JsonPresentation.swift */,
 			);
 			path = ExampleApp;
 			sourceTree = "<group>";
@@ -411,7 +431,7 @@
 		8EFFAC3426972801003A3A73 /* EventsController */ = {
 			isa = PBXGroup;
 			children = (
-				8E314C292682295F00886F8A /* ViewController.swift */,
+				8E314C292682295F00886F8A /* EventsViewController.swift */,
 				8EFFAC452697460E003A3A73 /* Views */,
 			);
 			path = EventsController;
@@ -570,15 +590,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E21917926986003009D067A /* ContextViewController.swift in Sources */,
 				8EFFAC3626972812003A3A73 /* AddEventCell.swift in Sources */,
 				8E768E742697151B0061AD8A /* EventCell.swift in Sources */,
-				8E314C2A2682295F00886F8A /* ViewController.swift in Sources */,
+				8E21917D26988006009D067A /* CtxCell.swift in Sources */,
+				8E314C2A2682295F00886F8A /* EventsViewController.swift in Sources */,
 				8E768E7E269720860061AD8A /* MenuToolbar.swift in Sources */,
 				8E768E79269719BD0061AD8A /* SendToolbar.swift in Sources */,
 				8E314C262682295F00886F8A /* AppDelegate.swift in Sources */,
 				8EFFAC3E26972EE0003A3A73 /* SimpleEvent.swift in Sources */,
+				8E2BB712269909ED008505EE /* JsonPresentation.swift in Sources */,
 				8E314C282682295F00886F8A /* SceneDelegate.swift in Sources */,
-				8EFFAC2D2697263A003A3A73 /* RandomColor.swift in Sources */,
+				8EFFAC2D2697263A003A3A73 /* UIHelpers.swift in Sources */,
+				8E219181269882A3009D067A /* AddContextCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

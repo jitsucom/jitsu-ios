@@ -1,23 +1,27 @@
 //
-//  EventCell.swift
+//  CtxCell.swift
 //  ExampleApp
 //
-//  Created by Leonid Serebryanyy on 08.07.2021.
+//  Created by Leonid Serebryanyy on 09.07.2021.
 //
 
 import Foundation
 import UIKit
 
-class EventCell: UITableViewCell {
+class CtxCell: UITableViewCell {
 	
 	// MARK: - Public
 	
-	func setEvent(_ event: EventModel?) {
-		self.event = event
-		if let event = event {
-			eventNameLabel.text = event.event.name
-			timeLabel.text = event.time
-			payloadLabel.text = toString(event.event.payload )
+	func setContextValue(_ value: ContextValue?) {
+		self.value = value
+		if let value = value {
+			eventNameLabel.text = value.eventTypes?.reduce(into: "", { (result, type) in
+				result += "\(type),"
+			})
+			_ = eventNameLabel.text?.popLast()
+			
+			timeLabel.text = value.time
+			payloadLabel.text = toString(value.value)
 		}
 	}
 	
@@ -28,7 +32,7 @@ class EventCell: UITableViewCell {
 		v.translatesAutoresizingMaskIntoConstraints = false
 		v.numberOfLines = 1
 		v.font = UIFont.systemFont(ofSize: 12, weight: .regular)
-
+		
 		return v
 	}()
 	
@@ -50,7 +54,7 @@ class EventCell: UITableViewCell {
 		return v
 	}()
 	
-	private var event: EventModel? = nil
+	private var value: ContextValue? = nil
 	
 	// MARK: - Setup
 	
@@ -84,7 +88,7 @@ class EventCell: UITableViewCell {
 		
 		NSLayoutConstraint.activate([
 			timeLabel.topAnchor.constraint(equalTo: eventNameLabel.topAnchor, constant: 0),
-			timeLabel.leadingAnchor.constraint(equalTo: eventNameLabel.trailingAnchor, constant: 16),
+			timeLabel.leadingAnchor.constraint(greaterThanOrEqualTo: eventNameLabel.trailingAnchor, constant: 16),
 			timeLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
 		])
 		

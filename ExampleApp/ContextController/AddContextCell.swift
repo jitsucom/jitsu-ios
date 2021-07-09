@@ -1,37 +1,38 @@
 //
-//  AddEventCell.swift
+//  AddContextValueCell.swift
 //  ExampleApp
 //
-//  Created by Leonid Serebryanyy on 08.07.2021.
+//  Created by Leonid Serebryanyy on 09.07.2021.
 //
 
 import Foundation
 import UIKit
 
-class AddEventCell: UITableViewCell {
+class AddContextCell: UITableViewCell {
 	
 	// MARK: - Public
 	
-	var eventCreated: ((String, [String: Any]?) -> Void)?
+	var valueCreated: ((ContextValue) -> Void)?
 	var hack: (()-> Void)?
-
+	
 	// MARK: - Private
 	
-	private lazy var nameField: UITextField = {
-		let v = UITextField()
-		v.translatesAutoresizingMaskIntoConstraints = false
-		v.returnKeyType = .done
-		v.backgroundColor = .systemBackground
-		v.placeholder = "Tap to enter name of the event"
-		return v
-	}()
-	
-	private var payloadViewPlaceholder = "Tap to enter payload as JSON"
 	private lazy var payloadView: UITextView = {
 		let v = UITextView()
 		v.translatesAutoresizingMaskIntoConstraints = false
 		v.isScrollEnabled = false
 		v.delegate = self
+		return v
+	}()
+	
+	private var nameFieldPlaceholder = "Enter event types, separated by commas, or leave empty"
+	private lazy var nameField: UITextField = {
+		let v = UITextField()
+		v.translatesAutoresizingMaskIntoConstraints = false
+		v.returnKeyType = .done
+		v.backgroundColor = .systemBackground
+		v.placeholder = nameFieldPlaceholder
+		v.font = UIFont.systemFont(ofSize: 10)
 		return v
 	}()
 	
@@ -44,7 +45,7 @@ class AddEventCell: UITableViewCell {
 	}()
 	
 	private var tapGesture: UITapGestureRecognizer = {
-		let v =  UITapGestureRecognizer(target: self, action: #selector(cellTapped))
+		let v = UITapGestureRecognizer(target: self, action: #selector(cellTapped))
 		v.numberOfTapsRequired = 1
 		return v
 	}()
@@ -69,7 +70,7 @@ class AddEventCell: UITableViewCell {
 		addGestureRecognizer(tapGesture)
 		backgroundColor = .randomColor
 		showPlaceholder()
-
+		
 		updateConstraints()
 	}
 	
@@ -78,31 +79,31 @@ class AddEventCell: UITableViewCell {
 	override class var requiresConstraintBasedLayout: Bool {
 		return true
 	}
-		
+	
 	private var payloadViewHeight: NSLayoutConstraint?
 	
 	override func updateConstraints() {
 		NSLayoutConstraint.activate([
-			nameField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-			nameField.heightAnchor.constraint(equalToConstant: 40),
-			nameField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-			nameField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-		])
-		
-		NSLayoutConstraint.activate([
-			payloadView.topAnchor.constraint(equalTo: nameField.bottomAnchor, constant: 8),
+			payloadView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
 			payloadView.heightAnchor.constraint(greaterThanOrEqualToConstant: 40),
-			payloadView.leadingAnchor.constraint(equalTo: nameField.leadingAnchor, constant: 0),
-			payloadView.widthAnchor.constraint(equalTo: nameField.widthAnchor, multiplier: 3/4),
-			payloadView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+			payloadView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+			payloadView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
 		])
 		
 		NSLayoutConstraint.activate([
-			doneButton.topAnchor.constraint(equalTo: payloadView.topAnchor, constant: 8),
-			doneButton.heightAnchor.constraint(equalToConstant: 16),
-			doneButton.trailingAnchor.constraint(equalTo: nameField.trailingAnchor, constant: -16),
+			nameField.topAnchor.constraint(equalTo: payloadView.bottomAnchor, constant: 8),
+			nameField.heightAnchor.constraint(equalToConstant: 40),
+			nameField.leadingAnchor.constraint(equalTo: payloadView.leadingAnchor, constant: 0),
+			nameField.widthAnchor.constraint(equalTo: payloadView.widthAnchor, multiplier: 3/4),
+			nameField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
 		])
-			
+		
+		NSLayoutConstraint.activate([
+			doneButton.topAnchor.constraint(equalTo: nameField.topAnchor, constant: 8),
+			doneButton.heightAnchor.constraint(equalToConstant: 16),
+			doneButton.trailingAnchor.constraint(equalTo: payloadView.trailingAnchor, constant: -16),
+		])
+		
 		super.updateConstraints()
 	}
 	
@@ -114,23 +115,24 @@ class AddEventCell: UITableViewCell {
 	}
 	
 	@objc func doneButtonPressed() {
-		guard let eventType = nameField.text, eventType.count > 0 else {
+		guard let contextText = payloadView.text, contextText.count > 0 else {
 			showError(view: nameField)
 			return
 		}
 		
-		var payload = [String: Any]()
-		
-		if let payloadText = payloadView.text, payloadText.count > 0, payloadText != payloadViewPlaceholder {
-			guard let payloadJson = try? toJson(payloadText) as? [String: Any] else {
-				showError(view: payloadView)
-				return
-			}
-			payload = payloadJson
+		guard let contextJson = try? toJson(contextText) as? [String: Any] else {
+			showError(view: payloadView)
+			return
 		}
 		
+		let eventType = nameField.text ?? ""
+		let eventTypes = eventType.split(separator: ",").map {String($0)}
 		
-		eventCreated?(eventType, payload)
+		valueCreated?(
+			ContextValue(value: contextJson,
+						 eventTypes:eventTypes
+			)
+		)
 		clear()
 	}
 	
@@ -153,9 +155,9 @@ class AddEventCell: UITableViewCell {
 	}
 }
 
-extension AddEventCell: UITextViewDelegate {
+extension AddContextCell: UITextViewDelegate {
 	func textViewDidBeginEditing(_ textView: UITextView) {
-		if textView.text.starts(with: payloadViewPlaceholder) {
+		if textView.text.starts(with: "Tap to") {
 			hidePlaceholder()
 		}
 	}
@@ -171,26 +173,8 @@ extension AddEventCell: UITextViewDelegate {
 		}
 	}
 	
-//	func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
-//		guard let text = textView.text, text.count > 0 else {
-//			textView.endEditing(true)
-//			return true
-//		}
-//
-//		if let _ = try? toJson(text) as? [String: Any] {
-//			return true
-//		}
-//
-//		textView.backgroundColor = .systemRed
-//		UIView.animate(withDuration: 0.2) {
-//			textView.backgroundColor = .systemBackground
-//		}
-//
-//		return false
-//	}
-	
 	func showPlaceholder() {
-		payloadView.text = payloadViewPlaceholder
+		payloadView.text = "Tap to enter context value as JSON"
 		payloadView.textColor = .placeholderText
 	}
 	

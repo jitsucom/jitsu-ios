@@ -19,3 +19,14 @@ extension UIColor {
 		)
 	}
 }
+
+func showError(view: UIView) {
+	let backgroundColor = view.backgroundColor
+	UIView.animate(withDuration: 0.2) {
+		view.backgroundColor = UIColor.systemRed.withAlphaComponent(0.7)
+	} completion: { _ in
+		UIView.animate(withDuration: 0.3) {
+			view.backgroundColor = backgroundColor
+		}
+	}
+}

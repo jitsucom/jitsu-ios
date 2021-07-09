@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  EventsViewController.swift
 //  ExampleApp
 //
 //  Created by Leonid Serebryanyy on 22.06.2021.
@@ -13,7 +13,7 @@ class EventModel {
 	var sent: Bool = false
 	var time: String
 	
-	internal init(event: Event, sent: Bool = false) {
+	init(event: Event, sent: Bool = false) {
 		self.event = event
 		self.sent = sent
 		
@@ -24,7 +24,7 @@ class EventModel {
 	}
 }
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class EventsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 	
 	private let eventCellReuseId = "eventCellReuseId"
 	private let addEventCellReuseId = "addEventCellReuseId"
@@ -41,13 +41,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 		return v
 	}()
 	
-	private lazy var contextToolbar: UIView = {
-		let v = MenuToolbar()
-		v.translatesAutoresizingMaskIntoConstraints = false
-		
-		return v
-	}()
-	
 	private lazy var sendToolbar: UIView = {
 		let v = SendToolbar()
 		v.sendBatch = { [weak self] in
@@ -61,23 +54,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		view.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(eventsTable)
 		view.addSubview(sendToolbar)
-		view.addSubview(contextToolbar)
 		
-		self.bottomConstraint = contextToolbar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
-		
-		NSLayoutConstraint.activate([
-			contextToolbar.heightAnchor.constraint(equalToConstant: 60),
-			bottomConstraint,
-			contextToolbar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
-			contextToolbar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-		])
+		self.bottomConstraint = sendToolbar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
 		
 		NSLayoutConstraint.activate([
 			sendToolbar.heightAnchor.constraint(equalToConstant: 60),
-			sendToolbar.bottomAnchor.constraint(equalTo: contextToolbar.topAnchor, constant: 0),
+			self.bottomConstraint,
 			sendToolbar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
 			sendToolbar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
 		])
@@ -89,15 +73,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 			eventsTable.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
 		])
 		
-		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil);
-		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil);
-
-		let options = JitsuOptions(
-			apiKey: "js.kxp33.aefbvu0v5guetjki2ymz6",
-			trackingHost: "https://t.jitsu.com/api/v1/event"
-		)
-		
-		Jitsu.setupClient(with: options)
+		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
 	}
 	
 	private var events = [EventModel]()
@@ -150,10 +127,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 		return 1000
 	}
 	
-//	func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//		keyboard
-//	}
-	
+
 	// MARK: - Actions
 	
 	func addEvent(_ eventType: String, eventPayload: [String: Any]? = nil) {
