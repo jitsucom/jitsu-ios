@@ -18,11 +18,11 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Events" image="paperplane.fill" catalog="system" id="8Ze-uw-tae"/>
+                    <tabBarItem key="tabBarItem" title="Events" image="paperplane" catalog="system" id="8Ze-uw-tae"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="783" y="-453"/>
+            <point key="canvasLocation" x="1799" y="-890"/>
         </scene>
         <!--Context-->
         <scene sceneID="gpn-kW-oSU">
@@ -38,7 +38,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RUS-RR-tfe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="823" y="287"/>
+            <point key="canvasLocation" x="1799" y="-129"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="afi-2Q-kyB">
@@ -52,16 +52,34 @@
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="PTN-3O-Eny"/>
                         <segue destination="ofa-j8-3dD" kind="relationship" relationship="viewControllers" id="Kve-Cs-jlX"/>
+                        <segue destination="sAp-Ec-DHa" kind="relationship" relationship="viewControllers" id="yYu-Op-baL"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vkR-SO-xKD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-665" y="29"/>
+            <point key="canvasLocation" x="-397" y="94"/>
+        </scene>
+        <!--Profile-->
+        <scene sceneID="Qli-0n-fyR">
+            <objects>
+                <viewController id="sAp-Ec-DHa" customClass="UserProfileViewController" customModule="ExampleApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ZD0-1r-ft8">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="wxv-zP-HW0"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Profile" image="person" catalog="system" id="thx-20-Vx0"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Yjl-Fc-fsW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1799" y="613"/>
         </scene>
     </scenes>
     <resources>
         <image name="globe" catalog="system" width="128" height="121"/>
-        <image name="paperplane.fill" catalog="system" width="128" height="118"/>
+        <image name="paperplane" catalog="system" width="128" height="118"/>
+        <image name="person" catalog="system" width="128" height="117"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

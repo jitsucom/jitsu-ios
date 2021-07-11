@@ -16,11 +16,7 @@ struct ContextValue {
 	init(value: [String: Any], eventTypes: [String]?) {
 		self.value = value
 		self.eventTypes = eventTypes
-		
-		let formatter = DateFormatter()
-		formatter.dateStyle = .none
-		formatter.timeStyle = .medium
-		self.time = formatter.string(from: Date())
+		self.time = Date().timeString
 	}
 }
 
@@ -131,16 +127,16 @@ class ContextViewController: UIViewController, UITableViewDataSource, UITableVie
 		}
 	}
 	
-	
 	// MARK: - Keyboard
 	
 	@objc private func keyboardWillShow(notification: Notification) {
 		let info = notification.userInfo!
 		let keyboardFrame: CGRect = (info[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
 		let duration = info[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double
-		
+		let tabbarHeight = tabBarController?.tabBar.frame.size.height ?? 0
+
 		UIView.animate(withDuration: duration, animations: { () -> Void in
-			self.bottomConstraint.constant = -keyboardFrame.height
+			self.bottomConstraint.constant = -keyboardFrame.height + tabbarHeight
 		})
 	}
 	
@@ -152,6 +148,4 @@ class ContextViewController: UIViewController, UITableViewDataSource, UITableVie
 			self.bottomConstraint.constant = 0
 		})
 	}
-	
-
 }

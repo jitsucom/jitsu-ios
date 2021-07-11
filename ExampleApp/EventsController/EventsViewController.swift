@@ -16,11 +16,7 @@ class EventModel {
 	init(event: Event, sent: Bool = false) {
 		self.event = event
 		self.sent = sent
-		
-		let formatter = DateFormatter()
-		formatter.dateStyle = .none
-		formatter.timeStyle = .medium
-		self.time = formatter.string(from: Date())
+		self.time = Date().timeString
 	}
 }
 
@@ -147,9 +143,10 @@ class EventsViewController: UIViewController, UITableViewDataSource, UITableView
 		let info = notification.userInfo!
 		let keyboardFrame: CGRect = (info[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
 		let duration = info[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double
-		
+		let tabbarHeight = tabBarController?.tabBar.frame.size.height ?? 0
+
 		UIView.animate(withDuration: duration, animations: { () -> Void in
-			self.bottomConstraint.constant = -keyboardFrame.height
+			self.bottomConstraint.constant = -keyboardFrame.height + tabbarHeight
 		})
 	}
 

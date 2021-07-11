@@ -13,6 +13,7 @@
 		8E21917D26988006009D067A /* CtxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E21917C26988006009D067A /* CtxCell.swift */; };
 		8E219181269882A3009D067A /* AddContextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E219180269882A3009D067A /* AddContextCell.swift */; };
 		8E2BB712269909ED008505EE /* JsonPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2BB711269909ED008505EE /* JsonPresentation.swift */; };
+		8E2BB72726991B80008505EE /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2BB72626991B80008505EE /* UserProfileViewController.swift */; };
 		8E2E8B062692440B00C90CBC /* SerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2E8B052692440B00C90CBC /* SerializerTests.swift */; };
 		8E314C262682295F00886F8A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E314C252682295F00886F8A /* AppDelegate.swift */; };
 		8E314C282682295F00886F8A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E314C272682295F00886F8A /* SceneDelegate.swift */; };
@@ -28,6 +29,7 @@
 		8E42F79A267B85B200421ABE /* JitsuContextImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E42F799267B85B200421ABE /* JitsuContextImpl.swift */; };
 		8E42F79E267B866500421ABE /* JitsuUserPropertiesImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E42F79D267B866500421ABE /* JitsuUserPropertiesImpl.swift */; };
 		8E42F7A4267B8EF400421ABE /* EventsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E42F7A3267B8EF400421ABE /* EventsController.swift */; };
+		8E5897B72699980900478A72 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5897B62699980900478A72 /* Time.swift */; };
 		8E768E402692FFAB0061AD8A /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E768E3F2692FFAB0061AD8A /* JSON.swift */; };
 		8E768E4926935BE80061AD8A /* Jitsu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E768E4826935BE80061AD8A /* Jitsu.swift */; };
 		8E768E57269393510061AD8A /* BatchTransformationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E768E56269393510061AD8A /* BatchTransformationTests.swift */; };
@@ -103,6 +105,7 @@
 		8E21917C26988006009D067A /* CtxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CtxCell.swift; sourceTree = "<group>"; };
 		8E219180269882A3009D067A /* AddContextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContextCell.swift; sourceTree = "<group>"; };
 		8E2BB711269909ED008505EE /* JsonPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonPresentation.swift; sourceTree = "<group>"; };
+		8E2BB72626991B80008505EE /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		8E2E8B052692440B00C90CBC /* SerializerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializerTests.swift; sourceTree = "<group>"; };
 		8E314C232682295F00886F8A /* ExampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E314C252682295F00886F8A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -120,6 +123,7 @@
 		8E42F799267B85B200421ABE /* JitsuContextImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsuContextImpl.swift; sourceTree = "<group>"; };
 		8E42F79D267B866500421ABE /* JitsuUserPropertiesImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsuUserPropertiesImpl.swift; sourceTree = "<group>"; };
 		8E42F7A3267B8EF400421ABE /* EventsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsController.swift; sourceTree = "<group>"; };
+		8E5897B62699980900478A72 /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		8E768E3F2692FFAB0061AD8A /* JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
 		8E768E4826935BE80061AD8A /* Jitsu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Jitsu.swift; sourceTree = "<group>"; };
 		8E768E56269393510061AD8A /* BatchTransformationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchTransformationTests.swift; sourceTree = "<group>"; };
@@ -206,12 +210,21 @@
 			path = ContextController;
 			sourceTree = "<group>";
 		};
+		8E2BB72526991B6A008505EE /* UserProfile */ = {
+			isa = PBXGroup;
+			children = (
+				8E2BB72626991B80008505EE /* UserProfileViewController.swift */,
+			);
+			path = UserProfile;
+			sourceTree = "<group>";
+		};
 		8E314C242682295F00886F8A /* ExampleApp */ = {
 			isa = PBXGroup;
 			children = (
 				8E314C252682295F00886F8A /* AppDelegate.swift */,
 				8E314C272682295F00886F8A /* SceneDelegate.swift */,
 				8EFFAC3D26972EE0003A3A73 /* SimpleEvent.swift */,
+				8E2BB72526991B6A008505EE /* UserProfile */,
 				8E21917726985FE5009D067A /* ContextController */,
 				8EFFAC3426972801003A3A73 /* EventsController */,
 				8EFFAC2C2697263A003A3A73 /* UIHelpers.swift */,
@@ -220,6 +233,7 @@
 				8E314C302682296200886F8A /* LaunchScreen.storyboard */,
 				8E314C332682296200886F8A /* Info.plist */,
 				8E2BB711269909ED008505EE /* JsonPresentation.swift */,
+				8E5897B62699980900478A72 /* Time.swift */,
 			);
 			path = ExampleApp;
 			sourceTree = "<group>";
@@ -432,20 +446,12 @@
 			isa = PBXGroup;
 			children = (
 				8E314C292682295F00886F8A /* EventsViewController.swift */,
-				8EFFAC452697460E003A3A73 /* Views */,
-			);
-			path = EventsController;
-			sourceTree = "<group>";
-		};
-		8EFFAC452697460E003A3A73 /* Views */ = {
-			isa = PBXGroup;
-			children = (
 				8E768E78269719BD0061AD8A /* SendToolbar.swift */,
 				8E768E7D269720860061AD8A /* MenuToolbar.swift */,
 				8EFFAC3526972812003A3A73 /* AddEventCell.swift */,
 				8E768E732697151B0061AD8A /* EventCell.swift */,
 			);
-			path = Views;
+			path = EventsController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -592,6 +598,7 @@
 			files = (
 				8E21917926986003009D067A /* ContextViewController.swift in Sources */,
 				8EFFAC3626972812003A3A73 /* AddEventCell.swift in Sources */,
+				8E5897B72699980900478A72 /* Time.swift in Sources */,
 				8E768E742697151B0061AD8A /* EventCell.swift in Sources */,
 				8E21917D26988006009D067A /* CtxCell.swift in Sources */,
 				8E314C2A2682295F00886F8A /* EventsViewController.swift in Sources */,
@@ -599,6 +606,7 @@
 				8E768E79269719BD0061AD8A /* SendToolbar.swift in Sources */,
 				8E314C262682295F00886F8A /* AppDelegate.swift in Sources */,
 				8EFFAC3E26972EE0003A3A73 /* SimpleEvent.swift in Sources */,
+				8E2BB72726991B80008505EE /* UserProfileViewController.swift in Sources */,
 				8E2BB712269909ED008505EE /* JsonPresentation.swift in Sources */,
 				8E314C282682295F00886F8A /* SceneDelegate.swift in Sources */,
 				8EFFAC2D2697263A003A3A73 /* UIHelpers.swift in Sources */,
