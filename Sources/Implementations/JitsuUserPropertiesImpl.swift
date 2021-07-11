@@ -38,7 +38,7 @@ class JitsuUserPropertiesImpl: UserProperties {
 		}
 	}
 	
-	func identify(userIdentifier: UserId?, email: String?, _ otherIds: [UserPropertyKey : String], sendIdentificationEvent: Bool) {
+	func identify(userIdentifier: UserId?, email: String?, otherIds: [UserPropertyKey : String], sendIdentificationEvent: Bool) {
 		self.userIdentifier = userIdentifier
 		self.email = email
 		self.otherIdentifiers = otherIds

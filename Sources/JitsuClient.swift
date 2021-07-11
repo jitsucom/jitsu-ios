@@ -128,7 +128,7 @@ extension JitsuContext {
 	func identify(
 		userIdentifier: UserId?,
 		email: String?,
-		_ otherIds: [UserPropertyKey: String],
+		otherIds: [UserPropertyKey: String],
 		sendIdentificationEvent: Bool
 	)
 	
