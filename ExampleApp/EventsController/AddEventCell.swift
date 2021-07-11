@@ -23,6 +23,7 @@ class AddEventCell: UITableViewCell {
 		v.returnKeyType = .done
 		v.backgroundColor = .systemBackground
 		v.placeholder = "Tap to enter name of the event"
+		v.delegate = self
 		return v
 	}()
 	
@@ -179,5 +180,12 @@ extension AddEventCell: UITextViewDelegate {
 	func hidePlaceholder() {
 		payloadView.text = ""
 		payloadView.textColor = .label
+	}
+}
+
+extension AddEventCell: UITextFieldDelegate {
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+		endEditing(true)
+		return true
 	}
 }

@@ -51,7 +51,7 @@ class EditableValueView: UIView, UITextFieldDelegate {
 	private lazy var button: UIButton = {
 		let v = UIButton(type: .custom)
 		v.translatesAutoresizingMaskIntoConstraints = false
-		v.setTitleColor(UIColor.secondaryLabel, for: .normal)
+		v.setTitleColor(UIColor.systemRed, for: .normal)
 		v.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
 		v.titleLabel?.font = UIFont.systemFont(ofSize: 10)
 		v.isUserInteractionEnabled = false

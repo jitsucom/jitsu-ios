@@ -31,6 +31,7 @@ class UserProfileViewController: UIViewController, UITextFieldDelegate {
 		let v = UITextField()
 		v.translatesAutoresizingMaskIntoConstraints = false
 		v.delegate = self
+		v.keyboardType = .emailAddress
 		return v
 	}()
 	
@@ -100,6 +101,7 @@ class UserProfileViewController: UIViewController, UITextFieldDelegate {
 		if let email = Jitsu.shared.userProperties.email, email.count > 0 {
 			emailTextField.text = email
 		} else {
+			emailTextField.text = nil
 			emailTextField.placeholder = "enter email"
 		}
 		

@@ -30,7 +30,6 @@
 		8E42F79E267B866500421ABE /* JitsuUserPropertiesImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E42F79D267B866500421ABE /* JitsuUserPropertiesImpl.swift */; };
 		8E42F7A4267B8EF400421ABE /* EventsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E42F7A3267B8EF400421ABE /* EventsController.swift */; };
 		8E5897B72699980900478A72 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5897B62699980900478A72 /* Time.swift */; };
-		8E5897BD269B54D400478A72 /* MenuToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5897BC269B54D400478A72 /* MenuToolbar.swift */; };
 		8E5897C1269B578500478A72 /* EditableValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5897C0269B578500478A72 /* EditableValueView.swift */; };
 		8E768E402692FFAB0061AD8A /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E768E3F2692FFAB0061AD8A /* JSON.swift */; };
 		8E768E4926935BE80061AD8A /* Jitsu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E768E4826935BE80061AD8A /* Jitsu.swift */; };
@@ -125,7 +124,6 @@
 		8E42F79D267B866500421ABE /* JitsuUserPropertiesImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsuUserPropertiesImpl.swift; sourceTree = "<group>"; };
 		8E42F7A3267B8EF400421ABE /* EventsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsController.swift; sourceTree = "<group>"; };
 		8E5897B62699980900478A72 /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
-		8E5897BC269B54D400478A72 /* MenuToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuToolbar.swift; sourceTree = "<group>"; };
 		8E5897C0269B578500478A72 /* EditableValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableValueView.swift; sourceTree = "<group>"; };
 		8E768E3F2692FFAB0061AD8A /* JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
 		8E768E4826935BE80061AD8A /* Jitsu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Jitsu.swift; sourceTree = "<group>"; };
@@ -449,7 +447,6 @@
 			children = (
 				8E314C292682295F00886F8A /* EventsViewController.swift */,
 				8E768E78269719BD0061AD8A /* SendToolbar.swift */,
-				8E5897BC269B54D400478A72 /* MenuToolbar.swift */,
 				8E5897C0269B578500478A72 /* EditableValueView.swift */,
 				8EFFAC3526972812003A3A73 /* AddEventCell.swift */,
 				8E768E732697151B0061AD8A /* EventCell.swift */,
@@ -614,7 +611,6 @@
 				8E314C282682295F00886F8A /* SceneDelegate.swift in Sources */,
 				8EFFAC2D2697263A003A3A73 /* UIHelpers.swift in Sources */,
 				8E219181269882A3009D067A /* AddContextCell.swift in Sources */,
-				8E5897BD269B54D400478A72 /* MenuToolbar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

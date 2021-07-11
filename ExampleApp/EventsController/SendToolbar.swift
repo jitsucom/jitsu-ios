@@ -34,8 +34,22 @@ class SendToolbar: UIView {
 		return v
 	}()
 	
+	private lazy var batchSizeView: EditableValueView = {
+		let v = EditableValueView()
+		v.setTitle("batch size")
+		v.setTextValue("\(Jitsu.shared.eventsQueueSize)")
+		v.setButtonTitle("change")
+		v.setAction { newValue in
+			if let newTime = Int(newValue) {
+				Jitsu.shared.eventsQueueSize = newTime
+			}
+		}
+		v.translatesAutoresizingMaskIntoConstraints = false
+		return v
+	}()
+	
 	private lazy var stack: UIStackView = {
-		let stack = UIStackView(arrangedSubviews: [timerView, send])
+		let stack = UIStackView(arrangedSubviews: [timerView, batchSizeView, send])
 		stack.translatesAutoresizingMaskIntoConstraints = false
 		stack.alignment = UIStackView.Alignment.fill
 		stack.axis = .horizontal

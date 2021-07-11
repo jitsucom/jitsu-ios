@@ -33,6 +33,7 @@ class AddContextCell: UITableViewCell {
 		v.backgroundColor = .systemBackground
 		v.placeholder = nameFieldPlaceholder
 		v.font = UIFont.systemFont(ofSize: 10)
+		v.delegate = self
 		return v
 	}()
 	
@@ -181,5 +182,12 @@ extension AddContextCell: UITextViewDelegate {
 	func hidePlaceholder() {
 		payloadView.text = ""
 		payloadView.textColor = .label
+	}
+}
+
+extension AddContextCell: UITextFieldDelegate {
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+		endEditing(true)
+		return true
 	}
 }
