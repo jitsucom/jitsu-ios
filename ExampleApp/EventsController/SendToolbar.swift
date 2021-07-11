@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Jitsu
 
 typealias ToolbarAction = () -> Void
 
@@ -18,9 +19,23 @@ class SendToolbar: UIView {
 		v.setTitle("send", for: .normal)
 		return v
 	}()
-
+	
+	private lazy var timerView: EditableValueView = {
+		let v = EditableValueView()
+		v.setTitle("timer, s:")
+		v.setTextValue("\(Jitsu.shared.sendingBatchesPeriod)")
+		v.setButtonTitle("change")
+		v.setAction { newValue in
+			if let newTime = TimeInterval(newValue) {
+				Jitsu.shared.sendingBatchesPeriod = newTime
+			}
+		}
+		v.translatesAutoresizingMaskIntoConstraints = false
+		return v
+	}()
+	
 	private lazy var stack: UIStackView = {
-		let stack = UIStackView(arrangedSubviews: [send])
+		let stack = UIStackView(arrangedSubviews: [timerView, send])
 		stack.translatesAutoresizingMaskIntoConstraints = false
 		stack.alignment = UIStackView.Alignment.fill
 		stack.axis = .horizontal
@@ -55,8 +70,8 @@ class SendToolbar: UIView {
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		NSLayoutConstraint.activate([
-			stack.topAnchor.constraint(equalTo: topAnchor, constant: 0),
-			stack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0),
+			stack.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+			stack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
 			stack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
 			stack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
 		])

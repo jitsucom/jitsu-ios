@@ -44,7 +44,7 @@ class AddContextCell: UITableViewCell {
 		return v
 	}()
 	
-	private var tapGesture: UITapGestureRecognizer = {
+	private lazy var tapGesture: UITapGestureRecognizer = {
 		let v = UITapGestureRecognizer(target: self, action: #selector(cellTapped))
 		v.numberOfTapsRequired = 1
 		return v

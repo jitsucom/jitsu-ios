@@ -171,24 +171,6 @@ extension AddEventCell: UITextViewDelegate {
 		}
 	}
 	
-//	func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
-//		guard let text = textView.text, text.count > 0 else {
-//			textView.endEditing(true)
-//			return true
-//		}
-//
-//		if let _ = try? toJson(text) as? [String: Any] {
-//			return true
-//		}
-//
-//		textView.backgroundColor = .systemRed
-//		UIView.animate(withDuration: 0.2) {
-//			textView.backgroundColor = .systemBackground
-//		}
-//
-//		return false
-//	}
-	
 	func showPlaceholder() {
 		payloadView.text = payloadViewPlaceholder
 		payloadView.textColor = .placeholderText

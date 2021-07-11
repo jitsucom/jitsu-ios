@@ -8,17 +8,29 @@
 import UIKit
 
 class MenuToolbar: UIView {
+	
+	private lazy var timerView: EditableValueView = {
+		let v = EditableValueView()
+		v.setTitle("timer")
+		v.setButtonTitle("change")
+//		v.setAction {
+//
+//		}
+		return v
+	}()
+	
+//	func showPicker()
 
-	private lazy var add: UIButton = {
+	private lazy var timer: UIButton = {
 		let v = UIButton(type: .system)
-		v.addTarget(self, action: #selector(_addEvent), for: .touchUpInside)
+//		v.addTarget(self, action: #selector(_changeTimerPressed), for: .touchUpInside)
 		v.translatesAutoresizingMaskIntoConstraints = false
 		v.setTitle("add event", for: .normal)
 		return v
 	}()
 	
 	private lazy var stack: UIStackView = {
-		let stack = UIStackView(arrangedSubviews: [add])
+		let stack = UIStackView(arrangedSubviews: [timerView])
 		stack.translatesAutoresizingMaskIntoConstraints = false
 		stack.alignment = UIStackView.Alignment.fill
 		stack.axis = .horizontal
@@ -26,12 +38,12 @@ class MenuToolbar: UIView {
 		return stack
 	}()
 	
-	var addEvent: ToolbarAction?
-	
-	@objc private func _addEvent() {
-		addEvent?()
-	}
-	
+//	var changeTimer: ((TimeInterval)->Void)?
+//
+//	@objc private func _changeTimerPressed() {
+//		changeTimer?()
+//	}
+//
 	convenience init() {
 		self.init(frame: .zero)
 	}
@@ -60,4 +72,6 @@ class MenuToolbar: UIView {
 		])
 	}
 
+	
+	
 }
