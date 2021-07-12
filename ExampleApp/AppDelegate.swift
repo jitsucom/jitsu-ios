@@ -11,15 +11,8 @@ import Jitsu
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-		let options = JitsuOptions(
-			apiKey: "js.kxp33.aefbvu0v5guetjki2ymz6",
-			trackingHost: "https://t.jitsu.com/api/v1/event"
-		)
 		
-		Jitsu.setupClient(with: options)
 		return true
 	}
 

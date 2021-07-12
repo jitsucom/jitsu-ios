@@ -12,6 +12,8 @@
 		8E21917926986003009D067A /* ContextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E21917826986003009D067A /* ContextViewController.swift */; };
 		8E21917D26988006009D067A /* CtxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E21917C26988006009D067A /* CtxCell.swift */; };
 		8E219181269882A3009D067A /* AddContextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E219180269882A3009D067A /* AddContextCell.swift */; };
+		8E23CD6C269C5DEB00A3F257 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E23CD6B269C5DEB00A3F257 /* AuthViewController.swift */; };
+		8E23CD70269C72DF00A3F257 /* SignOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E23CD6F269C72DF00A3F257 /* SignOut.swift */; };
 		8E2BB712269909ED008505EE /* JsonPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2BB711269909ED008505EE /* JsonPresentation.swift */; };
 		8E2BB72726991B80008505EE /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2BB72626991B80008505EE /* UserProfileViewController.swift */; };
 		8E2E8B062692440B00C90CBC /* SerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2E8B052692440B00C90CBC /* SerializerTests.swift */; };
@@ -105,6 +107,8 @@
 		8E21917826986003009D067A /* ContextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextViewController.swift; sourceTree = "<group>"; };
 		8E21917C26988006009D067A /* CtxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CtxCell.swift; sourceTree = "<group>"; };
 		8E219180269882A3009D067A /* AddContextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContextCell.swift; sourceTree = "<group>"; };
+		8E23CD6B269C5DEB00A3F257 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
+		8E23CD6F269C72DF00A3F257 /* SignOut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOut.swift; sourceTree = "<group>"; };
 		8E2BB711269909ED008505EE /* JsonPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonPresentation.swift; sourceTree = "<group>"; };
 		8E2BB72626991B80008505EE /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		8E2E8B052692440B00C90CBC /* SerializerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializerTests.swift; sourceTree = "<group>"; };
@@ -225,8 +229,10 @@
 			isa = PBXGroup;
 			children = (
 				8E314C252682295F00886F8A /* AppDelegate.swift */,
+				8E23CD6F269C72DF00A3F257 /* SignOut.swift */,
 				8E314C272682295F00886F8A /* SceneDelegate.swift */,
 				8EFFAC3D26972EE0003A3A73 /* SimpleEvent.swift */,
+				8E23CD6B269C5DEB00A3F257 /* AuthViewController.swift */,
 				8E2BB72526991B6A008505EE /* UserProfile */,
 				8E21917726985FE5009D067A /* ContextController */,
 				8EFFAC3426972801003A3A73 /* EventsController */,
@@ -608,6 +614,8 @@
 				8E768E79269719BD0061AD8A /* SendToolbar.swift in Sources */,
 				8E314C262682295F00886F8A /* AppDelegate.swift in Sources */,
 				8EFFAC3E26972EE0003A3A73 /* SimpleEvent.swift in Sources */,
+				8E23CD70269C72DF00A3F257 /* SignOut.swift in Sources */,
+				8E23CD6C269C5DEB00A3F257 /* AuthViewController.swift in Sources */,
 				8E5897C9269B735100478A72 /* LabeledToggle.swift in Sources */,
 				8E2BB72726991B80008505EE /* UserProfileViewController.swift in Sources */,
 				8E2BB712269909ED008505EE /* JsonPresentation.swift in Sources */,
