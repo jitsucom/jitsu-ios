@@ -18,6 +18,18 @@ extension UIColor {
 			alpha: 1
 		)
 	}
+	
+	static var jitsuViolet: UIColor {
+		return UIColor(red: 154.0 / 255, green: 52.0 / 255, blue: 246.0 / 255, alpha: 1)
+	}
+	
+	static var jitsuBlue: UIColor {
+		return UIColor(red: 77.0 / 255, green: 48.0 / 255, blue: 240.0 / 255, alpha: 1)
+	}
+	
+	static var jitsuBlack: UIColor {
+		return UIColor(red: 18.0 / 255, green: 24.0 / 255, blue: 38.0 / 255, alpha: 1)
+	}
 }
 
 func showError(view: UIView) {

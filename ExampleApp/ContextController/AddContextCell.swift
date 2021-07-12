@@ -25,6 +25,13 @@ class AddContextCell: UITableViewCell {
 		return v
 	}()
 	
+	private lazy var shouldPersistToggle: LabeledToggle = {
+		let v = LabeledToggle()
+		v.translatesAutoresizingMaskIntoConstraints = false
+		v.setTitle("persist?")
+		return v
+	}()
+	
 	private var nameFieldPlaceholder = "Enter event types, separated by commas, or leave empty"
 	private lazy var nameField: UITextField = {
 		let v = UITextField()
@@ -67,6 +74,7 @@ class AddContextCell: UITableViewCell {
 		contentView.addSubview(nameField)
 		contentView.addSubview(doneButton)
 		contentView.addSubview(payloadView)
+		contentView.addSubview(shouldPersistToggle)
 		
 		addGestureRecognizer(tapGesture)
 		backgroundColor = .randomColor
@@ -92,11 +100,17 @@ class AddContextCell: UITableViewCell {
 		])
 		
 		NSLayoutConstraint.activate([
+			payloadView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+			payloadView.heightAnchor.constraint(greaterThanOrEqualToConstant: 40),
+			payloadView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+			payloadView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+		])
+		
+		NSLayoutConstraint.activate([
 			nameField.topAnchor.constraint(equalTo: payloadView.bottomAnchor, constant: 8),
 			nameField.heightAnchor.constraint(equalToConstant: 40),
 			nameField.leadingAnchor.constraint(equalTo: payloadView.leadingAnchor, constant: 0),
 			nameField.widthAnchor.constraint(equalTo: payloadView.widthAnchor, multiplier: 3/4),
-			nameField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
 		])
 		
 		NSLayoutConstraint.activate([
@@ -105,6 +119,12 @@ class AddContextCell: UITableViewCell {
 			doneButton.trailingAnchor.constraint(equalTo: payloadView.trailingAnchor, constant: -16),
 		])
 		
+		NSLayoutConstraint.activate([
+			shouldPersistToggle.topAnchor.constraint(equalTo: nameField.bottomAnchor, constant: 8),
+			shouldPersistToggle.leadingAnchor.constraint(equalTo: nameField.leadingAnchor, constant: 0),
+			shouldPersistToggle.trailingAnchor.constraint(lessThanOrEqualTo: nameField.trailingAnchor),
+			shouldPersistToggle.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+		])
 		super.updateConstraints()
 	}
 	
@@ -112,7 +132,6 @@ class AddContextCell: UITableViewCell {
 	
 	@objc func cellTapped() {
 		self.nameField.becomeFirstResponder()
-		self.nameField.inputAccessoryView = self
 	}
 	
 	@objc func doneButtonPressed() {
@@ -126,12 +145,19 @@ class AddContextCell: UITableViewCell {
 			return
 		}
 		
-		let eventType = nameField.text ?? ""
-		let eventTypes = eventType.split(separator: ",").map {String($0)}
+		var eventTypes: [String]? = nil
+		if let eventType = nameField.text {
+			eventTypes = eventType.split(separator: ",").map {String($0)}
+			if eventTypes?.count == 0 {
+				eventTypes = nil
+			}
+		}
 		
 		valueCreated?(
-			ContextValue(value: contextJson,
-						 eventTypes:eventTypes
+			ContextValue(
+				value: contextJson,
+				eventTypes:eventTypes,
+				shouldPersist: shouldPersistToggle.value
 			)
 		)
 		clear()

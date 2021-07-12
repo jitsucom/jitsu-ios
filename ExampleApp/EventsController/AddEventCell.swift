@@ -68,7 +68,7 @@ class AddEventCell: UITableViewCell {
 		contentView.addSubview(payloadView)
 		
 		addGestureRecognizer(tapGesture)
-		backgroundColor = .randomColor
+		backgroundColor = .jitsuBlue
 		showPlaceholder()
 
 		updateConstraints()

@@ -32,6 +32,7 @@ class UserProfileViewController: UIViewController, UITextFieldDelegate {
 		v.translatesAutoresizingMaskIntoConstraints = false
 		v.delegate = self
 		v.keyboardType = .emailAddress
+		v.returnKeyType = .done
 		return v
 	}()
 	
@@ -52,10 +53,11 @@ class UserProfileViewController: UIViewController, UITextFieldDelegate {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
+		
 		view.addSubview(anonymousUserIdLabel)
 		view.addSubview(userIdLabel)
 		view.addSubview(emailTextField)
-		view.addSubview(changeEmailButton)
+//		view.addSubview(changeEmailButton)
 		view.addSubview(authStateButton)
 		
 		let offset = CGFloat(16)
@@ -77,12 +79,12 @@ class UserProfileViewController: UIViewController, UITextFieldDelegate {
 			emailTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: offset),
 		])
 		
-		NSLayoutConstraint.activate([
-			changeEmailButton.centerYAnchor.constraint(equalTo: emailTextField.centerYAnchor, constant: 0),
-			changeEmailButton.leadingAnchor.constraint(equalTo: emailTextField.trailingAnchor, constant: offset),
-			changeEmailButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -offset),
-			changeEmailButton.widthAnchor.constraint(equalToConstant: 80),
-		])
+//		NSLayoutConstraint.activate([
+//			changeEmailButton.centerYAnchor.constraint(equalTo: emailTextField.centerYAnchor, constant: 0),
+//			changeEmailButton.leadingAnchor.constraint(equalTo: emailTextField.trailingAnchor, constant: offset),
+//			changeEmailButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -offset),
+//			changeEmailButton.widthAnchor.constraint(equalToConstant: 80),
+//		])
 		
 		NSLayoutConstraint.activate([
 			authStateButton.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 40),
@@ -118,6 +120,7 @@ class UserProfileViewController: UIViewController, UITextFieldDelegate {
 	}
 	
 	@objc func changeAuth() {
+		emailTextField.endEditing(true)
 		let identified = Jitsu.shared.userProperties.userIdentifier != nil
 		if identified {
 			Jitsu.shared.userProperties.resetUserProperties()
@@ -136,6 +139,7 @@ class UserProfileViewController: UIViewController, UITextFieldDelegate {
 	
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 		textField.endEditing(true)
+		changeEmail()
 		return true
 	}
 }

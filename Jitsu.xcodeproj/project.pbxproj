@@ -31,6 +31,7 @@
 		8E42F7A4267B8EF400421ABE /* EventsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E42F7A3267B8EF400421ABE /* EventsController.swift */; };
 		8E5897B72699980900478A72 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5897B62699980900478A72 /* Time.swift */; };
 		8E5897C1269B578500478A72 /* EditableValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5897C0269B578500478A72 /* EditableValueView.swift */; };
+		8E5897C9269B735100478A72 /* LabeledToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5897C8269B735100478A72 /* LabeledToggle.swift */; };
 		8E768E402692FFAB0061AD8A /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E768E3F2692FFAB0061AD8A /* JSON.swift */; };
 		8E768E4926935BE80061AD8A /* Jitsu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E768E4826935BE80061AD8A /* Jitsu.swift */; };
 		8E768E57269393510061AD8A /* BatchTransformationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E768E56269393510061AD8A /* BatchTransformationTests.swift */; };
@@ -125,6 +126,7 @@
 		8E42F7A3267B8EF400421ABE /* EventsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsController.swift; sourceTree = "<group>"; };
 		8E5897B62699980900478A72 /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		8E5897C0269B578500478A72 /* EditableValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableValueView.swift; sourceTree = "<group>"; };
+		8E5897C8269B735100478A72 /* LabeledToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledToggle.swift; sourceTree = "<group>"; };
 		8E768E3F2692FFAB0061AD8A /* JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
 		8E768E4826935BE80061AD8A /* Jitsu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Jitsu.swift; sourceTree = "<group>"; };
 		8E768E56269393510061AD8A /* BatchTransformationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchTransformationTests.swift; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 		8E21917726985FE5009D067A /* ContextController */ = {
 			isa = PBXGroup;
 			children = (
+				8E5897C8269B735100478A72 /* LabeledToggle.swift */,
 				8E21917826986003009D067A /* ContextViewController.swift */,
 				8E21917C26988006009D067A /* CtxCell.swift */,
 				8E219180269882A3009D067A /* AddContextCell.swift */,
@@ -605,6 +608,7 @@
 				8E768E79269719BD0061AD8A /* SendToolbar.swift in Sources */,
 				8E314C262682295F00886F8A /* AppDelegate.swift in Sources */,
 				8EFFAC3E26972EE0003A3A73 /* SimpleEvent.swift in Sources */,
+				8E5897C9269B735100478A72 /* LabeledToggle.swift in Sources */,
 				8E2BB72726991B80008505EE /* UserProfileViewController.swift in Sources */,
 				8E2BB712269909ED008505EE /* JsonPresentation.swift in Sources */,
 				8E5897C1269B578500478A72 /* EditableValueView.swift in Sources */,

@@ -123,6 +123,9 @@ class EventsViewController: UIViewController, UITableViewDataSource, UITableView
 		return 1000
 	}
 	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		tableView.deselectRow(at: indexPath, animated: false)
+	}
 
 	// MARK: - Actions
 	

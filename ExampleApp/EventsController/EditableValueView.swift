@@ -90,8 +90,8 @@ class EditableValueView: UIView, UITextFieldDelegate {
 	
 	private func makeUI() {
 		layer.borderWidth = 1
-		layer.borderColor = UIColor.secondarySystemFill.cgColor
-		backgroundColor = UIColor.secondarySystemFill.withAlphaComponent(0.2)
+		layer.borderColor = UIColor.tertiarySystemBackground.cgColor
+		backgroundColor = UIColor.tertiarySystemBackground
 		layer.cornerRadius = 4
 
 		addSubview(titleLabel)

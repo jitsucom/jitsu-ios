@@ -12,11 +12,13 @@ struct ContextValue {
 	var value: [String: Any]
 	var eventTypes: [String]?
 	var time: String
+	var shouldPersist: Bool
 	
-	init(value: [String: Any], eventTypes: [String]?) {
+	init(value: [String: Any], eventTypes: [String]?, shouldPersist: Bool) {
 		self.value = value
 		self.eventTypes = eventTypes
 		self.time = Date().timeString
+		self.shouldPersist = shouldPersist
 	}
 }
 
@@ -87,7 +89,7 @@ class ContextViewController: UIViewController, UITableViewDataSource, UITableVie
 				tableView.insertRows(at: [newIndexPath], with: .fade)
 				_ = cell.becomeFirstResponder()
 				tableView.scrollToRow(at: newIndexPath, at: .middle, animated: true)
-				try! Jitsu.shared.context.addValues(value.value, for: value.eventTypes, persist: false)
+				try! Jitsu.shared.context.addValues(value.value, for: value.eventTypes, persist: value.shouldPersist)
 			}
 			cell.hack = {
 				tableView.beginUpdates()
@@ -125,6 +127,10 @@ class ContextViewController: UIViewController, UITableViewDataSource, UITableVie
 			tableView.deleteRows(at: [indexPath], with: .automatic)
 			tableView.endUpdates()
 		}
+	}
+	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		tableView.deselectRow(at: indexPath, animated: false)
 	}
 	
 	// MARK: - Keyboard

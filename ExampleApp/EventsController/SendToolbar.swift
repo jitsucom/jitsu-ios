@@ -77,7 +77,7 @@ class SendToolbar: UIView {
 	}
 	
 	private func makeUI() {
-		backgroundColor = .randomColor
+		backgroundColor = .secondarySystemBackground
 		addSubview(stack)
 	}
 	

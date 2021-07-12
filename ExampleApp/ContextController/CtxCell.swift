@@ -22,6 +22,11 @@ class CtxCell: UITableViewCell {
 			
 			timeLabel.text = value.time
 			payloadLabel.text = toString(value.value)
+			if value.shouldPersist {
+				persistenceIndicator.text = "persisted"
+			} else {
+				persistenceIndicator.text = ""
+			}
 		}
 	}
 	
@@ -41,6 +46,13 @@ class CtxCell: UITableViewCell {
 		v.translatesAutoresizingMaskIntoConstraints = false
 		v.numberOfLines = 1
 		v.font = UIFont.systemFont(ofSize: 12, weight: .light)
+		return v
+	}()
+	
+	private lazy var persistenceIndicator: UILabel = {
+		let v = UILabel()
+		v.font = UIFont.systemFont(ofSize: 12, weight: .light)
+		v.translatesAutoresizingMaskIntoConstraints = false
 		return v
 	}()
 	
@@ -71,6 +83,7 @@ class CtxCell: UITableViewCell {
 	private func makeUI() {
 		contentView.addSubview(eventNameLabel)
 		contentView.addSubview(timeLabel)
+		contentView.addSubview(persistenceIndicator)
 		contentView.addSubview(payloadLabel)
 	}
 	
@@ -90,6 +103,12 @@ class CtxCell: UITableViewCell {
 			timeLabel.topAnchor.constraint(equalTo: eventNameLabel.topAnchor, constant: 0),
 			timeLabel.leadingAnchor.constraint(greaterThanOrEqualTo: eventNameLabel.trailingAnchor, constant: 16),
 			timeLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+		])
+		
+		NSLayoutConstraint.activate([
+			persistenceIndicator.topAnchor.constraint(equalTo: timeLabel.bottomAnchor, constant: 8),
+			persistenceIndicator.bottomAnchor.constraint(greaterThanOrEqualTo: contentView.bottomAnchor, constant: -8),
+			persistenceIndicator.trailingAnchor.constraint(equalTo: timeLabel.trailingAnchor, constant: 0),
 		])
 		
 		NSLayoutConstraint.activate([
