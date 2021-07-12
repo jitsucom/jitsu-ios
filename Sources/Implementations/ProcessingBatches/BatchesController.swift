@@ -58,10 +58,51 @@ class BatchesController {
 	}
 
 	static func buildBatch(unbatchedEvents: [EnrichedEvent]) -> Batch {
+		guard let firstEvent = unbatchedEvents.first, unbatchedEvents.count > 1 else {
+			return Batch(
+				batchId: UUID().uuidString,
+				events: unbatchedEvents,
+				template: [:]
+			)
+		}
+		
+		let firstTemplateCandidate = makeTemplateCandidate(firstEvent)
+				
+		let template: Set<TemplateValue> = unbatchedEvents.reduce(
+			firstTemplateCandidate
+		) { nextPartialResult, nextEvent in
+			let nextEventCandidates = makeTemplateCandidate(nextEvent)
+			return nextPartialResult.intersection(nextEventCandidates)
+		}
+		
+		let templateDict: [String: JSON] = template.reduce(into: [String: JSON](), { (res, cand) in
+			res[cand.key] = cand.value
+		})
+		
+		let eventJsons = unbatchedEvents.map {substractTemplate(template, from: $0.buildJson())}
+	
 		return Batch(
 			batchId: UUID().uuidString,
-			events: unbatchedEvents,
-			template: [:]
+			events: eventJsons,
+			template: templateDict
 		)
 	}
+	
+	static private func substractTemplate(_ template: Set<TemplateValue>, from eventDict: [String: JSON]) -> [String: JSON] {
+		var eventValues = Set(eventDict.map { TemplateValue(key: $0.key, value: $0.value) })
+		eventValues.subtract(template)
+		return eventValues.reduce(into: [String: JSON](), { (res, cand) in
+			res[cand.key] = cand.value
+		})
+	}
 }
+
+fileprivate struct TemplateValue: Hashable, Equatable {
+	var key: String
+	var value: JSON
+}
+
+fileprivate func makeTemplateCandidate(_ event: EnrichedEvent) -> Set<TemplateValue> {
+	return Set(event.buildJson().map { TemplateValue(key: $0.key, value: $0.value) })
+}
+

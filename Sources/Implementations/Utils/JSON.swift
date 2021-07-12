@@ -16,15 +16,6 @@ public enum JSON: Equatable {
         case unknown
         case nonJSONType(type: String)
     }
-		
-	// todo
-//	public init<T: NSSecureCoding>(with value: T) throws {
-//		let encoder = Archiever()
-//
-//		let json = try encoder.encode(value)
-//		let output = try JSONSerialization.jsonObject(with: json)
-//		try self.init(output)
-//	}
 	
 	public init<T: Codable>(withCodable value: T) throws {
 		let encoder = JSONEncoder()
@@ -39,9 +30,6 @@ public enum JSON: Equatable {
     
     public init(_ value: Any) throws {
         switch value {
-//		case let conforms = value.self as? Codable:
-//			break
-//			self.init(with: value)
 		
 		case let val as JSON:
 			self = val
@@ -285,6 +273,10 @@ extension JSON {
     }
 }
 
+
+extension JSON: Hashable {
+	
+}
 
 // MARK: - Helpers
 
