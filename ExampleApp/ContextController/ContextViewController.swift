@@ -36,7 +36,12 @@ class ContextViewController: UIViewController, UITableViewDataSource, UITableVie
 		v.delegate = self
 		v.register(CtxCell.self, forCellReuseIdentifier: ctxCellReuseId)
 		v.register(AddContextCell.self, forCellReuseIdentifier: addCtxCellReuseId)
-		v.tableFooterView = UIView()
+		let text = "1) Note that persisted context values are not shown in the table after app relaunches. Though they are here. \n \n2) Swipe the cell to remove context value."
+		let label = UILabel(frame: CGRect(x: 0, y: 0, width: v.frame.width, height: 60))
+		label.text = text
+		label.numberOfLines = 0
+		label.font = UIFont.systemFont(ofSize: 10)
+		v.tableFooterView = label
 		v.keyboardDismissMode = .interactive
 		return v
 	}()

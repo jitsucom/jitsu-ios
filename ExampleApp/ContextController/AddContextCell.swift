@@ -77,7 +77,7 @@ class AddContextCell: UITableViewCell {
 		contentView.addSubview(shouldPersistToggle)
 		
 		addGestureRecognizer(tapGesture)
-		backgroundColor = .randomColor
+		backgroundColor = UIColor(red: 0.138049, green: 0.682526, blue: 0.681526, alpha: 1)
 		showPlaceholder()
 		
 		updateConstraints()
