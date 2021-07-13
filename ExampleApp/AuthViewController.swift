@@ -10,9 +10,7 @@ import UIKit
 import Jitsu
 
 class AuthViewController: UIViewController, UITextFieldDelegate {
-	
-	private lazy var storage = UserDefaults.standard
-	
+		
 	private var nameFieldPlaceholder = "Enter api key"
 	
 	private lazy var apiKeyField: UITextField = {
@@ -55,9 +53,8 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
-		let apiKey = storage.value(forKey: Self.key) as? String
-		if let apiKey = apiKey {
-			applyKey(apiKey: apiKey)
+		if AuthViewController.signIn() {
+			next()
 			return
 		}
 		
@@ -72,12 +69,7 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
 		apiKeyField.selectAll(self)
 	}
 	
-	func applyKey(apiKey: String) {
-		let options = JitsuOptions(
-			apiKey: apiKey,
-			trackingHost: "https://t.jitsu.com/api/v1/event"
-		)
-		Jitsu.setupClient(with: options)
+	func next() {
 		apiKeyField.endEditing(true)
 		showShowcase()
 	}
@@ -93,8 +85,26 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
 	
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 		if let apiKey = textField.text, apiKey.count > 0 {
-			storage.setValue(apiKey, forKey: Self.key)
-			applyKey(apiKey: apiKey)
+			UserDefaults.standard.setValue(apiKey, forKey: Self.key)
+			AuthViewController.signIn()
+			next()
+			return true
+		}
+		return false
+	}
+	
+	// MARK: - Signing in and signing out logics
+	
+	@discardableResult
+	static func signIn() -> Bool {
+		let apiKey = UserDefaults.standard.value(forKey: Self.key) as? String
+		
+		if let apiKey = apiKey {
+			let options = JitsuOptions(
+				apiKey: apiKey,
+				trackingHost: "https://t.jitsu.com/api/v1/event"
+			)
+			Jitsu.setupClient(with: options)
 			return true
 		}
 		return false
