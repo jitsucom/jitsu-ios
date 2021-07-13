@@ -7,12 +7,6 @@
 
 import Foundation
 
-
-// todo: move
-protocol ErrorWithDescription: Error {
-	var errorDescription: String { get }
-}
-
 enum NetworkServiceError: ErrorWithDescription {
 	case networkError(description: String)
 	case codeNot200(code: Int)

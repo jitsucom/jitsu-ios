@@ -36,6 +36,8 @@ class JitsuClientImpl: JitsuClient {
 			self?.trackEvent(event)
 		}
 		
+		addTrackers()
+		
 		self.eventsQueue.async { [self] in
 			let setupGroup = DispatchGroup()
 			
@@ -54,6 +56,17 @@ class JitsuClientImpl: JitsuClient {
 			
 			setupGroup.wait()
 		}
+	}
+	
+	var trackers = [Tracker]()
+	
+	func addTrackers() {
+		let eventBlock: (Event) -> Void = { [weak self] event in
+			guard let self = self else {return}
+			self.trackEvent(event)
+		}
+	
+		trackers.append(ApplicationLifecycleTracker.subscribe(eventBlock))
 	}
 	
 	// MARK: - Events pipeline

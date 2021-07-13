@@ -14,6 +14,8 @@
 		8E219181269882A3009D067A /* AddContextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E219180269882A3009D067A /* AddContextCell.swift */; };
 		8E23CD6C269C5DEB00A3F257 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E23CD6B269C5DEB00A3F257 /* AuthViewController.swift */; };
 		8E23CD70269C72DF00A3F257 /* SignOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E23CD6F269C72DF00A3F257 /* SignOut.swift */; };
+		8E23CD99269E431D00A3F257 /* ErrorWithDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E23CD98269E431D00A3F257 /* ErrorWithDescription.swift */; };
+		8E23CD9E269E439700A3F257 /* ApplicationLifecycleTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E23CD9D269E439700A3F257 /* ApplicationLifecycleTracker.swift */; };
 		8E2BB712269909ED008505EE /* JsonPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2BB711269909ED008505EE /* JsonPresentation.swift */; };
 		8E2BB72726991B80008505EE /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2BB72626991B80008505EE /* UserProfileViewController.swift */; };
 		8E2E8B062692440B00C90CBC /* SerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2E8B052692440B00C90CBC /* SerializerTests.swift */; };
@@ -109,6 +111,8 @@
 		8E219180269882A3009D067A /* AddContextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContextCell.swift; sourceTree = "<group>"; };
 		8E23CD6B269C5DEB00A3F257 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		8E23CD6F269C72DF00A3F257 /* SignOut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOut.swift; sourceTree = "<group>"; };
+		8E23CD98269E431D00A3F257 /* ErrorWithDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorWithDescription.swift; sourceTree = "<group>"; };
+		8E23CD9D269E439700A3F257 /* ApplicationLifecycleTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationLifecycleTracker.swift; sourceTree = "<group>"; };
 		8E2BB711269909ED008505EE /* JsonPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonPresentation.swift; sourceTree = "<group>"; };
 		8E2BB72626991B80008505EE /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		8E2E8B052692440B00C90CBC /* SerializerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializerTests.swift; sourceTree = "<group>"; };
@@ -217,6 +221,14 @@
 			path = ContextController;
 			sourceTree = "<group>";
 		};
+		8E23CD9C269E433900A3F257 /* Trackers */ = {
+			isa = PBXGroup;
+			children = (
+				8E23CD9D269E439700A3F257 /* ApplicationLifecycleTracker.swift */,
+			);
+			path = Trackers;
+			sourceTree = "<group>";
+		};
 		8E2BB72526991B6A008505EE /* UserProfile */ = {
 			isa = PBXGroup;
 			children = (
@@ -259,15 +271,17 @@
 		8E42F796267B853B00421ABE /* Implementations */ = {
 			isa = PBXGroup;
 			children = (
-				8E768E44269327450061AD8A /* Utils */,
 				8E42F792267B853100421ABE /* JitsuClientImpl.swift */,
 				8E42F799267B85B200421ABE /* JitsuContextImpl.swift */,
 				8E42F79D267B866500421ABE /* JitsuUserPropertiesImpl.swift */,
-				8EF2D90E268F212A009B7DB9 /* ProcessingBatches */,
+				8E314C3C2682460A00886F8A /* JitsuBasicEvent.swift */,
+				8E23CD98269E431D00A3F257 /* ErrorWithDescription.swift */,
 				8E425715268DECF200F48F92 /* ProcessingEvents */,
+				8EF2D90E268F212A009B7DB9 /* ProcessingBatches */,
+				8E23CD9C269E433900A3F257 /* Trackers */,
+				8E768E44269327450061AD8A /* Utils */,
 				8EAA74F7267B9E7100ED9E9C /* Services */,
 				8EAA74F2267B9C9000ED9E9C /* Storages */,
-				8E314C3C2682460A00886F8A /* JitsuBasicEvent.swift */,
 			);
 			path = Implementations;
 			sourceTree = "<group>";
@@ -634,6 +648,7 @@
 				8EE4D3DE2688A12100888879 /* CoreDataStack.swift in Sources */,
 				8E95AE88268C84BC00FA0B77 /* ContextMO.swift in Sources */,
 				8EC5926C266984C900357A59 /* JitsuClient.swift in Sources */,
+				8E23CD9E269E439700A3F257 /* ApplicationLifecycleTracker.swift in Sources */,
 				8E42F79E267B866500421ABE /* JitsuUserPropertiesImpl.swift in Sources */,
 				8E95AEA4268DB9AC00FA0B77 /* UserPropertiesStorage.swift in Sources */,
 				8EAA74F9267B9E7F00ED9E9C /* NetworkService.swift in Sources */,
@@ -657,6 +672,7 @@
 				8E95AE8D268CA0EC00FA0B77 /* Transformers.swift in Sources */,
 				8E768E4926935BE80061AD8A /* Jitsu.swift in Sources */,
 				8EC59276266A3E1300357A59 /* UIKitEvents.swift in Sources */,
+				8E23CD99269E431D00A3F257 /* ErrorWithDescription.swift in Sources */,
 				8EE068A0268A312900B2EE67 /* ConcurrencyTools.swift in Sources */,
 				8EE4D3F52688B0F700888879 /* ManualCoreDataHelpers.swift in Sources */,
 				8E42F79A267B85B200421ABE /* JitsuContextImpl.swift in Sources */,
