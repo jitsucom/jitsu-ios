@@ -165,10 +165,9 @@ class JitsuContextImpl: JitsuContext {
 		info["sdk_version"] = sdkVersion
 		
 		let mainAppVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-		info["app_version_id"] = sdkVersion // todo: change in spec
 		
 		let mainAppBuildVersion = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
-		info["app_build_id"] = sdkVersion // todo: change in spec
+		info["app_build_id"] = (mainAppVersion ?? "version undefined") + "." + (mainAppBuildVersion ?? "build undefined")
 		
 		let appName = Bundle.main.infoDictionary?["CFBundleName"] as! String
 		info["app_name"] = appName
@@ -181,6 +180,7 @@ class JitsuContextImpl: JitsuContext {
 	func getDeviceInfo(_ completion: @escaping ([String: Any]) -> Void) {
 		deviceInfoProvider.getDeviceInfo {(deviceInfo) in
 			completion([
+				"screen_resolution": deviceInfo.screenResolution, // e.g "1440x900"
 				"parsed_ua":
 					[
 						"device_brand": deviceInfo.manufacturer, // e.g. "Apple"
@@ -188,7 +188,6 @@ class JitsuContextImpl: JitsuContext {
 						"device_model": deviceInfo.deviceName, // e.g. "iPhone 12"
 						"os_family": deviceInfo.systemName, // e.g. "iOS"
 						"os_version": deviceInfo.systemVersion, // e.g. "13.3"
-						"screen_resolution": deviceInfo.screenResolution // e.g "1440x900" // todo: here?
 					]
 			])
 		}

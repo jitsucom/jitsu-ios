@@ -41,11 +41,17 @@ class DeviceInfoProviderImpl: DeviceInfoProvider {
 				deviceName: UIDevice.modelName,
 				systemName: UIDevice.current.systemName,
 				systemVersion: UIDevice.current.systemVersion,
-				screenResolution: "\(UIScreen.main.bounds.size.width)x\(UIScreen.main.bounds.size.height)"
+				screenResolution: self.screenResolution()
 			)
 			self.deviceInfo = deviceInfo
 			completion(deviceInfo)
 		}
+	}
+	
+	private func screenResolution() -> String {
+		let width = Int(UIScreen.main.bounds.size.width)
+		let height = Int(UIScreen.main.bounds.size.height)
+		return "\(width)x\(height)"
 	}
 }
 
