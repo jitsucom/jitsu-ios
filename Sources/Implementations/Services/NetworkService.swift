@@ -10,19 +10,22 @@ import Foundation
 
 // todo: move
 protocol ErrorWithDescription: Error {
-	var errorDescription: String? { get }
+	var errorDescription: String { get }
 }
 
 enum NetworkServiceError: ErrorWithDescription {
 	case networkError(description: String)
 	case codeNot200(code: Int)
+	case noResponse
 	
-	var errorDescription: String? {
+	var errorDescription: String {
 		switch self {
 		case .networkError(let description):
 			return "Network Error: \(description)"
 		case .codeNot200(let code):
 			return "Network Error. Code \(code)"
+		case .noResponse:
+			return "Network Error. No Internet connection"
 		}
 	}
 }
@@ -35,6 +38,42 @@ protocol NetworkService {
 	func sendBatch(_ batch: Batch, completion: @escaping SendBatchCompletion)
 }
 
+func runRetryingRequest(
+	request: URLRequest,
+	onSuccess: @escaping (Data?)->(),
+	onFailure: @escaping (NetworkServiceError)->(),
+	retryCount: Int,
+	attempt: Int = 0
+) {
+	func retryIfAppropriate(retryCount: Int, attempt: Int, error: NetworkServiceError) -> Void {
+		guard retryCount > attempt else {
+			onFailure(error)
+			return
+		}
+		
+		let attempt = attempt + 1
+		
+		print("retrying, attempt \(attempt)")
+		DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(30 * attempt)) {
+			runRetryingRequest(request: request, onSuccess: onSuccess, onFailure: onFailure, retryCount: retryCount, attempt: attempt)
+		}
+	}
+	
+	let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+		guard let response = response as? HTTPURLResponse else {
+			retryIfAppropriate(retryCount: retryCount, attempt: attempt, error: .noResponse)
+			return
+		}
+		if response.statusCode == 200 {
+			onSuccess(data)
+		} else if let error = error {
+			onFailure(.networkError(description: error.localizedDescription))
+		} else {
+			onFailure(.codeNot200(code: response.statusCode))
+		}
+	}
+	task.resume()
+}
 
 class NetworkServiceImpl: NetworkService {
 	
@@ -47,10 +86,6 @@ class NetworkServiceImpl: NetworkService {
 	}
 	
 	func sendBatch(_ batch: Batch, completion: @escaping SendBatchCompletion) {
-		print(batch.batchId)
-		print(batch)
-		print(batch.events)
-
 		let url = URL(string: host)!
 		var request = URLRequest(url: url)
 		request.httpMethod = "POST"
@@ -61,21 +96,19 @@ class NetworkServiceImpl: NetworkService {
 		print("sending: \(body)") // todo: remove, since it contains api key
 		
 		request.httpBody = body.data(using: .utf8)
-
-		let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-			guard let response = response as? HTTPURLResponse else {
-				completion(.failure(.networkError(description: "\(String(describing: error))")))
-				return
-			}
-			if response.statusCode == 200 {
+		
+		runRetryingRequest(
+			request: request,
+			onSuccess: { _ in
+				print("sent \(batch.batchId)")
 				completion(.success(batch.batchId))
-			} else if let error = error {
-				completion(.failure(.networkError(description: error.localizedDescription)))
-			} else {
-				completion(.failure(.codeNot200(code: response.statusCode)))
-			}
-		}
-		task.resume()
+			},
+			onFailure: { error in
+				print("failed to send \(batch.batchId), error: \(error.errorDescription)")
+				completion(.failure(error))
+			},
+			retryCount: 10
+		)
 	}
 			
 	private func jsonFromBatch(_ batch: Batch, apiKey: String) -> String {
