@@ -58,15 +58,16 @@ class JitsuClientImpl: JitsuClient {
 		}
 	}
 	
-	var trackers = [Tracker]()
+	private var trackers = [Tracker]()
 	
-	func addTrackers() {
+	private func addTrackers() {
 		let eventBlock: (Event) -> Void = { [weak self] event in
 			guard let self = self else {return}
 			self.trackEvent(event)
 		}
 	
 		trackers.append(ApplicationLifecycleTracker.subscribe(eventBlock))
+		trackers.append(UpdateTracker.subscribe(eventBlock))
 	}
 	
 	// MARK: - Events pipeline

@@ -16,6 +16,8 @@
 		8E23CD70269C72DF00A3F257 /* SignOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E23CD6F269C72DF00A3F257 /* SignOut.swift */; };
 		8E23CD99269E431D00A3F257 /* ErrorWithDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E23CD98269E431D00A3F257 /* ErrorWithDescription.swift */; };
 		8E23CD9E269E439700A3F257 /* ApplicationLifecycleTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E23CD9D269E439700A3F257 /* ApplicationLifecycleTracker.swift */; };
+		8E23CDA2269EC47500A3F257 /* UpdateTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E23CDA1269EC47500A3F257 /* UpdateTracker.swift */; };
+		8E23CDA6269EC60400A3F257 /* BundleExtentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E23CDA5269EC60400A3F257 /* BundleExtentions.swift */; };
 		8E2BB712269909ED008505EE /* JsonPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2BB711269909ED008505EE /* JsonPresentation.swift */; };
 		8E2BB72726991B80008505EE /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2BB72626991B80008505EE /* UserProfileViewController.swift */; };
 		8E2E8B062692440B00C90CBC /* SerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2E8B052692440B00C90CBC /* SerializerTests.swift */; };
@@ -113,6 +115,8 @@
 		8E23CD6F269C72DF00A3F257 /* SignOut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOut.swift; sourceTree = "<group>"; };
 		8E23CD98269E431D00A3F257 /* ErrorWithDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorWithDescription.swift; sourceTree = "<group>"; };
 		8E23CD9D269E439700A3F257 /* ApplicationLifecycleTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationLifecycleTracker.swift; sourceTree = "<group>"; };
+		8E23CDA1269EC47500A3F257 /* UpdateTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTracker.swift; sourceTree = "<group>"; };
+		8E23CDA5269EC60400A3F257 /* BundleExtentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleExtentions.swift; sourceTree = "<group>"; };
 		8E2BB711269909ED008505EE /* JsonPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonPresentation.swift; sourceTree = "<group>"; };
 		8E2BB72626991B80008505EE /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		8E2E8B052692440B00C90CBC /* SerializerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializerTests.swift; sourceTree = "<group>"; };
@@ -225,6 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				8E23CD9D269E439700A3F257 /* ApplicationLifecycleTracker.swift */,
+				8E23CDA1269EC47500A3F257 /* UpdateTracker.swift */,
 			);
 			path = Trackers;
 			sourceTree = "<group>";
@@ -291,6 +296,7 @@
 			children = (
 				8E768E3F2692FFAB0061AD8A /* JSON.swift */,
 				8EE0689F268A312900B2EE67 /* ConcurrencyTools.swift */,
+				8E23CDA5269EC60400A3F257 /* BundleExtentions.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -646,6 +652,7 @@
 			files = (
 				8E95AE49268B354C00FA0B77 /* JitsuServiceLocator.swift in Sources */,
 				8EE4D3DE2688A12100888879 /* CoreDataStack.swift in Sources */,
+				8E23CDA6269EC60400A3F257 /* BundleExtentions.swift in Sources */,
 				8E95AE88268C84BC00FA0B77 /* ContextMO.swift in Sources */,
 				8EC5926C266984C900357A59 /* JitsuClient.swift in Sources */,
 				8E23CD9E269E439700A3F257 /* ApplicationLifecycleTracker.swift in Sources */,
@@ -671,6 +678,7 @@
 				8E42F793267B853100421ABE /* JitsuClientImpl.swift in Sources */,
 				8E95AE8D268CA0EC00FA0B77 /* Transformers.swift in Sources */,
 				8E768E4926935BE80061AD8A /* Jitsu.swift in Sources */,
+				8E23CDA2269EC47500A3F257 /* UpdateTracker.swift in Sources */,
 				8EC59276266A3E1300357A59 /* UIKitEvents.swift in Sources */,
 				8E23CD99269E431D00A3F257 /* ErrorWithDescription.swift in Sources */,
 				8EE068A0268A312900B2EE67 /* ConcurrencyTools.swift in Sources */,
@@ -743,7 +751,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.3;
+				MARKETING_VERSION = 2.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jitsu.ExampleApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -765,7 +773,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.3;
+				MARKETING_VERSION = 2.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jitsu.ExampleApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

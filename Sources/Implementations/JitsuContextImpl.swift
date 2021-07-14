@@ -160,18 +160,9 @@ class JitsuContextImpl: JitsuContext {
 		
 	private lazy var appInformation: [String: String] = {
 		var info = ["src": "jitsu_ios"]
-		
-		let sdkVersion =  Bundle(for: Self.self).infoDictionary?["CFBundleShortVersionString"] as? String
-		info["sdk_version"] = sdkVersion
-		
-		let mainAppVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-		
-		let mainAppBuildVersion = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
-		info["app_build_id"] = (mainAppVersion ?? "version undefined") + "." + (mainAppBuildVersion ?? "build undefined")
-		
-		let appName = Bundle.main.infoDictionary?["CFBundleName"] as! String
-		info["app_name"] = appName
-		
+		info["sdk_version"] = Bundle(for: Self.self).minorVersion
+		info["app_build_id"] = Bundle.main.fullVersion
+		info["app_name"] = Bundle.main.appName
 		return info
 	}()
 	

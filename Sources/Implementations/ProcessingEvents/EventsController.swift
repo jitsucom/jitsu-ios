@@ -44,7 +44,7 @@ class EventsController {
 	}
 	
 	func add(event: Event, context: [String : Any], userProperties: [String : Any]) {
-		print("dbg adding event \(event.name), context \(context), userProperties \(userProperties)")
+		print("dbg adding event \(event.name), payload: \(event.payload), context \(context), userProperties \(userProperties)")
 		let enrichedEvent = EnrichedEvent(
 			eventId: UUID().uuidString,
 			name: event.name,

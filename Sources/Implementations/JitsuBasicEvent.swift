@@ -13,7 +13,8 @@ class JitsuBasicEvent: Event {
 	
 	var payload = [String : Any]()
 	
-	init(name: EventType) {
+	init(name: EventType, payload: [String: Any] = [:]) {
 		self.name = name
+		self.payload = payload
 	}
 }

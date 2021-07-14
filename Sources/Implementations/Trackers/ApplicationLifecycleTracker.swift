@@ -11,7 +11,7 @@ import UIKit
 typealias EventBlock = (Event) -> Void
 
 protocol Tracker {
-//	static func subscribe(_ eventBlock: @escaping EventBlock)
+	static func subscribe(_ eventBlock: @escaping EventBlock) -> Tracker
 }
 
 
@@ -74,7 +74,5 @@ class ApplicationLifecycleTracker: Tracker {
 		) { notification in
 			handler(notification)
 		}
-	}
-	
-	
+	}	
 }
