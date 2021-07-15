@@ -11,14 +11,14 @@ class UpdateTracker: Tracker {
 	
 	// MARK: - Initialization
 	
-	private var eventBlock: EventBlock
+	private var eventBlock: TrackerOutput
 	
-	static func subscribe(_ eventBlock: @escaping EventBlock) -> Tracker {
+	static func subscribe(_ eventBlock: @escaping TrackerOutput) -> Tracker {
 		let tracker = UpdateTracker(eventBlock)
 		return tracker
 	}
 	
-	private init(_ eventBlock: @escaping EventBlock) {
+	private init(_ eventBlock: @escaping TrackerOutput) {
 		self.eventBlock = eventBlock
 		setupTrackers()
 	}

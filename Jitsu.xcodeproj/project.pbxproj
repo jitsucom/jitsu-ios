@@ -18,6 +18,9 @@
 		8E23CD9E269E439700A3F257 /* ApplicationLifecycleTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E23CD9D269E439700A3F257 /* ApplicationLifecycleTracker.swift */; };
 		8E23CDA2269EC47500A3F257 /* UpdateTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E23CDA1269EC47500A3F257 /* UpdateTracker.swift */; };
 		8E23CDA6269EC60400A3F257 /* BundleExtentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E23CDA5269EC60400A3F257 /* BundleExtentions.swift */; };
+		8E23CDB2269F045E00A3F257 /* DeeplinkTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E23CDB1269F045E00A3F257 /* DeeplinkTracker.swift */; };
+		8E23CDB6269F047C00A3F257 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E23CDB5269F047C00A3F257 /* Tracker.swift */; };
+		8E23CDBC269F070100A3F257 /* PushTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E23CDBB269F070100A3F257 /* PushTracker.swift */; };
 		8E2BB712269909ED008505EE /* JsonPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2BB711269909ED008505EE /* JsonPresentation.swift */; };
 		8E2BB72726991B80008505EE /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2BB72626991B80008505EE /* UserProfileViewController.swift */; };
 		8E2E8B062692440B00C90CBC /* SerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2E8B052692440B00C90CBC /* SerializerTests.swift */; };
@@ -117,6 +120,9 @@
 		8E23CD9D269E439700A3F257 /* ApplicationLifecycleTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationLifecycleTracker.swift; sourceTree = "<group>"; };
 		8E23CDA1269EC47500A3F257 /* UpdateTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTracker.swift; sourceTree = "<group>"; };
 		8E23CDA5269EC60400A3F257 /* BundleExtentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleExtentions.swift; sourceTree = "<group>"; };
+		8E23CDB1269F045E00A3F257 /* DeeplinkTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeeplinkTracker.swift; sourceTree = "<group>"; };
+		8E23CDB5269F047C00A3F257 /* Tracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
+		8E23CDBB269F070100A3F257 /* PushTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushTracker.swift; sourceTree = "<group>"; };
 		8E2BB711269909ED008505EE /* JsonPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonPresentation.swift; sourceTree = "<group>"; };
 		8E2BB72626991B80008505EE /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		8E2E8B052692440B00C90CBC /* SerializerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializerTests.swift; sourceTree = "<group>"; };
@@ -228,8 +234,11 @@
 		8E23CD9C269E433900A3F257 /* Trackers */ = {
 			isa = PBXGroup;
 			children = (
+				8E23CDB5269F047C00A3F257 /* Tracker.swift */,
 				8E23CD9D269E439700A3F257 /* ApplicationLifecycleTracker.swift */,
 				8E23CDA1269EC47500A3F257 /* UpdateTracker.swift */,
+				8E23CDB1269F045E00A3F257 /* DeeplinkTracker.swift */,
+				8E23CDBB269F070100A3F257 /* PushTracker.swift */,
 			);
 			path = Trackers;
 			sourceTree = "<group>";
@@ -655,12 +664,15 @@
 				8E23CDA6269EC60400A3F257 /* BundleExtentions.swift in Sources */,
 				8E95AE88268C84BC00FA0B77 /* ContextMO.swift in Sources */,
 				8EC5926C266984C900357A59 /* JitsuClient.swift in Sources */,
+				8E23CDB2269F045E00A3F257 /* DeeplinkTracker.swift in Sources */,
 				8E23CD9E269E439700A3F257 /* ApplicationLifecycleTracker.swift in Sources */,
 				8E42F79E267B866500421ABE /* JitsuUserPropertiesImpl.swift in Sources */,
 				8E95AEA4268DB9AC00FA0B77 /* UserPropertiesStorage.swift in Sources */,
 				8EAA74F9267B9E7F00ED9E9C /* NetworkService.swift in Sources */,
+				8E23CDBC269F070100A3F257 /* PushTracker.swift in Sources */,
 				8EBDBEAC2686032F00EF8756 /* DateService.swift in Sources */,
 				8E425717268DED2D00F48F92 /* EnrichedEvent.swift in Sources */,
+				8E23CDB6269F047C00A3F257 /* Tracker.swift in Sources */,
 				8E314C3D2682460A00886F8A /* JitsuBasicEvent.swift in Sources */,
 				8EE4D3D62688A0AB00888879 /* EnrichedEventMO.swift in Sources */,
 				8E95AEAF268DBBA400FA0B77 /* UserPropertiesMO.swift in Sources */,

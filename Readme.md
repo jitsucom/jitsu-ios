@@ -171,8 +171,9 @@ analytics.sendScreenEvent(screen: someVC, name: "screen appeared", params: ["foo
 - App did enter background
  
  2) SDK can send events when: 
- * A user receives a push notification, and user opens a push notification. You can turn it off by `analytics.shouldCapturePushEvents = false`
- * App was opened from a deeplink. You can turn it off by `analytics.shouldCaptureDeeplinks = false`
+ * User opens a push notification. You can turn it off by `analytics.shouldCapturePushEvents = false`
+ * App was opened from a deeplink. You can turn it off by `analytics.shouldCaptureDeeplinks = false`. We pass the link in payload.
+	*Note: this method will not work if your app uses SceneDelegate. If so, you will have to track opening from deeplink manually in `scene(_ scene: , willConnectTo session: , options connectionOptions: )`*
  
  
  ### Location

@@ -8,25 +8,18 @@
 import Foundation
 import UIKit
 
-typealias EventBlock = (Event) -> Void
-
-protocol Tracker {
-	static func subscribe(_ eventBlock: @escaping EventBlock) -> Tracker
-}
-
-
 class ApplicationLifecycleTracker: Tracker {
 	
 	// MARK: - Initialization
 	
-	private var eventBlock: EventBlock
+	private var eventBlock: TrackerOutput
 	
-	static func subscribe(_ eventBlock: @escaping EventBlock) -> Tracker {
+	static func subscribe(_ eventBlock: @escaping TrackerOutput) -> Tracker {
 		let tracker = ApplicationLifecycleTracker(eventBlock)
 		return tracker
 	}
 	
-	private init(_ eventBlock: @escaping EventBlock) {
+	private init(_ eventBlock: @escaping TrackerOutput) {
 		self.eventBlock = eventBlock
 		setupTrackers()
 	}

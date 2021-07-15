@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 class JitsuClientImpl: JitsuClient {
 	
 	var context: JitsuContext
@@ -16,10 +15,12 @@ class JitsuClientImpl: JitsuClient {
 	private var networkService: NetworkService
 	private var storageLocator: StorageLocator
 	private var deps: ServiceLocator
+	private var options: JitsuOptions
 	
 	private var eventsQueue = DispatchQueue(label: "com.jitsu.eventsQueue")
 	
-	init(deps: ServiceLocator) {
+	init(options: JitsuOptions, deps: ServiceLocator) {
+		self.options = options
 		self.deps = deps
 		self.networkService = deps.networkService
 		self.storageLocator = deps.storageLocator
@@ -65,9 +66,15 @@ class JitsuClientImpl: JitsuClient {
 			guard let self = self else {return}
 			self.trackEvent(event)
 		}
-	
 		trackers.append(ApplicationLifecycleTracker.subscribe(eventBlock))
 		trackers.append(UpdateTracker.subscribe(eventBlock))
+		
+		if options.shouldCaptureDeeplinks {
+			trackers.append(DeeplinkTracker.subscribe(eventBlock))
+		}
+		if options.shouldCapturePushEvents {
+			trackers.append(PushTracker.subscribe(eventBlock))
+		}
 	}
 	
 	// MARK: - Events pipeline
