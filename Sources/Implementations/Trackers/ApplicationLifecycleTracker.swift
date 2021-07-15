@@ -8,22 +8,18 @@
 import Foundation
 import UIKit
 
-class ApplicationLifecycleTracker: Tracker {
+class ApplicationLifecycleTracker: Tracker<Event> {
 	
 	// MARK: - Initialization
 	
-	private var eventBlock: TrackerOutput
+	private var trackerOutput: TrackerEventOutput
 	
-	static func subscribe(_ eventBlock: @escaping TrackerOutput) -> Tracker {
-		let tracker = ApplicationLifecycleTracker(eventBlock)
-		return tracker
-	}
-	
-	private init(_ eventBlock: @escaping TrackerOutput) {
-		self.eventBlock = eventBlock
+	override init(callback: @escaping (Event) -> Void) {
+		self.trackerOutput = callback
+		super.init(callback: callback)
 		setupTrackers()
 	}
-	
+
 	// MARK: - Tracking
 
 	private lazy var notificationCenter = NotificationCenter.default
@@ -43,7 +39,6 @@ class ApplicationLifecycleTracker: Tracker {
 		UIApplication.backgroundRefreshStatusDidChangeNotification,
 		
 		UIApplication.didReceiveMemoryWarningNotification,
-		UIApplication.significantTimeChangeNotification,
 	]
 
 	private func setupTrackers() {
@@ -54,10 +49,9 @@ class ApplicationLifecycleTracker: Tracker {
 		addTracker(notificationName) { [weak self] _ in
 			guard let self = self else { return }
 			let event = JitsuBasicEvent(name: notificationName.rawValue)
-			self.eventBlock(event)
+			self.trackerOutput(event)
 		}
 	}
-	
 	
 	private func addTracker(_ notificationName: NSNotification.Name, handler: @escaping (Notification)->()) {
 		notificationCenter.addObserver(

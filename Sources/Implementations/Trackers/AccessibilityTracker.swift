@@ -1,20 +1,20 @@
 //
-//  PushTracker.swift
+//  AccessibilityTracker.swift
 //  Jitsu
 //
-//  Created by Leonid Serebryanyy on 14.07.2021.
+//  Created by Leonid Serebryanyy on 15.07.2021.
 //
 
 import Foundation
 import UIKit
 
-class PushTracker: Tracker<Event> {
-
+class AccessibilityTracker: Tracker<[String: String]> {
+	
 	// MARK: - Initialization
 	
-	private var trackerOutput: TrackerEventOutput
+	private var trackerOutput: TrackerContextOutput
 		
-	override init(callback: @escaping (Event) -> Void) {
+	override init(callback: @escaping ([String: String]) -> Void) {
 		self.trackerOutput = callback
 		super.init(callback: callback)
 		setupTrackers()
@@ -25,12 +25,11 @@ class PushTracker: Tracker<Event> {
 	private lazy var notificationCenter = NotificationCenter.default
 	
 	private func setupTrackers() {
-		addTracker(UIApplication.didFinishLaunchingNotification) { [weak self] notification  in
+		let voiceOverObserver = UIAccessibility.voiceOverStatusDidChangeNotification
+		addTracker(voiceOverObserver) { [weak self] notification  in
 			guard let self = self else {return}
-			guard let userInfo = notification.userInfo else { return }
-			if userInfo[UIApplication.LaunchOptionsKey.remoteNotification] != nil {
-				self.trackerOutput(JitsuBasicEvent(name: "Remote Notification Opened"))
-			}
+			self.trackerOutput(["voice_over": "true"])
+			self.notificationCenter.removeObserver(self, name: voiceOverObserver, object: nil)
 		}
 	}
 	

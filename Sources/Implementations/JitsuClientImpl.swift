@@ -59,22 +59,30 @@ class JitsuClientImpl: JitsuClient {
 		}
 	}
 	
-	private var trackers = [Tracker]()
-	
+	private var eventTrackers = [Tracker<Event>]()
+	private var contextTrackers = [Tracker<[String: String]>]()
+
 	private func addTrackers() {
 		let eventBlock: (Event) -> Void = { [weak self] event in
 			guard let self = self else {return}
 			self.trackEvent(event)
 		}
-		trackers.append(ApplicationLifecycleTracker.subscribe(eventBlock))
-		trackers.append(UpdateTracker.subscribe(eventBlock))
 		
+		eventTrackers.append(ApplicationLifecycleTracker(callback: eventBlock))
+		eventTrackers.append(UpdateTracker(callback: eventBlock))
+
 		if options.shouldCaptureDeeplinks {
-			trackers.append(DeeplinkTracker.subscribe(eventBlock))
+			eventTrackers.append(DeeplinkTracker(callback: eventBlock))
 		}
+		
 		if options.shouldCapturePushEvents {
-			trackers.append(PushTracker.subscribe(eventBlock))
+			eventTrackers.append(PushTracker(callback: eventBlock))
 		}
+		
+		contextTrackers.append(AccessibilityTracker(callback: { [weak self] (newValue) in
+			guard let self = self else {return}
+			try? self.context.addValues(newValue, for: nil, persist: false)
+		}))
 	}
 	
 	// MARK: - Events pipeline

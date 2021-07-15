@@ -11,19 +11,15 @@
 import Foundation
 import UIKit
 
-class DeeplinkTracker: Tracker {
+class DeeplinkTracker: Tracker<Event> {
 	
 	// MARK: - Initialization
 	
-	private var trackerOutput: TrackerOutput
+	private var trackerOutput: TrackerEventOutput
 	
-	static func subscribe(_ eventBlock: @escaping TrackerOutput) -> Tracker {
-		let tracker = DeeplinkTracker(eventBlock)
-		return tracker
-	}
-	
-	private init(_ eventBlock: @escaping TrackerOutput) {
-		self.trackerOutput = eventBlock
+	override init(callback: @escaping (Event) -> Void) {
+		self.trackerOutput = callback
+		super.init(callback: callback)
 		setupTrackers()
 	}
 	

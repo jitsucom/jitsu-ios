@@ -7,8 +7,9 @@
 
 import Foundation
 
-typealias TrackerOutput = (Event) -> Void
+typealias TrackerEventOutput = (Event) -> Void
+typealias TrackerContextOutput = ([String: String]) -> Void
 
-protocol Tracker {
-	static func subscribe(_ eventBlock: @escaping TrackerOutput) -> Tracker
+class Tracker<T> {
+	init(callback: @escaping (T) -> Void) {}
 }

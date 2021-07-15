@@ -7,19 +7,15 @@
 
 import Foundation
 
-class UpdateTracker: Tracker {
+class UpdateTracker: Tracker<Event> {
 	
 	// MARK: - Initialization
 	
-	private var eventBlock: TrackerOutput
+	private var trackerOutput: TrackerEventOutput
 	
-	static func subscribe(_ eventBlock: @escaping TrackerOutput) -> Tracker {
-		let tracker = UpdateTracker(eventBlock)
-		return tracker
-	}
-	
-	private init(_ eventBlock: @escaping TrackerOutput) {
-		self.eventBlock = eventBlock
+	override init(callback: @escaping (Event) -> Void) {
+		self.trackerOutput = callback
+		super.init(callback: callback)
 		setupTrackers()
 	}
 	
@@ -49,7 +45,7 @@ class UpdateTracker: Tracker {
 			name: "App Installed",
 			payload: ["version": version ?? ""]
 		)
-		eventBlock(event)
+		trackerOutput(event)
 	}
 	
 	private func sendAppUpdated(from fromVersion: String?, to toVersion: String?) {
@@ -58,7 +54,7 @@ class UpdateTracker: Tracker {
 			payload: ["from_version" : fromVersion ?? "",
 					  "to_version": toVersion ?? ""]
 		)
-		eventBlock(event)
+		trackerOutput(event)
 	}
 	
 
