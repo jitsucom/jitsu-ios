@@ -11,6 +11,7 @@ enum NetworkServiceError: ErrorWithDescription {
 	case networkError(description: String)
 	case codeNot200(code: Int)
 	case noResponse
+	case noDestination
 	
 	var errorDescription: String {
 		switch self {
@@ -20,6 +21,8 @@ enum NetworkServiceError: ErrorWithDescription {
 			return "Network Error. Code \(code)"
 		case .noResponse:
 			return "Network Error. No Internet connection"
+		case .noDestination:
+			return "You should configure destination in your Jitsu Dashboard"
 		}
 	}
 }
@@ -60,6 +63,8 @@ func runRetryingRequest(
 		}
 		if response.statusCode == 200 {
 			onSuccess(data)
+		} else if response.statusCode == 402 {
+			onFailure(.noDestination)
 		} else if let error = error {
 			onFailure(.networkError(description: error.localizedDescription))
 		} else {
@@ -87,18 +92,20 @@ class NetworkServiceImpl: NetworkService {
 		request.addValue(apiKey, forHTTPHeaderField: "x-auth-token")
 		
 		let body = jsonFromBatch(batch, apiKey: apiKey)
-		logInfo(from: self, "sending: \(body)")
+		logDebugFrom(self, "sending: \(body)")
 		
 		request.httpBody = body.data(using: .utf8)
 		
 		runRetryingRequest(
 			request: request,
 			onSuccess: { _ in
-				logInfo(from: self, "sent \(batch.batchId)")
+				logInfo(from: self, "sent batch \(batch.batchId)")
 				completion(.success(batch.batchId))
 			},
 			onFailure: { error in
-				logError(from: self, "sent \(batch.batchId)")
+				if case NetworkServiceError.noDestination = error {
+					logCritical(error.errorDescription)
+				}
 				logError("failed to send \(batch.batchId), error: \(error.errorDescription)")
 				completion(.failure(error))
 			},

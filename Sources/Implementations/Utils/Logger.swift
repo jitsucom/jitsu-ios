@@ -71,6 +71,10 @@ func logInfo<T: Any>(from cls: T, _ message: String) {
 	logger(.info, "\(type(of: cls)): \(message)")
 }
 
+func logDebugFrom<T: Any>(_ cls: T, _ message: String) {
+	logger(.debug, "\(type(of: cls)): \(message)")
+}
+
 func logError<T: Any>(from cls: T, _ message: String) {
 	logger(.error, "\(type(of: cls)): \(message)")
 }
