@@ -114,16 +114,6 @@ class JitsuClientImpl: JitsuClient {
 		
 	// MARK: - Tracking events
 	
-	func trackEvent(_ event: Event) {
-		eventsQueue.async {
-			self.eventsController.add(
-				event: event,
-				context: self.context.values(for: event.name),
-				userProperties: self.userProperties.values()
-			)
-		}
-	}
-	
 	func trackEvent(name: EventType) {
 		let event = JitsuBasicEvent(name: name)
 		trackEvent(event)
@@ -133,6 +123,20 @@ class JitsuClientImpl: JitsuClient {
 		let event = JitsuBasicEvent(name: name)
 		event.payload = payload
 		trackEvent(event)
+	}
+	
+	func trackEvent(_ event: Event) {
+		guard analyticsEnabled else {
+			logInfo("analytics disabled, not tracking event")
+			return
+		}
+		eventsQueue.async {
+			self.eventsController.add(
+				event: event,
+				context: self.context.values(for: event.name),
+				userProperties: self.userProperties.values()
+			)
+		}
 	}
 	
 	// MARK: - Sendinng Batches
@@ -159,12 +163,27 @@ class JitsuClientImpl: JitsuClient {
 	
 	// MARK: - On/Off
 	
-	func turnOff() {
+	var isAnalyicsEnabledKey = "isAnalyicsEnabledKey"
+	private var analyticsEnabled: Bool {
+		let isEnabled = UserDefaults.standard.value(forKey: isAnalyicsEnabledKey) as? Bool
 		
+		if let isEnabled = isEnabled {
+			return isEnabled
+		}
+		
+		return true
+	}
+	
+	func turnOff() {
+		trackEvent(name: "Jitsu turned off")
+		logCritical("Jitsu turned off")
+		UserDefaults.standard.setValue(false, forKey: isAnalyicsEnabledKey)
 	}
 	
 	func turnOn() {
-		
+		trackEvent(name: "Jitsu turned on")
+		logCritical("Jitsu turned on")
+		UserDefaults.standard.setValue(true, forKey: isAnalyicsEnabledKey)
 	}
 	
 }

@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import Jitsu
 
 extension UIViewController {
 	open override var canBecomeFirstResponder: Bool {
@@ -22,6 +23,14 @@ extension UIViewController {
 			authVC.modalPresentationStyle = .fullScreen
 			self.show(authVC, sender: self)
 		}))
+		alert.addAction(UIAlertAction(title: "Turn off", style: .default, handler: { _ in
+			Jitsu.shared.turnOff()
+		}))
+		
+		alert.addAction(UIAlertAction(title: "Turn on", style: .default, handler: { _ in
+			Jitsu.shared.turnOn()
+		}))
+		
 		alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 		
 		show(alert, sender: self)
