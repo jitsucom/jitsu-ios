@@ -28,17 +28,19 @@ class ContextStorageImpl: ContextStorage {
 		do {
 			let result: [ContextMO] = try context.fetch(fetchRequest)
 			let databaseValues = result.map { ContextValue(contextMO: $0) }
-			print("fetched contextValues: \(databaseValues.map {($0.key, $0.value, $0.eventType)} )")
+			logInfo(
+				"\(#function) fetched \(databaseValues.map {($0.key, $0.value, $0.eventType)} )"
+			)
+
 			return databaseValues
 		} catch {
-			print("\(#function) fetch failed")
-			fatalError() //todo: remove later
+			logCritical("\(#function) load failed, \(error)")
 			return []
 		}
 	}
 	
 	func saveContextValue(_ value: ContextValue) {
-		print("\(#function) saving contextValue: \(value)")
+		logInfo("\(#function) saving contextValue: \(value)")
 		let context = coreDataStack.persistentContainer.newBackgroundContext()
 		removeContextValue(value, context: context)
 		context.perform {
@@ -46,14 +48,13 @@ class ContextStorageImpl: ContextStorage {
 			do {
 				try context.save()
 			} catch {
-				print("\(#function) save failed: \(error)")
-				fatalError()
+				logCritical("\(#function) save failed: \(error)")
 			}
 		}
 	}
 	
 	func removeContextValue(_ value: ContextValue) {
-		print("\(#function) planning to remove \(value.key) for event type \(value.eventType ?? "nil")")
+		logDebug("\(#function) planning to remove \(value.key) for event type \(value.eventType ?? "nil")")
 		let context = coreDataStack.persistentContainer.newBackgroundContext()
 		removeContextValue(value, context: context)
 	}
@@ -69,31 +70,28 @@ class ContextStorageImpl: ContextStorage {
 		do {
 			let params = try context.fetch(fetchRequest)
 			for b in params {
-				print("\(#function) deleting \(b.key) \(b.eventType ?? "general") \(b.value)")
+				logDebug("\(#function) deleting \(b.key) \(b.eventType ?? "general") \(b.value)")
 				context.delete(b)
 			}
 			try context.save()
 		} catch {
-			print("oops")
-			fatalError()
+			logCriticalFrom(self, "\(#function) remove failed")
 		}
 	}
 	
 	func clear() {
-		print("\(#function)")
 		let context = coreDataStack.persistentContainer.newBackgroundContext()
 		let fetchRequest: NSFetchRequest<ContextMO> = ContextMO.fetchRequest()
 		do {
 			let valuesToRemove = try context.fetch(fetchRequest)
-			print("\(#function) fetched \(valuesToRemove.count)")
+			logDebug("\(#function) fetched \(valuesToRemove.count)")
 			
 			for value in valuesToRemove {
 				context.delete(value)
 			}
 			try context.save()
 		} catch {
-			print("oops")
-			fatalError()
+			logCriticalFrom(self, "\(#function) clear failed")
 		}
 	}
 }

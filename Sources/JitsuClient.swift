@@ -156,11 +156,12 @@ extension JitsuContext {
 	var shouldCapturePushEvents: Bool = true
 	
 	/// You can set different log levels, depending on how detailed you want sdk logs to be
-	var logLevel: LogLevel = .warnings
+	var logLevel: JitsuLogLevel = .warning
 	
-	@objc public init(apiKey: String, trackingHost: String?) {
+	@objc public init(apiKey: String, trackingHost: String?, logLevel: JitsuLogLevel = .warning) {
 		self.apiKey = apiKey
 		self.trackingHost = trackingHost ?? JitsuOptions.defaultTrackingHost
+		self.logLevel = logLevel
 		super.init()
 	}
 }
@@ -181,6 +182,11 @@ extension JitsuContext {
 }
 
 /// Settings different log levels to the SDK.
-@objc public enum LogLevel: Int {
-	case debug, info, warnings, errors, critical, none
+@objc public enum JitsuLogLevel: Int {
+	case debug = 0
+	case info
+	case warning
+	case error
+	case critical
+	case none
 }

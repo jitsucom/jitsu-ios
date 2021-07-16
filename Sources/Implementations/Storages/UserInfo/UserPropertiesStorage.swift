@@ -32,18 +32,23 @@ class UserPropertiesStorageImpl: UserPropertiesStorage {
 	func loadUserProperties() -> UserPropertiesModel? {
 		let context = coreDataStack.persistentContainer.viewContext
 		let fetchRequest: NSFetchRequest<UserPropertiesMO> = UserPropertiesMO.fetchRequest()
-		let result: [UserPropertiesMO]? = try? context.fetch(fetchRequest)
-		guard let fetched = result?.first else {
-			print("\(#function) no user properties were saved")
+		do {
+			let result: [UserPropertiesMO]? = try context.fetch(fetchRequest)
+			guard let fetched = result?.first else {
+				logDebug("\(#function) there were no user properties")
+				return nil
+			}
+			let userProperties = UserPropertiesModel(mo: fetched)
+			logInfo("\(#function) fetched \(userProperties)")
+			return userProperties
+		} catch {
+			logCritical("\(#function) load failed, \(error)")
 			return nil
 		}
-		let userProperties = UserPropertiesModel(mo: fetched)
-		print("\(#function) fetched \(userProperties)")
-		return userProperties
 	}
 	
 	func saveUserPropertiesModel(_ value: UserPropertiesModel) {
-		print("\(#function) saving user properties: \(value)")
+		logInfo("\(#function) saving user properties: \(value)")
 		let context = coreDataStack.persistentContainer.newBackgroundContext()
 		removeUserProperties(value, context: context)
 		context.perform {
@@ -55,8 +60,7 @@ class UserPropertiesStorageImpl: UserPropertiesStorage {
 			do {
 				try context.save()
 			} catch {
-				print("\(#function) save failed: \(error)")
-				fatalError()
+				logCritical("\(#function) save failed: \(error)")
 			}
 		}
 	}
@@ -71,30 +75,28 @@ class UserPropertiesStorageImpl: UserPropertiesStorage {
 		do {
 			let props = try context.fetch(fetchRequest)
 			for p in props {
-				print("\(#function) deleting \(p.anonymousUserId)")
+				logDebug("\(#function) deleting \(p.anonymousUserId)")
 				context.delete(p)
 			}
 			try context.save()
 		} catch {
-			print("\(#function) oops")
-			fatalError()
+			logCriticalFrom(self, "\(#function) remove failed")
 		}
 	}
 
 	func clear() {
-		print("\(#function)")
 		let context = coreDataStack.persistentContainer.newBackgroundContext()
 		let fetchRequest: NSFetchRequest<UserPropertiesMO> = UserPropertiesMO.fetchRequest()
 		do {
 			let valuesToRemove = try context.fetch(fetchRequest)
-			print("\(#function) fetched \(valuesToRemove.count)")
+			logDebug("\(#function) fetched \(valuesToRemove.count)")
+			
 			for value in valuesToRemove {
 				context.delete(value)
 			}
 			try context.save()
 		} catch {
-			print("oops")
-			fatalError()
+			logCriticalFrom(self, "\(#function) clear failed")
 		}
 	}
 }

@@ -26,13 +26,12 @@ class EventStorageImpl: EventStorage {
 		let fetchRequest: NSFetchRequest<EnrichedEventMO> = EnrichedEventMO.fetchRequest()
 		do {
 			let result: [EnrichedEventMO] = try context.fetch(fetchRequest)
-			print("fetched events: \(result.map {($0.name, $0.eventId)} )")
+			logInfo("fetched events: \(result.map {($0.name, $0.eventId)} )")
 			let eventsFromDatabase = result.map { EnrichedEvent(mo: $0) }
 			completion(eventsFromDatabase)
 			
 		} catch {
-			print("\(#function) fetch failed")
-			fatalError() //todo: remove later
+			logCritical("\(#function) load failed, \(error)")
 			completion([])
 		}
 	}
@@ -44,29 +43,27 @@ class EventStorageImpl: EventStorage {
 			do {
 				try context.save()
 			} catch {
-				print("\(#function) save failed: \(error)")
-				fatalError()
+				logCritical("\(#function) save failed: \(error)")
 			}
 		}
 	}
 	
 	func removeEvents(with eventIds: Set<String>) {
-		print("\(#function) planning to remove \(eventIds)")
+		logDebug("\(#function) planning to remove \(eventIds)")
 		
 		let context = coreDataStack.persistentContainer.newBackgroundContext()
 		let fetchRequest: NSFetchRequest<EnrichedEventMO> = EnrichedEventMO.fetchRequest()
 		fetchRequest.predicate = NSPredicate(format: "%K IN %@", "eventId", eventIds)
 		do {
 			let eventsToRemove = try context.fetch(fetchRequest)
-			print("\(#function) fetched \(eventsToRemove.count)")
+			logDebug("\(#function) will remove \(eventsToRemove.count) events")
 			
 			for eventToRemove in eventsToRemove {
 				context.delete(eventToRemove)
 			}
 			try context.save()
 		} catch {
-			print("oops")
-			fatalError()
+			logCriticalFrom(self, "\(#function) remove failed")
 		}
 		
 	}

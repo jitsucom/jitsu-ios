@@ -26,14 +26,13 @@ class BatchStorageImpl: BatchStorage {
 		let fetchRequest: NSFetchRequest<BatchMO> = BatchMO.fetchRequest()
 		do {
 			let result: [BatchMO] = try context.fetch(fetchRequest)
-			print("fetched batches: \(result.map{$0.batchId})")
+			logInfo("fetched batches: \(result.map{$0.batchId})")
 		
 			let batchesFromDatabase = result.map { Batch(mo: $0) }
 			completion(batchesFromDatabase)
 			
 		} catch {
-			print("\(#function) fetch failed")
-			fatalError() //todo: remove later
+			logCritical("\(#function) load failed, \(error)")
 			completion([])
 		}
 	}
@@ -45,14 +44,13 @@ class BatchStorageImpl: BatchStorage {
 			do {
 				try context.save()
 			} catch {
-				print("\(#function) save failed: \(error)")
-				fatalError()
+				logCritical("\(#function) save failed: \(error)")
 			}
 		}
 	}
 	
 	func removeBatch(with batchId: String) {
-		print("\(#function) planning to remove \(batchId)")
+		logDebug("\(#function) planning to remove \(batchId)")
 		let context = coreDataStack.persistentContainer.newBackgroundContext()
 		let fetchRequest: NSFetchRequest<BatchMO> = BatchMO.fetchRequest()
 		fetchRequest.predicate = NSPredicate(format: "%K = %@", "batchId", batchId)
@@ -63,8 +61,7 @@ class BatchStorageImpl: BatchStorage {
 			}
 			try context.save()
 		} catch {
-			print("oops")
-			fatalError()
+			logCriticalFrom(self, "\(#function) remove failed")
 		}
 	}
 }

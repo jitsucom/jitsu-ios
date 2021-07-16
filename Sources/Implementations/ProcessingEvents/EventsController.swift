@@ -34,7 +34,7 @@ class EventsController {
 	func prepare() {
 		resetTimer()
 		eventStorage.loadEvents { [weak self] storedEvents in
-			print("\(#function) loaded \(storedEvents.count) events")
+			logDebug("\(#function) loaded \(storedEvents.count) events")
 			self?.$unbatchedEvents.mutate {$0.append(contentsOf: storedEvents)}
 		}
 	}
@@ -44,7 +44,7 @@ class EventsController {
 	}
 	
 	func add(event: Event, context: [String : Any], userProperties: [String : Any]) {
-		print("dbg adding event \(event.name), payload: \(event.payload), context \(context), userProperties \(userProperties)")
+		logDebug("adding event \(event.name), payload: \(event.payload), context \(context), userProperties \(userProperties)")
 		let enrichedEvent = EnrichedEvent(
 			eventId: UUID().uuidString,
 			name: event.name,
@@ -64,13 +64,13 @@ class EventsController {
 	
 	func sendEvents() {
 		if $unbatchedEvents.value.count == 0 {
-			print("events controller: zero events")
+			logInfo("\(#function): zero events")
 			return
 		}
 		
 		resetTimer()
 		
-		print("events controller: passing \(unbatchedEvents.map{$0.name})")
+		logInfo("\(#function): passing \(unbatchedEvents.map{$0.name})")
 		let batchEventIds = Set(unbatchedEvents.map {$0.eventId})
 		
 		out(unbatchedEvents) {[weak self] success in

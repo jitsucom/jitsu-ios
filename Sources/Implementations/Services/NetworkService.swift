@@ -47,7 +47,7 @@ func runRetryingRequest(
 		
 		let attempt = attempt + 1
 		
-		print("retrying, attempt \(attempt)")
+		logInfo("retrying, attempt \(attempt)")
 		DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(30 * attempt)) {
 			runRetryingRequest(request: request, onSuccess: onSuccess, onFailure: onFailure, retryCount: retryCount, attempt: attempt)
 		}
@@ -87,18 +87,19 @@ class NetworkServiceImpl: NetworkService {
 		request.addValue(apiKey, forHTTPHeaderField: "x-auth-token")
 		
 		let body = jsonFromBatch(batch, apiKey: apiKey)
-		print("sending: \(body)") // todo: remove, since it contains api key
+		logInfo(from: self, "sending: \(body)")
 		
 		request.httpBody = body.data(using: .utf8)
 		
 		runRetryingRequest(
 			request: request,
 			onSuccess: { _ in
-				print("sent \(batch.batchId)")
+				logInfo(from: self, "sent \(batch.batchId)")
 				completion(.success(batch.batchId))
 			},
 			onFailure: { error in
-				print("failed to send \(batch.batchId), error: \(error.errorDescription)")
+				logError(from: self, "sent \(batch.batchId)")
+				logError("failed to send \(batch.batchId), error: \(error.errorDescription)")
 				completion(.failure(error))
 			},
 			retryCount: 10

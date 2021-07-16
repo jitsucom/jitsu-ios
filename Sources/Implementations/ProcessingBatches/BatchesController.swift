@@ -24,7 +24,7 @@ class BatchesController {
 	
 	func prepare() {
 		batchStorage.loadBatches { [weak self] unsentBatches in
-			print("\(#function) loaded \(unsentBatches.count) batches")
+			logInfo("\(#function) loaded \(unsentBatches.count) batches")
 			self?.unsentBatches.append(contentsOf: unsentBatches)
 			unsentBatches.forEach {
 				self?.sendBatch($0)
@@ -43,13 +43,12 @@ class BatchesController {
 	}
 	
 	private func sendBatch(_ batch: Batch) {
-		print("batch controller: sending \(batch.batchId)")
+		logInfo("batch controller: sending \(batch.batchId)")
 		out(batch) { [weak self] result in
 			guard let self = self else {return}
 			switch result {
 			case .failure(let error):
-				print(error)
-			// todo retry
+				logError(error.errorDescription)
 			case .success(let batchId):
 				self.unsentBatches.removeAll { $0.batchId == batchId }
 				self.batchStorage.removeBatch(with: batchId)

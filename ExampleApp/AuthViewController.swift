@@ -102,7 +102,8 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
 		if let apiKey = apiKey {
 			let options = JitsuOptions(
 				apiKey: apiKey,
-				trackingHost: "https://t.jitsu.com/api/v1/event"
+				trackingHost: "https://t.jitsu.com/api/v1/event",
+				logLevel: JitsuLogLevel.info
 			)
 			Jitsu.setupClient(with: options)
 			return true

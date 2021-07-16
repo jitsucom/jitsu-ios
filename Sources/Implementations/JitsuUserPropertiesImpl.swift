@@ -32,7 +32,7 @@ class JitsuUserPropertiesImpl: UserProperties {
 			self.email = userProperties.email
 			self.otherIdentifiers = userProperties.otherIdentifiers
 		} else {
-			print("no anonymousUserId, creating the new one")
+			logInfo("no anonymousUserId, creating the new one")
 			self.anonymousUserId = UUID().uuidString
 			saveUserProperties()
 		}

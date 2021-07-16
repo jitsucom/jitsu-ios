@@ -19,6 +19,7 @@ import Foundation
 	@objc public static func setupClient(with options: JitsuOptions) {
 		if (_shared == nil) {
 			let serviceLocator = ServiceLocatorImpl(options: options)
+			logLevel = options.logLevel
 			_shared = JitsuClientImpl(options: options, deps: serviceLocator)
 		}
 	}

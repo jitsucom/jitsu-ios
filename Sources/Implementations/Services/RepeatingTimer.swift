@@ -34,7 +34,7 @@ class RepeatingTimerI: RepeatingTimer {
 	private var timerQueue = DispatchQueue(label: "com.jitsu.timer")
 		
 	func set(time: TimeInterval, fireBlock: @escaping RepeatingTimer.TimerBlock) {
-		print("setting new timer")
+		logDebug("setting new timer")
 		if timer != nil {
 			self.timer?.invalidate()
 			self.timer = nil
