@@ -29,8 +29,8 @@ struct ContextValue: Hashable {
 
 class JitsuContextImpl: JitsuContext {
 	
-	@Atomic private var specificContext = [EventType : Set<ContextValue>]()
-	@Atomic private var generalContext = Set<ContextValue>()
+	private var specificContext = [EventType : Set<ContextValue>]()
+	private var generalContext = Set<ContextValue>()
 	
 	private var storage: ContextStorage
 	private var deviceInfoProvider: DeviceInfoProvider
@@ -48,7 +48,6 @@ class JitsuContextImpl: JitsuContext {
 		
 		try? addValues(localeInfo, for: nil, persist: false)
 		try? addValues(appInformation, for: nil, persist: false)
-		// todo: addValues: accessibility info
 
 		getDeviceInfo { [weak self] deviceInfo in
 			guard let self = self else {return}
@@ -58,7 +57,10 @@ class JitsuContextImpl: JitsuContext {
 		}
 	}
 	
+	private var contextQueue = DispatchQueue(label: "com.jitsu.contextQueue", attributes: .concurrent)
+	
 	// MARK: - JitsuContext
+	
 	func addValues(_ values: [JitsuContext.Key : Any], for eventTypes: [EventType]?, persist: Bool) throws {
 		let jsonValues = try values.mapValues { (value) -> JSON in
 			return try JSON(value)
@@ -87,16 +89,18 @@ class JitsuContextImpl: JitsuContext {
 	}
 	
 	private func addValue(_ new: ContextValue, persist: Bool) {
-		if let eventType = new.eventType {
-			if $specificContext.value[eventType] != nil {
-				$specificContext.mutate {$0[eventType]?.update(with: new)}
+		contextQueue.async(flags: .barrier) { [self] in
+			if let eventType = new.eventType {
+				if specificContext[eventType] != nil {
+					specificContext[eventType]?.update(with: new)
+				} else {
+					specificContext[eventType] = Set([new])
+				}
 			} else {
-				$specificContext.mutate {$0[eventType] = Set([new])}
+				generalContext.update(with: new)
 			}
-		} else {
-			$generalContext.mutate {$0.update(with: new)}
 		}
-		
+			
 		if persist {
 			storage.saveContextValue(new)
 		}
@@ -109,49 +113,57 @@ class JitsuContextImpl: JitsuContext {
 		}
 		
 		for type in eventTypes {
-			removeValue(for: key, for: type)
+			removeSpecificValue(for: key, for: type)
 		}
 	}
 	
-	private func removeValue(for key: JitsuContext.Key, for eventType: EventType) {
-		guard let eventValues = $specificContext.value[eventType] else { return }
-		if let valueToRemove = eventValues.first(where: {$0.key == key}) {
-			$specificContext.mutate { state in
-				state[eventType]?.remove(valueToRemove)
+	private func removeSpecificValue(for key: JitsuContext.Key, for eventType: EventType) {
+		contextQueue.async(flags: .barrier) { [self] in
+			guard let eventValues = specificContext[eventType] else { return }
+			if let valueToRemove = eventValues.first(where: {$0.key == key}) {
+				specificContext[eventType]?.remove(valueToRemove)
+				storage.removeContextValue(valueToRemove)
 			}
-			storage.removeContextValue(valueToRemove)
 		}
 	}
 	
 	private func removeGenericValue(for key: JitsuContext.Key) {
-		if let valueToRemove = $generalContext.value.first(where: {$0.key == key}) {
-			$generalContext.mutate { state in
-				state.remove(valueToRemove)
+		contextQueue.async(flags: .barrier) { [self] in
+			if let valueToRemove = generalContext.first(where: {$0.key == key}) {
+				generalContext.remove(valueToRemove)
+				storage.removeContextValue(valueToRemove)
 			}
-			storage.removeContextValue(valueToRemove)
 		}
 	}
 	
-	private var contextQueue = DispatchQueue(label: "com.jitsu.contextQueue")
-		
 	func values(for eventType: EventType?) -> [String: Any] {
 		contextQueue.sync {
-			var values = Set<ContextValue>()
-			values.formUnion($generalContext.value)
-			if let eventType = eventType {
-				let eventSpecificValues = $specificContext.value[eventType] ?? Set()
-				eventSpecificValues.forEach { values.update(with: $0) }
-			}
-			
-			return values.reduce(into: [:]) { (res, contextValue) in
+			let generalValues = generalContext.reduce(into: [:]) { (res, contextValue) in
 				res[contextValue.key] = contextValue.value
 			}
+			
+			guard let eventType = eventType,
+			   let specificValues = specificContext[eventType] else {
+				return generalValues
+			}
+			
+			let eventSpecificValues = specificValues.reduce(into: [:]) { (res, contextValue) in
+				res[contextValue.key] = contextValue.value
+			}
+			
+			let mergedValues = eventSpecificValues.merging(generalValues) { (specific, general) -> JSON in
+				return specific
+			}
+			
+			return mergedValues
 		}
 	}
 	
 	func clear() {
-		$specificContext.mutate { $0.removeAll() }
-		$generalContext.mutate { $0.removeAll() }
+		contextQueue.sync {
+			specificContext.removeAll()
+			generalContext.removeAll()
+		}
 		storage.clear()
 		setup {}
 	}

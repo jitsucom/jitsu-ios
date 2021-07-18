@@ -129,6 +129,34 @@ class JitsuContextTests: XCTestCase {
 		let anyEventValues = context.values(for: "second_event")
 		XCTAssertTrue("value_2".jsonValue.anyEqual(to: anyEventValues["key_1"]))
 	}
+	
+	func test_testContext_safety() throws {
+		// arrange
+		let context = JitsuContextImpl(storage: storage, deviceInfoProvider: deviceInfoProvider)
+	
+		// act
+		DispatchQueue.global().async {
+			try! context.addValues(["key": "1"], for: nil, persist: false)
+		}
+		DispatchQueue(label: "t1").async {
+			try! context.addValues(["key": "2"], for: nil, persist: false)
+			try! context.addValues(["key_2": "2"], for: nil, persist: false)
+			try! context.addValues(["key_3": "2"], for: nil, persist: false)
+			context.clear()
+			try! context.addValues(["key_4": "4"], for: nil, persist: false)
+		}
+		
+		try! context.addValues(["key": "3"], for: nil, persist: false)
+
+		DispatchQueue(label: "t2").async {
+			try! context.addValues(["key": "4"], for: nil, persist: false)
+		}
+		
+		let _ = context.values(for: nil)
+		
+		//assert
+		//no-throw
+	}
 }
 
 
