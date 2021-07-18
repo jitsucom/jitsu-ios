@@ -215,7 +215,8 @@ where `JitsuLogLevel` has values `debug`, `info`, `warnings`, `errors`, `critica
  
  
 ## UnitTestMode
-We need to ensure that events are not being sent during unit tests.
+1) You can set up your own mock of Jitsu with calling `Jitsu.setupMock:`.  If you pass `nil`, we will create our own empty mock
+2) Jitsu automatically tracks if your app is in Unit Testing mode. If so, it disables sending data to the backend and saving it to the database. 
  
  
  ## Advanced Settings

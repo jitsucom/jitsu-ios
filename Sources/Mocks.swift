@@ -6,7 +6,7 @@
 //
 
 import Foundation
-@testable import Jitsu
+
 
 class MockServiceLocator: ServiceLocator {
 	var networkService: NetworkService = NetworkMock()

@@ -164,6 +164,16 @@ extension JitsuContext {
 		self.logLevel = logLevel
 		super.init()
 	}
+	
+	///`true` if it is in UnitTests.
+	/// If `true`, SDK will be mocked.
+	var inTestMode: Bool {
+		if let _ = NSClassFromString("XCTestCase") {
+			return true
+		} else {
+			return false
+		}
+	}
 }
 
 /// Capturing location

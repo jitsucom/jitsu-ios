@@ -57,7 +57,6 @@
 		8E95AE9E268DA9A500FA0B77 /* JitsuContextStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E95AE96268DA97B00FA0B77 /* JitsuContextStorageTests.swift */; };
 		8E95AEA4268DB9AC00FA0B77 /* UserPropertiesStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E95AEA3268DB9AC00FA0B77 /* UserPropertiesStorage.swift */; };
 		8E95AEAF268DBBA400FA0B77 /* UserPropertiesMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E95AEAE268DBBA400FA0B77 /* UserPropertiesMO.swift */; };
-		8E95AEB3268DC0EA00FA0B77 /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E95AE50268B3B3800FA0B77 /* Mocks.swift */; };
 		8EAA74F4267B9CA300ED9E9C /* BatchStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAA74F3267B9CA300ED9E9C /* BatchStorage.swift */; };
 		8EAA74F9267B9E7F00ED9E9C /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAA74F8267B9E7F00ED9E9C /* NetworkService.swift */; };
 		8EAA74FD267BA42900ED9E9C /* EventStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAA74FC267BA42900ED9E9C /* EventStorage.swift */; };
@@ -70,6 +69,10 @@
 		8ECE159F26A0B7EC003889D4 /* AccessibilityTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE159E26A0B7EC003889D4 /* AccessibilityTracker.swift */; };
 		8ECE15AA26A17138003889D4 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE15A926A17138003889D4 /* Logger.swift */; };
 		8ECE15D626A44A62003889D4 /* JitsuClientImpl+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE15D526A44A62003889D4 /* JitsuClientImpl+UIKit.swift */; };
+		8ECE15E526A4878D003889D4 /* JitsuClientMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE15E426A4878D003889D4 /* JitsuClientMock.swift */; };
+		8ECE15E826A48FF8003889D4 /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E95AE50268B3B3800FA0B77 /* Mocks.swift */; };
+		8ECE15F226A490EB003889D4 /* ExampleAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE15F126A490EB003889D4 /* ExampleAppTests.swift */; };
+		8ECE15FD26A49127003889D4 /* MethodToTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE15FC26A49127003889D4 /* MethodToTest.swift */; };
 		8ED087072690C1FE00219301 /* Batch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED087062690C1FE00219301 /* Batch.swift */; };
 		8EE068A0268A312900B2EE67 /* ConcurrencyTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE0689F268A312900B2EE67 /* ConcurrencyTools.swift */; };
 		8EE4D3D62688A0AB00888879 /* EnrichedEventMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE4D3D52688A0AB00888879 /* EnrichedEventMO.swift */; };
@@ -96,6 +99,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8EC5924E2669848700357A59;
 			remoteInfo = "jitsu-ios";
+		};
+		8ECE15F426A490EB003889D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8EC592462669848600357A59 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8E314C222682295F00886F8A;
+			remoteInfo = ExampleApp;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -180,6 +190,11 @@
 		8ECE159E26A0B7EC003889D4 /* AccessibilityTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityTracker.swift; sourceTree = "<group>"; };
 		8ECE15A926A17138003889D4 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		8ECE15D526A44A62003889D4 /* JitsuClientImpl+UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JitsuClientImpl+UIKit.swift"; sourceTree = "<group>"; };
+		8ECE15E426A4878D003889D4 /* JitsuClientMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsuClientMock.swift; sourceTree = "<group>"; };
+		8ECE15EF26A490EB003889D4 /* ExampleAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8ECE15F126A490EB003889D4 /* ExampleAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleAppTests.swift; sourceTree = "<group>"; };
+		8ECE15F326A490EB003889D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8ECE15FC26A49127003889D4 /* MethodToTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodToTest.swift; sourceTree = "<group>"; };
 		8ED087062690C1FE00219301 /* Batch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Batch.swift; sourceTree = "<group>"; };
 		8EE0689F268A312900B2EE67 /* ConcurrencyTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcurrencyTools.swift; sourceTree = "<group>"; };
 		8EE4D3D52688A0AB00888879 /* EnrichedEventMO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrichedEventMO.swift; sourceTree = "<group>"; };
@@ -213,6 +228,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				8EC592592669848700357A59 /* Jitsu.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8ECE15EC26A490EB003889D4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,6 +292,7 @@
 				8E21917726985FE5009D067A /* ContextController */,
 				8EFFAC3426972801003A3A73 /* EventsController */,
 				8EFFAC2C2697263A003A3A73 /* UIHelpers.swift */,
+				8ECE15FC26A49127003889D4 /* MethodToTest.swift */,
 				8E314C2B2682295F00886F8A /* Main.storyboard */,
 				8E314C2E2682296200886F8A /* Assets.xcassets */,
 				8E314C302682296200886F8A /* LaunchScreen.storyboard */,
@@ -412,6 +435,7 @@
 				8EC592512669848700357A59 /* Sources */,
 				8EC5925C2669848700357A59 /* Tests */,
 				8E314C242682295F00886F8A /* ExampleApp */,
+				8ECE15F026A490EB003889D4 /* ExampleAppTests */,
 				8EC592502669848700357A59 /* Products */,
 				8E21916F26976EE6009D067A /* Frameworks */,
 			);
@@ -423,6 +447,7 @@
 				8EC5924F2669848700357A59 /* Jitsu.framework */,
 				8EC592582669848700357A59 /* JitsuTests.xctest */,
 				8E314C232682295F00886F8A /* ExampleApp.app */,
+				8ECE15EF26A490EB003889D4 /* ExampleAppTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -435,6 +460,8 @@
 				8EC59275266A3E1300357A59 /* UIKitEvents.swift */,
 				8E42F796267B853B00421ABE /* Implementations */,
 				8EC592522669848700357A59 /* jitsu.h */,
+				8ECE15E426A4878D003889D4 /* JitsuClientMock.swift */,
+				8E95AE50268B3B3800FA0B77 /* Mocks.swift */,
 				8EC592532669848700357A59 /* Info.plist */,
 			);
 			path = Sources;
@@ -448,10 +475,18 @@
 				8ED087102692351000219301 /* Tools */,
 				8EF2D900268E3EBF009B7DB9 /* Events */,
 				8EF2D8FF268E3EB4009B7DB9 /* Context */,
-				8E95AE50268B3B3800FA0B77 /* Mocks.swift */,
 				8EC5925F2669848700357A59 /* Info.plist */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		8ECE15F026A490EB003889D4 /* ExampleAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				8ECE15F126A490EB003889D4 /* ExampleAppTests.swift */,
+				8ECE15F326A490EB003889D4 /* Info.plist */,
+			);
+			path = ExampleAppTests;
 			sourceTree = "<group>";
 		};
 		8ED087102692351000219301 /* Tools */ = {
@@ -570,6 +605,24 @@
 			productReference = 8EC592582669848700357A59 /* JitsuTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		8ECE15EE26A490EB003889D4 /* ExampleAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8ECE15F626A490EB003889D4 /* Build configuration list for PBXNativeTarget "ExampleAppTests" */;
+			buildPhases = (
+				8ECE15EB26A490EB003889D4 /* Sources */,
+				8ECE15EC26A490EB003889D4 /* Frameworks */,
+				8ECE15ED26A490EB003889D4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8ECE15F526A490EB003889D4 /* PBXTargetDependency */,
+			);
+			name = ExampleAppTests;
+			productName = ExampleAppTests;
+			productReference = 8ECE15EF26A490EB003889D4 /* ExampleAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -589,6 +642,10 @@
 					8EC592572669848700357A59 = {
 						CreatedOnToolsVersion = 12.3;
 					};
+					8ECE15EE26A490EB003889D4 = {
+						CreatedOnToolsVersion = 12.3;
+						TestTargetID = 8E314C222682295F00886F8A;
+					};
 				};
 			};
 			buildConfigurationList = 8EC592492669848600357A59 /* Build configuration list for PBXProject "Jitsu" */;
@@ -607,6 +664,7 @@
 				8EC5924E2669848700357A59 /* Jitsu */,
 				8EC592572669848700357A59 /* JitsuTests */,
 				8E314C222682295F00886F8A /* ExampleApp */,
+				8ECE15EE26A490EB003889D4 /* ExampleAppTests */,
 			);
 		};
 /* End PBXProject section */
@@ -630,6 +688,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8EC592562669848700357A59 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8ECE15ED26A490EB003889D4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -660,6 +725,7 @@
 				8E5897C1269B578500478A72 /* EditableValueView.swift in Sources */,
 				8E314C282682295F00886F8A /* SceneDelegate.swift in Sources */,
 				8EFFAC2D2697263A003A3A73 /* UIHelpers.swift in Sources */,
+				8ECE15FD26A49127003889D4 /* MethodToTest.swift in Sources */,
 				8E219181269882A3009D067A /* AddContextCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -679,6 +745,7 @@
 				8E42F79E267B866500421ABE /* JitsuUserPropertiesImpl.swift in Sources */,
 				8E95AEA4268DB9AC00FA0B77 /* UserPropertiesStorage.swift in Sources */,
 				8EAA74F9267B9E7F00ED9E9C /* NetworkService.swift in Sources */,
+				8ECE15E826A48FF8003889D4 /* Mocks.swift in Sources */,
 				8E23CDBC269F070100A3F257 /* PushTracker.swift in Sources */,
 				8EBDBEAC2686032F00EF8756 /* DateService.swift in Sources */,
 				8E425717268DED2D00F48F92 /* EnrichedEvent.swift in Sources */,
@@ -704,6 +771,7 @@
 				8E768E4926935BE80061AD8A /* Jitsu.swift in Sources */,
 				8E23CDA2269EC47500A3F257 /* UpdateTracker.swift in Sources */,
 				8EC59276266A3E1300357A59 /* UIKitEvents.swift in Sources */,
+				8ECE15E526A4878D003889D4 /* JitsuClientMock.swift in Sources */,
 				8E23CD99269E431D00A3F257 /* ErrorWithDescription.swift in Sources */,
 				8EE068A0268A312900B2EE67 /* ConcurrencyTools.swift in Sources */,
 				8EE4D3F52688B0F700888879 /* ManualCoreDataHelpers.swift in Sources */,
@@ -722,7 +790,14 @@
 				8E95AE9E268DA9A500FA0B77 /* JitsuContextStorageTests.swift in Sources */,
 				8EF2D902268E3EDB009B7DB9 /* EventsControllerTests.swift in Sources */,
 				8E768E6C269619C10061AD8A /* BatchControllerTests.swift in Sources */,
-				8E95AEB3268DC0EA00FA0B77 /* Mocks.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8ECE15EB26A490EB003889D4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8ECE15F226A490EB003889D4 /* ExampleAppTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -738,6 +813,11 @@
 			isa = PBXTargetDependency;
 			target = 8EC5924E2669848700357A59 /* Jitsu */;
 			targetProxy = 8EC5925A2669848700357A59 /* PBXContainerItemProxy */;
+		};
+		8ECE15F526A490EB003889D4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8E314C222682295F00886F8A /* ExampleApp */;
+			targetProxy = 8ECE15F426A490EB003889D4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1020,6 +1100,48 @@
 			};
 			name = Release;
 		};
+		8ECE15F726A490EB003889D4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4BVAFGEHDW;
+				INFOPLIST_FILE = ExampleAppTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.slv.ExampleAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ExampleApp.app/ExampleApp";
+			};
+			name = Debug;
+		};
+		8ECE15F826A490EB003889D4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4BVAFGEHDW;
+				INFOPLIST_FILE = ExampleAppTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.slv.ExampleAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ExampleApp.app/ExampleApp";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1055,6 +1177,15 @@
 			buildConfigurations = (
 				8EC592672669848700357A59 /* Debug */,
 				8EC592682669848700357A59 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8ECE15F626A490EB003889D4 /* Build configuration list for PBXNativeTarget "ExampleAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8ECE15F726A490EB003889D4 /* Debug */,
+				8ECE15F826A490EB003889D4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
