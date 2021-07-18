@@ -132,7 +132,7 @@ class EventsViewController: UIViewController, UITableViewDataSource, UITableView
 	func addEvent(_ eventType: String, eventPayload: [String: Any]? = nil) {
 		let newEvent = EventModel(event: SimpleEvent(eventType, payload: eventPayload))
 		self.events.append(newEvent)
-		Jitsu.shared.trackEvent(newEvent.event)
+		Jitsu.shared.trackScreenEvent(screen:self, event: newEvent.event)
 	}
 	
 	@objc private func sendBatch() {

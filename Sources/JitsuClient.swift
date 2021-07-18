@@ -10,7 +10,7 @@ import Foundation
 public typealias EventType = String
 
 /// Manages SDK behaviour.
-@objc public protocol JitsuClient: AnyObject {
+@objc public protocol JitsuClient: AnyObject, TracksUIKitEvents {
 	
 	// MARK: - Tracks events
 	

@@ -69,6 +69,7 @@
 		8EC59276266A3E1300357A59 /* UIKitEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC59275266A3E1300357A59 /* UIKitEvents.swift */; };
 		8ECE159F26A0B7EC003889D4 /* AccessibilityTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE159E26A0B7EC003889D4 /* AccessibilityTracker.swift */; };
 		8ECE15AA26A17138003889D4 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE15A926A17138003889D4 /* Logger.swift */; };
+		8ECE15D626A44A62003889D4 /* JitsuClientImpl+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE15D526A44A62003889D4 /* JitsuClientImpl+UIKit.swift */; };
 		8ED087072690C1FE00219301 /* Batch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED087062690C1FE00219301 /* Batch.swift */; };
 		8EE068A0268A312900B2EE67 /* ConcurrencyTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE0689F268A312900B2EE67 /* ConcurrencyTools.swift */; };
 		8EE4D3D62688A0AB00888879 /* EnrichedEventMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE4D3D52688A0AB00888879 /* EnrichedEventMO.swift */; };
@@ -178,6 +179,7 @@
 		8EC59275266A3E1300357A59 /* UIKitEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitEvents.swift; sourceTree = "<group>"; };
 		8ECE159E26A0B7EC003889D4 /* AccessibilityTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityTracker.swift; sourceTree = "<group>"; };
 		8ECE15A926A17138003889D4 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		8ECE15D526A44A62003889D4 /* JitsuClientImpl+UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JitsuClientImpl+UIKit.swift"; sourceTree = "<group>"; };
 		8ED087062690C1FE00219301 /* Batch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Batch.swift; sourceTree = "<group>"; };
 		8EE0689F268A312900B2EE67 /* ConcurrencyTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcurrencyTools.swift; sourceTree = "<group>"; };
 		8EE4D3D52688A0AB00888879 /* EnrichedEventMO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrichedEventMO.swift; sourceTree = "<group>"; };
@@ -295,6 +297,7 @@
 				8E42F79D267B866500421ABE /* JitsuUserPropertiesImpl.swift */,
 				8E314C3C2682460A00886F8A /* JitsuBasicEvent.swift */,
 				8E23CD98269E431D00A3F257 /* ErrorWithDescription.swift */,
+				8ECE15D526A44A62003889D4 /* JitsuClientImpl+UIKit.swift */,
 				8E425715268DECF200F48F92 /* ProcessingEvents */,
 				8EF2D90E268F212A009B7DB9 /* ProcessingBatches */,
 				8E23CD9C269E433900A3F257 /* Trackers */,
@@ -672,6 +675,7 @@
 				8EC5926C266984C900357A59 /* JitsuClient.swift in Sources */,
 				8E23CDB2269F045E00A3F257 /* DeeplinkTracker.swift in Sources */,
 				8E23CD9E269E439700A3F257 /* ApplicationLifecycleTracker.swift in Sources */,
+				8ECE15D626A44A62003889D4 /* JitsuClientImpl+UIKit.swift in Sources */,
 				8E42F79E267B866500421ABE /* JitsuUserPropertiesImpl.swift in Sources */,
 				8E95AEA4268DB9AC00FA0B77 /* UserPropertiesStorage.swift in Sources */,
 				8EAA74F9267B9E7F00ED9E9C /* NetworkService.swift in Sources */,

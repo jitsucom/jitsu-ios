@@ -8,9 +8,8 @@
 import Foundation
 import UIKit
 
-
 /// Works with UIKit.
-public protocol SendsUIKitEvents {
+@objc public protocol TracksUIKitEvents {
 	
 	/// Sending the event with screen info
 	/// Works like `sendEvent`, but also passes screen info
@@ -18,14 +17,14 @@ public protocol SendsUIKitEvents {
 	///   - screen: name of the screen
 	///   - name: event name
 	///   - payload: event params
-	func sendScreenEvent(screen: UIViewController, name: EventType, payload: [String : Any])
+	@objc func trackScreenEvent(screen: UIViewController, name: EventType, payload: [String : Any])
 	
 	/// Sending the event with screen info
 	/// Works like `sendEvent`, but also passes screen info
 	/// - Parameters:
 	///   - screen: name of the screen
 	///   - event: event
-	func sendScreenEvent(screen: UIViewController, event: Event)
+	@objc func trackScreenEvent(screen: UIViewController, event: Event)
 	
 }
 
