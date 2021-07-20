@@ -17,7 +17,7 @@ import UIKit
 	///   - screen: name of the screen
 	///   - name: event name
 	///   - payload: event params
-	@objc func trackScreenEvent(screen: UIViewController, name: EventType, payload: [String : Any])
+	@objc func trackScreenEvent(screen: UIViewController, name: EventType, payload: [String : AnyJSONValue])
 	
 	/// Sending the event with screen info
 	/// Works like `sendEvent`, but also passes screen info

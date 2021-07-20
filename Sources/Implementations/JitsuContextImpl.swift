@@ -46,13 +46,13 @@ class JitsuContextImpl: JitsuContext {
 			addValue(value, persist: false)
 		}
 		
-		try? addValues(localeInfo, for: nil, persist: false)
-		try? addValues(appInformation, for: nil, persist: false)
+		addValues(localeInfo, for: nil, persist: false)
+		addValues(appInformation, for: nil, persist: false)
 
 		getDeviceInfo { [weak self] deviceInfo in
 			guard let self = self else {return}
 			self.deviceInfo = deviceInfo
-			try? self.addValues(deviceInfo, for: nil, persist: false)
+			self.addValues(deviceInfo, for: nil, persist: false)
 			completion()
 		}
 	}
@@ -61,9 +61,9 @@ class JitsuContextImpl: JitsuContext {
 	
 	// MARK: - JitsuContext
 	
-	func addValues(_ values: [JitsuContext.Key : Any], for eventTypes: [EventType]?, persist: Bool) throws {
-		let jsonValues = try values.mapValues { (value) -> JSON in
-			return try JSON(value)
+	func addValues(_ values: [JitsuContext.Key : Any], for eventTypes: [EventType]?, persist: Bool) {
+		let jsonValues = values.mapValues { (value) -> JSON in
+			return try! JSON(value)
 		}
 		
 		addValues(jsonValues, for: eventTypes, persist: persist)

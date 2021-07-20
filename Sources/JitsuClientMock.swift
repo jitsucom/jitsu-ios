@@ -36,7 +36,7 @@ class JitsuClientMock: JitsuClient {
 }
 
 class JitsuContextMock: JitsuContext {
-	func addValues(_ values: [String : Any], for eventTypes: [EventType]?, persist: Bool) throws {}
+	func addValues(_ values: [String : Any], for eventTypes: [EventType]?, persist: Bool) {}
 	
 	func removeValue(for key: String, for eventTypes: [EventType]?) {}
 	

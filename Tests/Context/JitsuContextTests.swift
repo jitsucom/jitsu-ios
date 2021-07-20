@@ -25,8 +25,8 @@ class JitsuContextTests: XCTestCase {
 		let context = JitsuContextImpl(storage: storage, deviceInfoProvider: deviceInfoProvider)
 		
 		// act
-		try! context.addValues(["key_1": "value_1"], for: nil, persist: false)
-		try! context.addValues(["key_2": "value_2"], for: nil, persist: false)
+		context.addValues(["key_1": "value_1"], for: nil, persist: false)
+		context.addValues(["key_2": "value_2"], for: nil, persist: false)
 		
 		// assert
 		let firstEventValues = context.values(for: "first_event")
@@ -39,10 +39,10 @@ class JitsuContextTests: XCTestCase {
 		let context = JitsuContextImpl(storage: storage, deviceInfoProvider: deviceInfoProvider)
 
 		// act
-		try! context.addValues(["key_1": "value1"], for: nil, persist: false)
-		try! context.addValues(["key_2": "OLD"], for: nil, persist: false)
+		context.addValues(["key_1": "value1"], for: nil, persist: false)
+		context.addValues(["key_2": "OLD"], for: nil, persist: false)
 		
-		try! context.addValues(["key_2": "NEW"], for: nil, persist: false)
+		context.addValues(["key_2": "NEW"], for: nil, persist: false)
 		
 		// assert
 		let firstEventValues = context.values(for: "first_event")
@@ -55,10 +55,10 @@ class JitsuContextTests: XCTestCase {
 		let context = JitsuContextImpl(storage: storage, deviceInfoProvider: deviceInfoProvider)
 
 		// act
-		try! context.addValues(["key_1": "value1"], for: ["first_event"], persist: false)
-		try! context.addValues(["key_2": "OLD"], for: ["first_event"], persist: false)
+		context.addValues(["key_1": "value1"], for: ["first_event"], persist: false)
+		context.addValues(["key_2": "OLD"], for: ["first_event"], persist: false)
 		
-		try! context.addValues(["key_2": "NEW"], for: ["first_event"], persist: false)
+		context.addValues(["key_2": "NEW"], for: ["first_event"], persist: false)
 		
 		// assert
 		let firstEventValues = context.values(for: "first_event")
@@ -71,8 +71,8 @@ class JitsuContextTests: XCTestCase {
 		let context = JitsuContextImpl(storage: storage, deviceInfoProvider: deviceInfoProvider)
 
 		// act
-		try! context.addValues(["key_1": "OLD"], for: nil, persist: false)
-		try! context.addValues(["key_1": "NEW"], for: ["first_event"], persist: false)
+		context.addValues(["key_1": "OLD"], for: nil, persist: false)
+		context.addValues(["key_1": "NEW"], for: ["first_event"], persist: false)
 		
 		// assert
 		let firstEventValues = context.values(for: "first_event")
@@ -87,8 +87,8 @@ class JitsuContextTests: XCTestCase {
 		let context = JitsuContextImpl(storage: storage, deviceInfoProvider: deviceInfoProvider)
 
 		// act
-		try! context.addValues(["key_1": "OLD"], for: ["first_event"], persist: false)
-		try! context.addValues(["key_1": "NEW"], for: nil, persist: false)
+		context.addValues(["key_1": "OLD"], for: ["first_event"], persist: false)
+		context.addValues(["key_1": "NEW"], for: nil, persist: false)
 		
 		// assert
 		let firstEventValues = context.values(for: "first_event")
@@ -100,8 +100,8 @@ class JitsuContextTests: XCTestCase {
 		let context = JitsuContextImpl(storage: storage, deviceInfoProvider: deviceInfoProvider)
 
 		// act
-		try! context.addValues(["key_1": "value_1"], for: ["first_event"], persist: false)
-		try! context.addValues(["key_2": "value_2"], for: nil, persist: false)
+		context.addValues(["key_1": "value_1"], for: ["first_event"], persist: false)
+		context.addValues(["key_2": "value_2"], for: nil, persist: false)
 		
 		context.removeValue(for: "key_1", for: nil)
 		context.removeValue(for: "key_2", for: nil)
@@ -117,8 +117,8 @@ class JitsuContextTests: XCTestCase {
 		let context = JitsuContextImpl(storage: storage, deviceInfoProvider: deviceInfoProvider)
 
 		// act
-		try! context.addValues(["key_1": "value_1"], for: ["first_event"], persist: false)
-		try! context.addValues(["key_1": "value_2"], for: nil, persist: false)
+		context.addValues(["key_1": "value_1"], for: ["first_event"], persist: false)
+		context.addValues(["key_1": "value_2"], for: nil, persist: false)
 		
 		context.removeValue(for: "key_1", for: ["first_event"])
 		
@@ -136,26 +136,26 @@ class JitsuContextTests: XCTestCase {
 	
 		// act
 		DispatchQueue.global().async {
-			try! context.addValues(["key": "1"], for: nil, persist: false)
+			context.addValues(["key": "1"], for: nil, persist: false)
 		}
 		DispatchQueue(label: "t1").async {
-			try! context.addValues(["key": "2"], for: nil, persist: false)
-			try! context.addValues(["key_2": "2"], for: nil, persist: false)
-			try! context.addValues(["key_3": "2"], for: nil, persist: false)
+			context.addValues(["key": "2"], for: nil, persist: false)
+			context.addValues(["key_2": "2"], for: nil, persist: false)
+			context.addValues(["key_3": "2"], for: nil, persist: false)
 			context.clear()
-			try! context.addValues(["key_4": "4"], for: nil, persist: false)
+			context.addValues(["key_4": "4"], for: nil, persist: false)
 		}
 		
-		try! context.addValues(["key": "3"], for: nil, persist: false)
+		context.addValues(["key": "3"], for: nil, persist: false)
 
 		DispatchQueue(label: "t2").async {
-			try! context.addValues(["key": "4"], for: nil, persist: false)
+			context.addValues(["key": "4"], for: nil, persist: false)
 		}
 		
 		let _ = context.values(for: nil)
 		
 		//assert
-		//no-throw
+		// ->no-throw
 	}
 }
 

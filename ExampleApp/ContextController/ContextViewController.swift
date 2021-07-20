@@ -94,7 +94,7 @@ class ContextViewController: UIViewController, UITableViewDataSource, UITableVie
 				tableView.insertRows(at: [newIndexPath], with: .fade)
 				_ = cell.becomeFirstResponder()
 				tableView.scrollToRow(at: newIndexPath, at: .middle, animated: true)
-				try! Jitsu.shared.context.addValues(value.value, for: value.eventTypes, persist: value.shouldPersist)
+				Jitsu.shared.context.addValues(value.value, for: value.eventTypes, persist: value.shouldPersist)
 			}
 			cell.hack = {
 				tableView.beginUpdates()

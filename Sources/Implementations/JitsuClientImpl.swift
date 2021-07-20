@@ -66,7 +66,7 @@ class JitsuClientImpl: JitsuClient {
 			guard let self = self else {return}
 			switch output {
 			case let .context(newValue):
-				try? self.context.addValues(newValue, for: nil, persist: false)
+				self.context.addValues(newValue, for: nil, persist: false)
 			case let .event(event):
 				self.trackEvent(event)
 			}

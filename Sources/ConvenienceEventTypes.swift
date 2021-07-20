@@ -11,7 +11,7 @@ import CoreLocation
 @objcMembers public class LocationEvent: Event {
 	public var name: EventType
 	
-	public var payload: [String : Any]
+	public var payload: [String : AnyJSONValue]
 	
 	public convenience init(location: CLLocation) {
 		self.init(name: "location update", location: location)
@@ -21,7 +21,7 @@ import CoreLocation
 		self.init(name:name, location: location, payload: [:])
 	}
 	
-	public init(name: String, location: CLLocation, payload: [String: Any]) {
+	public init(name: String, location: CLLocation, payload: [String: AnyJSONValue]) {
 		self.name = name
 		
 		let locationDict = [

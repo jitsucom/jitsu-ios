@@ -9,6 +9,13 @@ import Foundation
 
 public typealias EventType = String
 
+/// You can pass any value that is JSON-convertable.
+/// It can be Swift types or their Objective-C toll-free-bridged types.
+/// nil, Bool, Decimal numbers (Int, Double, Float, etc), String, Array<AnyJSONValue>, dict<AnyJSONValue>.
+/// If you pass not appropriate value, SDK will throw an exception
+public typealias AnyJSONValue = Any
+
+
 /// Manages SDK behaviour.
 @objc public protocol JitsuClient: AnyObject, TracksUIKitEvents {
 	
@@ -18,7 +25,7 @@ public typealias EventType = String
 	/// Context is added to all events sent.
 	func trackEvent(_ event: Event)
 	func trackEvent(name: EventType)
-	func trackEvent(name: EventType, payload: [String: Any])
+	func trackEvent(name: EventType, payload: [String: AnyJSONValue])
 	
 	/// Context is added to all the events. It consists of event keys and values. Some values are added to context automatically.
 	var context: JitsuContext {get}
@@ -55,7 +62,7 @@ public typealias EventType = String
 	var name: EventType {get}
 	
 	/// Parameters describing the event
-	var payload: [String: Any] {get set}
+	var payload: [String: AnyJSONValue] {get set}
 }
 
 /// Context is added to all the events. It consists of event keys and values.
@@ -69,7 +76,7 @@ public typealias EventType = String
 	///   - values: properties
 	///   - eventTypes: apply permanent properties to only certain event types (applied to all types if `nil`).
 	///   - persist: if true, properties are saved between launches. true by default
-	func addValues(_ values: [JitsuContext.Key: Any], for eventTypes: [EventType]?, persist: Bool) throws
+	func addValues(_ values: [JitsuContext.Key: AnyJSONValue], for eventTypes: [EventType]?, persist: Bool)
 	
 	/// Use this method to remove value for key for certain event types.
 	/// - Parameters:
@@ -84,17 +91,17 @@ public typealias EventType = String
 	/// If `nil` - you will get all generic values.
 	/// Value applied to specific type overshadows general value
 	/// (e.g. if general context has "foo": "1", and private has "foo": "2", you will get "foo": "2").
-	func values(for eventType: EventType?) -> [String : Any]
+	func values(for eventType: EventType?) -> [String : AnyJSONValue]
 	
 }
 
 extension JitsuContext {
-	public func addCodableValues<T: Codable>(_ values: [JitsuContext.Key : T], for eventTypes: [EventType]?, persist: Bool) throws {
-		let jsonValues = try values.mapValues { (value) -> JSON in
+	public func addCodableValues<T: Codable>(_ values: [JitsuContext.Key : T], for eventTypes: [EventType]?, persist: Bool) {
+		let jsonValues = try! values.mapValues { (value) -> JSON in
 			return try JSON(withCodable: value)
 		}
 		
-		try addValues(jsonValues, for: eventTypes, persist: persist)
+		addValues(jsonValues, for: eventTypes, persist: persist)
 	}
 }
 
@@ -135,7 +142,7 @@ extension JitsuContext {
 	/// Resetting all user ids. New `anonymousUserId` will be generated.
 	func resetUserProperties()
 	
-	func values() -> [String : Any]
+	func values() -> [String : AnyJSONValue]
 }
 
 /// Configuration options for Jitsu.
