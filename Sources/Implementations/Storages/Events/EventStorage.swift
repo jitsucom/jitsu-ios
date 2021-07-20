@@ -77,8 +77,8 @@ extension EnrichedEvent {
 			utcTime: mo.utcTime,
 			localTimezoneOffset: mo.timezone,
 			payload: try! (mo.payload as! [String: String]).mapValues {try JSON($0)},
-			context: try! (mo.payload as! [String: String]).mapValues {try JSON($0)},
-			userProperties: try! (mo.payload as! [String: String]).mapValues {try JSON($0)}
+			context: try! (mo.context as! [String: String]).mapValues {try JSON($0)},
+			userProperties: try! (mo.userProperties as! [String: String]).mapValues {try JSON($0)}
 		)
 	}
 }
