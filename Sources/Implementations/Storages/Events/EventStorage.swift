@@ -76,9 +76,9 @@ extension EnrichedEvent {
 			name: mo.name,
 			utcTime: mo.utcTime,
 			localTimezoneOffset: mo.timezone,
-			payload: try! (mo.payload as! [String: String]).mapValues {try JSON($0)},
-			context: try! (mo.context as! [String: String]).mapValues {try JSON($0)},
-			userProperties: try! (mo.userProperties as! [String: String]).mapValues {try JSON($0)}
+			payload: mo.payload.decoded(),
+			context: mo.context.decoded(),
+			userProperties: mo.userProperties.decoded()
 		)
 	}
 }
@@ -91,9 +91,9 @@ extension EnrichedEventMO {
 		mo.name = event.name
 		mo.utcTime = event.utcTime
 		mo.timezone = event.localTimezoneOffset
-		mo.payload = event.payload.mapValues { $0.toString() } as NSDictionary
-		mo.context = event.context.mapValues { $0.toString() } as NSDictionary
-		mo.userProperties = event.userProperties.mapValues { $0.toString() } as NSDictionary
+		mo.payload = event.payload.encoded()
+		mo.context = event.context.encoded()
+		mo.userProperties = event.userProperties.encoded()
 		
 		return mo
 	}

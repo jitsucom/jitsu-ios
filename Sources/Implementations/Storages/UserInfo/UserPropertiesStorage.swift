@@ -52,11 +52,7 @@ class UserPropertiesStorageImpl: UserPropertiesStorage {
 		let context = coreDataStack.persistentContainer.newBackgroundContext()
 		removeUserProperties(value, context: context)
 		context.perform {
-			let mo = UserPropertiesMO(context: context)
-			mo.anonymousUserId = value.anonymousUserId
-			mo.email = value.email
-			mo.userIdentifier = value.userIdentifier
-			mo.otherIdentifiers = NSDictionary(dictionary: value.otherIdentifiers)
+			UserPropertiesMO.createModel(with: value, in: context)
 			do {
 				try context.save()
 			} catch {
@@ -107,7 +103,19 @@ extension UserPropertiesModel {
 			anonymousUserId: mo.anonymousUserId,
 			userIdentifier: mo.userIdentifier,
 			email: mo.email,
-			otherIdentifiers: Dictionary(_immutableCocoaDictionary: mo.otherIdentifiers)
+			otherIdentifiers: mo.otherIdentifiers as! [String: String]
 		)
+	}
+}
+
+extension UserPropertiesMO {
+	@discardableResult
+	static func createModel(with model: UserPropertiesModel, in context: NSManagedObjectContext) -> UserPropertiesMO {
+		let mo = UserPropertiesMO(context: context)
+		mo.anonymousUserId = model.anonymousUserId
+		mo.email = model.email
+		mo.userIdentifier = model.userIdentifier
+		mo.otherIdentifiers = NSDictionary(dictionary: model.otherIdentifiers)
+		return mo
 	}
 }

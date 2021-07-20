@@ -98,12 +98,10 @@ class ContextStorageImpl: ContextStorage {
 
 extension ContextValue {
 	init(contextMO: ContextMO) {
-		
 		var eventType = contextMO.eventType
 		if eventType == ContextMO.genericEvent {
 			eventType = nil
 		}
-		
 		self.init(
 			key: contextMO.key,
 			value: JSON.fromString(contextMO.value) ?? "decoding failed".jsonValue,

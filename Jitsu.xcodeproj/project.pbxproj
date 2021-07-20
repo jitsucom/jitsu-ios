@@ -59,6 +59,7 @@
 		8E95AEAF268DBBA400FA0B77 /* UserPropertiesMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E95AEAE268DBBA400FA0B77 /* UserPropertiesMO.swift */; };
 		8EA343E326A6F00300C43461 /* JitsuConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA343E226A6F00300C43461 /* JitsuConfiguration.swift */; };
 		8EA343E826A7765E00C43461 /* ConvenienceEventTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA343E726A7765E00C43461 /* ConvenienceEventTypes.swift */; };
+		8EA343F026A7873200C43461 /* CommonSolutions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA343EF26A7873200C43461 /* CommonSolutions.swift */; };
 		8EAA74F4267B9CA300ED9E9C /* BatchStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAA74F3267B9CA300ED9E9C /* BatchStorage.swift */; };
 		8EAA74F9267B9E7F00ED9E9C /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAA74F8267B9E7F00ED9E9C /* NetworkService.swift */; };
 		8EAA74FD267BA42900ED9E9C /* EventStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAA74FC267BA42900ED9E9C /* EventStorage.swift */; };
@@ -180,6 +181,7 @@
 		8E95AEAE268DBBA400FA0B77 /* UserPropertiesMO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPropertiesMO.swift; sourceTree = "<group>"; };
 		8EA343E226A6F00300C43461 /* JitsuConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsuConfiguration.swift; sourceTree = "<group>"; };
 		8EA343E726A7765E00C43461 /* ConvenienceEventTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvenienceEventTypes.swift; sourceTree = "<group>"; };
+		8EA343EF26A7873200C43461 /* CommonSolutions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonSolutions.swift; sourceTree = "<group>"; };
 		8EAA74F3267B9CA300ED9E9C /* BatchStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchStorage.swift; sourceTree = "<group>"; };
 		8EAA74F8267B9E7F00ED9E9C /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		8EAA74FC267BA42900ED9E9C /* EventStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStorage.swift; sourceTree = "<group>"; };
@@ -411,6 +413,7 @@
 				8E95AE80268B8EC900FA0B77 /* Batches */,
 				8E95AE7F268B8EB400FA0B77 /* Events */,
 				8EB1E4D22686459D00AFBC32 /* CoreData */,
+				8EA343EF26A7873200C43461 /* CommonSolutions.swift */,
 			);
 			path = Storages;
 			sourceTree = "<group>";
@@ -756,6 +759,7 @@
 				8E42F79E267B866500421ABE /* JitsuUserPropertiesImpl.swift in Sources */,
 				8E95AEA4268DB9AC00FA0B77 /* UserPropertiesStorage.swift in Sources */,
 				8EAA74F9267B9E7F00ED9E9C /* NetworkService.swift in Sources */,
+				8EA343F026A7873200C43461 /* CommonSolutions.swift in Sources */,
 				8ECE15E826A48FF8003889D4 /* Mocks.swift in Sources */,
 				8E23CDBC269F070100A3F257 /* PushTracker.swift in Sources */,
 				8EBDBEAC2686032F00EF8756 /* DateService.swift in Sources */,
