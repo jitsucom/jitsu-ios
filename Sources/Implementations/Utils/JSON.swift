@@ -50,6 +50,8 @@ public enum JSON: Equatable {
             self = .null
         case let url as URL:
             self = .string(url.absoluteString)
+		case let uuid as UUID:
+			self = .string(uuid.uuidString)
         case let string as String:
             self = .string(string)
         case let bool as Bool:

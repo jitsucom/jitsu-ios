@@ -12,6 +12,7 @@ public typealias EventType = String
 /// You can pass any value that is JSON-convertable.
 /// It can be Swift types or their Objective-C toll-free-bridged types.
 /// nil, Bool, Decimal numbers (Int, Double, Float, etc), String, Array<AnyJSONValue>, dict<AnyJSONValue>.
+/// Also it can handle UUIDs and URLs.
 /// If you pass not appropriate value, SDK will throw an exception
 public typealias AnyJSONValue = Any
 

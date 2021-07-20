@@ -135,6 +135,20 @@ class SerializerTests: XCTestCase {
 		XCTAssertTrue(secondDict.anyEqual(to: b))
 	}
 	
+	func test_arrayOfUUIDs_and_URLs() throws {
+		let uuid = UUID()
+		_ = try JSON(uuid)
+		
+		let nsuuid = NSUUID()
+		_ = try JSON(nsuuid)
+		
+		let url = URL(string: "https://google.com")!
+		_ = try JSON(url)
+		
+		let nsurl = NSURL(string: "https://google.com")!
+		_ = try JSON(nsurl)
+	}
+	
 	func test_deepContainer_objc() throws {
 		// arrange
 		let firstDict = ["fifty": NSArray(array: [50, 51, 52, 53]),
