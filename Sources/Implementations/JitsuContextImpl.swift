@@ -70,6 +70,7 @@ class JitsuContextImpl: JitsuContext {
 	}
 	
 	func addValues(_ values: [JitsuContext.Key : JSON], for eventTypes: [EventType]?, persist: Bool) {
+		logInfo(from: self, "adding \(values) for \(eventTypes ?? []), persist: \(persist)" )
 		var newValues = [ContextValue]()
 		if let eventTypes = eventTypes {
 			for eventType in eventTypes {

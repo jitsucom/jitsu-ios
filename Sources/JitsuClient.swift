@@ -149,14 +149,49 @@ extension JitsuContext {
 	var trackingHost: String
 	private static let defaultTrackingHost: String = "https://t.jitsu.com/api/v1/event"
 	
+	// MARK: - Out-of-the-box tracking
+	
 	/// Should automatically capture this events. Default: true
-	var shouldCaptureDeeplinks: Bool = true
+	@objc public var shouldCaptureDeeplinks: Bool = true
 
 	/// Should automatically capture this events. Default: true
-	var shouldCapturePushEvents: Bool = true
+	@objc public var shouldCapturePushEvents: Bool = true
+	
+	// MARK: - Location
+	
+	@objc public enum LocationTrackingOptions: Int {
+		
+		/// If user granted access to location, we gather new location every time app launches
+		case addLocationOnAppLaunch
+		
+		/// If user granted access to location, we track results of locations requests that your app sends
+		case trackLocation
+		
+		/// We add current location permission status to the context, and send events when it changes.
+		case trackPermissionChanges
+	}
+	
+	/// You can set location tracking options that you want, so Jitsu will help you with tracking the location information.
+	public var locationTrackingOptions = [LocationTrackingOptions]()
+	/// Same property as `locationTrackingOptions`, but you have to pass LocationTrackingOptions raw values.
+	@objc public func setLocationTrackingOptions(_ rawValues: [Int]) {
+		locationTrackingOptions = rawValues.compactMap { LocationTrackingOptions(rawValue: $0)}
+	}
+	
+	// MARK: - Development
 	
 	/// You can set different log levels, depending on how detailed you want sdk logs to be
-	var logLevel: JitsuLogLevel = .warning
+	@objc public var logLevel: JitsuLogLevel = .warning
+	
+	///`true` if it is in UnitTests.
+	/// If `true`, SDK will be mocked.
+	@objc public var inTestMode: Bool {
+		if let _ = NSClassFromString("XCTestCase") {
+			return true
+		} else {
+			return false
+		}
+	}
 	
 	@objc public init(apiKey: String, trackingHost: String?, logLevel: JitsuLogLevel = .warning) {
 		self.apiKey = apiKey
@@ -164,31 +199,6 @@ extension JitsuContext {
 		self.logLevel = logLevel
 		super.init()
 	}
-	
-	///`true` if it is in UnitTests.
-	/// If `true`, SDK will be mocked.
-	var inTestMode: Bool {
-		if let _ = NSClassFromString("XCTestCase") {
-			return true
-		} else {
-			return false
-		}
-	}
-}
-
-/// Capturing location
-@objc public protocol CapturesLocationEvents: AnyObject {
-
-	/// Captures user's location, so it gets added to all the future events
-	func captureLocation(latitude: Double, longitude: Double)
-	
-	/// If user granted access to location, we gather new location every time app launches
-	/// Default: false
-	var shouldAutomaticallyAddLocationOnAppLaunch: Bool {get set}
-	
-	/// If user granted access to location, we track location changes during the use of the app
-	/// Default: false
-	var shouldTrackLocation: Bool {get set}
 }
 
 /// Settings different log levels to the SDK.

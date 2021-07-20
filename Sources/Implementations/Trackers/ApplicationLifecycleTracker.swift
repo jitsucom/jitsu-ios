@@ -8,15 +8,14 @@
 import Foundation
 import UIKit
 
-class ApplicationLifecycleTracker: Tracker<Event> {
+class ApplicationLifecycleTracker: Tracker {
 	
 	// MARK: - Initialization
 	
-	private var trackerOutput: TrackerEventOutput
+	private var trackerOutput: TrackerOutput
 	
-	override init(callback: @escaping (Event) -> Void) {
+	init(callback: @escaping TrackerOutput) {
 		self.trackerOutput = callback
-		super.init(callback: callback)
 		setupTrackers()
 	}
 
@@ -49,7 +48,7 @@ class ApplicationLifecycleTracker: Tracker<Event> {
 		addTracker(notificationName) { [weak self] _ in
 			guard let self = self else { return }
 			let event = JitsuBasicEvent(name: notificationName.rawValue)
-			self.trackerOutput(event)
+			self.trackerOutput(.event(event))
 		}
 	}
 	

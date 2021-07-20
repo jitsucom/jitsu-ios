@@ -8,15 +8,14 @@
 import Foundation
 import UIKit
 
-class PushTracker: Tracker<Event> {
+class PushTracker: Tracker {
 
 	// MARK: - Initialization
 	
-	private var trackerOutput: TrackerEventOutput
+	private var trackerOutput: TrackerOutput
 		
-	override init(callback: @escaping (Event) -> Void) {
+	init(callback: @escaping TrackerOutput) {
 		self.trackerOutput = callback
-		super.init(callback: callback)
 		setupTrackers()
 	}
 	
@@ -29,7 +28,7 @@ class PushTracker: Tracker<Event> {
 			guard let self = self else {return}
 			guard let userInfo = notification.userInfo else { return }
 			if userInfo[UIApplication.LaunchOptionsKey.remoteNotification] != nil {
-				self.trackerOutput(JitsuBasicEvent(name: "Remote Notification Opened"))
+				self.trackerOutput(.event(JitsuBasicEvent(name: "Remote Notification Opened")))
 			}
 		}
 	}

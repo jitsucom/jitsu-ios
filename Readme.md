@@ -61,11 +61,18 @@ Objective-C:
 ## Initialisation
 SDK is configured with  `JitsuOptions`.
 You should pass your API key to it, and a tracking host, if you want to use custom host. 
+
+Swift: 
 ```swift
 let options = JitsuOptions(apiKey: YOUR_KEY, trackingHost: YOUR_HOST)
 let analytics = JitsuClient(options: options)
 ```
 
+Objective-C: 
+```objc
+JitsuOptions *options = [[JitsuOptions alloc] initWithApiKey:@"KEY" trackingHost:@"Host" logLevel: JitsuLogLevelDebug];
+[Jitsu setupClientWith: options];
+```
 
 ## Sending events
 
@@ -132,11 +139,16 @@ You can either add properties to certain event types or do not specify event typ
 You can also set if you want context values persisted between launches. By default context events are persisted.
 
 ``` swift 
-analytics.context.addValues(
+Jitsu.shared.context.addValues(
 	["age": 32, "codes": "Swift"], 
 	for: ["event sign up"],
 	persist: true
 	)
+```
+
+```objc
+NSError *error = nil;
+[Jitsu.shared.context addValues:@{@"language": @"Objective-C"} for: @[@"hi"] persist:NO error: &error];
 ```
 
 You can remove context values by calling
@@ -157,7 +169,7 @@ SDK automatically gathers some context values.
  
  
 ### Send screen event
-You can send an event from a screen in one line. This event will contain screen info as well as event data. 
+You can send an event from a screen in one line. This event will contain screen title and screen class as well as event data. 
 ```swift
 analytics.sendScreenEvent(screen: someVC, name: "screen appeared", params: ["foo": "bar"])
 ```

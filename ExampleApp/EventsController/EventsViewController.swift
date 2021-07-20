@@ -7,6 +7,7 @@
 
 import UIKit
 import Jitsu
+import CoreLocation
 
 class EventModel {
 	var event: Event
@@ -72,6 +73,8 @@ class EventsViewController: UIViewController, UITableViewDataSource, UITableView
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
 	}
+	
+	private var locationManager = CLLocationManager()
 	
 	private var events = [EventModel]()
 	
@@ -164,3 +167,63 @@ class EventsViewController: UIViewController, UITableViewDataSource, UITableView
 	
 }
 
+extension EventsViewController: CLLocationManagerDelegate {
+	func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+		if #available(iOS 14.0, *) {
+			switch locationManager.authorizationStatus {
+			case .notDetermined:
+				break
+			case .restricted:
+				break
+			case .denied:
+				break
+			case .authorizedAlways:
+				locationManager.requestLocation()
+			case .authorizedWhenInUse:
+				locationManager.requestLocation()
+			@unknown default:
+				break
+			}
+		} else {
+			// Fallback on earlier versions
+		}
+	}
+	
+	override func viewDidAppear(_ animated: Bool) {
+		locationManager.delegate = self
+		locationManager.requestAlwaysAuthorization()
+		if #available(iOS 14.0, *) {
+			switch locationManager.authorizationStatus {
+			case .notDetermined:
+				break
+			case .restricted:
+				break
+			case .denied:
+				break
+			case .authorizedAlways:
+				print("EA: requesting 🗺 ")
+				locationManager.requestLocation()
+			case .authorizedWhenInUse:
+				print("EA: requesting 🗺 ")
+				locationManager.requestLocation()
+			@unknown default:
+				break
+			}
+		} else {
+			// Fallback on earlier versions
+		}
+		
+		DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(15)) {
+			print("EA: requesting 🗺 ")
+			self.locationManager.requestLocation()
+		}
+	}
+	
+	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+		print("EA: got locations 🗺 ")
+	}
+	
+	func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+		print("\(#function), \(error)")
+	}
+}

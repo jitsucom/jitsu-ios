@@ -10,6 +10,11 @@ import Foundation
 typealias TrackerEventOutput = (Event) -> Void
 typealias TrackerContextOutput = ([String: String]) -> Void
 
-class Tracker<T> {
-	init(callback: @escaping (T) -> Void) {}
+typealias TrackerOutput = (TrackerOutputType) -> Void
+
+enum TrackerOutputType {
+	case event(Event)
+	case context([String: Any])
 }
+
+protocol Tracker { }

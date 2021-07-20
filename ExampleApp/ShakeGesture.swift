@@ -17,7 +17,7 @@ extension UIViewController {
 	open override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
 		let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 		alert.addAction(UIAlertAction(title: "Log out", style: .default, handler: { _ in
-			AuthViewController.signOut()
+			signOutJitsu()
 			let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
 			let authVC = storyboard.instantiateViewController(withIdentifier: "auth")
 			authVC.modalPresentationStyle = .fullScreen

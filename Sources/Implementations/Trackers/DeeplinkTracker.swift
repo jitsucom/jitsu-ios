@@ -5,21 +5,17 @@
 //  Created by Leonid Serebryanyy on 14.07.2021.
 //
 
-// exampleApp://
-// track, pass `url` in payload
-// userInfo.lauchOptions
 import Foundation
 import UIKit
 
-class DeeplinkTracker: Tracker<Event> {
+class DeeplinkTracker: Tracker {
 	
 	// MARK: - Initialization
 	
-	private var trackerOutput: TrackerEventOutput
+	private var trackerOutput: TrackerOutput
 	
-	override init(callback: @escaping (Event) -> Void) {
+	init(callback: @escaping TrackerOutput) {
 		self.trackerOutput = callback
-		super.init(callback: callback)
 		setupTrackers()
 	}
 	
@@ -37,12 +33,12 @@ class DeeplinkTracker: Tracker<Event> {
 					payload: [
 						"url": url
 					])
-				self.trackerOutput(event)
+				self.trackerOutput(.event(event))
 			}
 		}
 		if #available(iOS 13.0, *) {
 			addTracker(UIScene.willConnectNotification) { (notification) in
-				
+				// one day Apple will be passing deeplink info there
 			}
 		}
 	}

@@ -7,15 +7,14 @@
 
 import Foundation
 
-class UpdateTracker: Tracker<Event> {
+class UpdateTracker: Tracker {
 	
 	// MARK: - Initialization
 	
-	private var trackerOutput: TrackerEventOutput
+	private var trackerOutput: TrackerOutput
 	
-	override init(callback: @escaping (Event) -> Void) {
+	init(callback: @escaping TrackerOutput) {
 		self.trackerOutput = callback
-		super.init(callback: callback)
 		setupTrackers()
 	}
 	
@@ -45,7 +44,7 @@ class UpdateTracker: Tracker<Event> {
 			name: "App Installed",
 			payload: ["version": version ?? ""]
 		)
-		trackerOutput(event)
+		trackerOutput(.event(event))
 	}
 	
 	private func sendAppUpdated(from fromVersion: String?, to toVersion: String?) {
@@ -54,18 +53,6 @@ class UpdateTracker: Tracker<Event> {
 			payload: ["from_version" : fromVersion ?? "",
 					  "to_version": toVersion ?? ""]
 		)
-		trackerOutput(event)
-	}
-	
-
-	
-	private func addTracker(_ notificationName: NSNotification.Name, handler: @escaping (Notification)->()) {
-//		notificationCenter.addObserver(
-//			forName: notificationName,
-//			object: nil,
-//			queue: nil
-//		) { notification in
-//			handler(notification)
-//		}
+		trackerOutput(.event(event))
 	}
 }

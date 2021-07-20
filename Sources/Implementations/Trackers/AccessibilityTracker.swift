@@ -8,15 +8,14 @@
 import Foundation
 import UIKit
 
-class AccessibilityTracker: Tracker<[String: String]> {
+class AccessibilityTracker: Tracker {
 	
 	// MARK: - Initialization
 	
-	private var trackerOutput: TrackerContextOutput
+	private var trackerOutput: TrackerOutput
 		
-	override init(callback: @escaping ([String: String]) -> Void) {
+	init(callback: @escaping TrackerOutput) {
 		self.trackerOutput = callback
-		super.init(callback: callback)
 		setupTrackers()
 	}
 	
@@ -28,7 +27,7 @@ class AccessibilityTracker: Tracker<[String: String]> {
 		let voiceOverObserver = UIAccessibility.voiceOverStatusDidChangeNotification
 		addTracker(voiceOverObserver) { [weak self] notification  in
 			guard let self = self else {return}
-			self.trackerOutput(["voice_over": "true"])
+			self.trackerOutput(.context(["voice_over": "true"]))
 			self.notificationCenter.removeObserver(self, name: voiceOverObserver, object: nil)
 		}
 	}

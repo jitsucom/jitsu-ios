@@ -53,7 +53,7 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
-		if AuthViewController.signIn() {
+		if signInJitsu() {
 			next()
 			return
 		}
@@ -74,8 +74,6 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
 		showShowcase()
 	}
 	
-	private static let key = "api_key"
-	
 	private func showShowcase() {
 		let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
 		let showcaseVC = storyboard.instantiateViewController(withIdentifier: "showcase")
@@ -85,34 +83,14 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
 	
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 		if let apiKey = textField.text, apiKey.count > 0 {
-			UserDefaults.standard.setValue(apiKey, forKey: Self.key)
-			AuthViewController.signIn()
+			saveApiKey(apiKey)
+			signInJitsu()
 			next()
 			return true
 		}
 		return false
 	}
+
 	
-	// MARK: - Signing in and signing out logics
-	
-	@discardableResult
-	static func signIn() -> Bool {
-		let apiKey = UserDefaults.standard.value(forKey: Self.key) as? String
-		
-		if let apiKey = apiKey {
-			let options = JitsuOptions(
-				apiKey: apiKey,
-				trackingHost: "https://t.jitsu.com/api/v1/event",
-				logLevel: JitsuLogLevel.info
-			)
-			Jitsu.setupClient(with: options)
-			return true
-		}
-		return false
-	}
-	
-	static func signOut() {
-		UserDefaults.standard.setValue(nil, forKey: key)
-	}
 }
 

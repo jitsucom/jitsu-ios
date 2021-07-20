@@ -59,30 +59,39 @@ class JitsuClientImpl: JitsuClient {
 		}
 	}
 	
-	private var eventTrackers = [Tracker<Event>]()
-	private var contextTrackers = [Tracker<[String: String]>]()
+	private var trackers = [Tracker]()
 
 	private func addTrackers() {
-		let eventBlock: (Event) -> Void = { [weak self] event in
+		let outputBlock: (TrackerOutputType) -> Void = { [weak self] output in
 			guard let self = self else {return}
-			self.trackEvent(event)
+			switch output {
+			case let .context(newValue):
+				try? self.context.addValues(newValue, for: nil, persist: false)
+			case let .event(event):
+				self.trackEvent(event)
+			}
 		}
 		
-		eventTrackers.append(ApplicationLifecycleTracker(callback: eventBlock))
-		eventTrackers.append(UpdateTracker(callback: eventBlock))
+		trackers.append(ApplicationLifecycleTracker(callback: outputBlock))
+		trackers.append(UpdateTracker(callback: outputBlock))
 
 		if options.shouldCaptureDeeplinks {
-			eventTrackers.append(DeeplinkTracker(callback: eventBlock))
+			trackers.append(DeeplinkTracker(callback: outputBlock))
 		}
-		
+
 		if options.shouldCapturePushEvents {
-			eventTrackers.append(PushTracker(callback: eventBlock))
+			trackers.append(PushTracker(callback: outputBlock))
 		}
-		
-		contextTrackers.append(AccessibilityTracker(callback: { [weak self] (newValue) in
-			guard let self = self else {return}
-			try? self.context.addValues(newValue, for: nil, persist: false)
-		}))
+
+		trackers.append(AccessibilityTracker(callback: outputBlock))
+
+		if options.locationTrackingOptions.count > 0 {
+			let tracker = LocationTracker(
+				options: options.locationTrackingOptions,
+				trackerOutput: outputBlock
+			)
+			trackers.append(tracker)
+		}
 	}
 	
 	// MARK: - Events pipeline
