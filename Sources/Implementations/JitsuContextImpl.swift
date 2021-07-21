@@ -108,6 +108,7 @@ class JitsuContextImpl: JitsuContext {
 	}
 	
 	func removeValue(for key: JitsuContext.Key, for eventTypes: [EventType]?) {
+		logInfo(from: self, "removing value for \(key) for \(eventTypes ?? [])")
 		guard let eventTypes = eventTypes else {
 			removeGenericValue(for: key)
 			return

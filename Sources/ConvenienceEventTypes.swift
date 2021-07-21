@@ -14,7 +14,7 @@ import CoreLocation
 	
 	public var payload = [String : Any]()
 	
-	@objc init(name: EventType, payload: [String: Any] = [:]) {
+	@objc public init(name: EventType, payload: [String: Any] = [:]) {
 		self.name = name
 		self.payload = payload
 	}

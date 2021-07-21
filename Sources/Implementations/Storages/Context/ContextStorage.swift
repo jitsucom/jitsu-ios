@@ -17,7 +17,8 @@ protocol ContextStorage {
 
 class ContextStorageImpl: ContextStorage {
 	private var coreDataStack: CoreDataStack
-	
+	private lazy var context = coreDataStack.persistentContainer.newBackgroundContext()
+
 	init(coreDataStack: CoreDataStack) {
 		self.coreDataStack = coreDataStack
 	}
@@ -41,11 +42,11 @@ class ContextStorageImpl: ContextStorage {
 	
 	func saveContextValue(_ value: ContextValue) {
 		logInfo("\(#function) saving contextValue: \(value)")
-		let context = coreDataStack.persistentContainer.newBackgroundContext()
-		removeContextValue(value, context: context)
-		context.perform {
+		context.perform { [self] in
+			self.removeContextValue(value, context: context)
 			ContextMO.createModel(with: value, in: context)
 			do {
+				print("===saving===")
 				try context.save()
 			} catch {
 				logCritical("\(#function) save failed: \(error)")
@@ -54,9 +55,11 @@ class ContextStorageImpl: ContextStorage {
 	}
 	
 	func removeContextValue(_ value: ContextValue) {
-		logDebug("\(#function) planning to remove \(value.key) for event type \(value.eventType ?? "nil")")
-		let context = coreDataStack.persistentContainer.newBackgroundContext()
-		removeContextValue(value, context: context)
+		logInfo("\(#function) planning to remove \(value.key) for event type \(value.eventType ?? "nil")")
+		context.perform { [self] in
+			removeContextValue(value, context: context)
+			try! context.save()
+		}
 	}
 	
 	func removeContextValue(_ value: ContextValue, context: NSManagedObjectContext) {
@@ -70,10 +73,9 @@ class ContextStorageImpl: ContextStorage {
 		do {
 			let params = try context.fetch(fetchRequest)
 			for b in params {
-				logDebug("\(#function) deleting \(b.key) \(b.eventType ?? "general") \(b.value)")
+				logDebug("\(#function) deleting value for key: \(b.key) with eventType: \(b.eventType ?? "general") value: \(b.value)")
 				context.delete(b)
 			}
-			try context.save()
 		} catch {
 			logCriticalFrom(self, "\(#function) remove failed")
 		}

@@ -179,29 +179,38 @@ Jitsu.userProperties.resetUserProperties()
 You can set properties that will always be added to events of certain types. 
 You can add, change and remove context values.
 You can either add properties to certain event types or do not specify event type - then it will be added to all the event types. 
-
-You can also set if you want context values persisted between launches. By default context events are persisted.
+You can also set if you want context values persisted between launches. By default context events are not persisted.
 
 ``` swift 
-Jitsu.shared.context.addValues(
-	["age": 32, "codes": "Swift"], 
-	for: ["event sign up"],
-	persist: true
-	)
+	Jitsu.context.addValues(
+		["age": 32, "codes": "Swift"], 
+		for: ["event sign up"],
+		persist: true
+		)
 ```
 
 ```Objective-C
-NSError *error = nil;
-[Jitsu.shared.context addValues:@{@"language": @"Objective-C"} for: @[@"hi"] persist:NO error: &error];
+	[Jitsu.context addValues:@{@"language": @"Objective-C"} for: @[@"hi"] persist:NO];
+	[Jitsu.context addValues:@{@"general": @"value"} for: nil persist:NO];
 ```
 
 You can remove context values by calling
 ```swift
-analytics.context.removeValue(for key: "age", for eventTypes: [])
+	Jitsu.context.removeValue(for key: "language", for eventTypes: nil)
+	Jitsu.context.removeValue(for key: "language", for eventTypes: ["hi"]])
+```
+```Objective-C
+	[Jitsu.shared.context removeValueFor:@"age" for: nil];
+	[Jitsu.context removeValueFor:@"language" for: @[@"hi"]];
 ```
 
 You can clear context when needed. It will not clear automatically gathered values (only update them). 
-`analytics.context.clear()`
+```swift
+	Jitsu.context.clear()
+```
+```Objective-C
+	[Jitsu.context clear];
+```
 
 SDK automatically gathers some context values.
 
@@ -210,12 +219,16 @@ SDK automatically gathers some context values.
 * device info: model, screen size, OS version
 * app version, app name, sdk version
 * system language
- 
+* if VoiceOver is turned on
  
 ### Send screen event
 You can send an event from a screen in one line. This event will contain screen title and screen class as well as event data. 
 ```swift
-analytics.sendScreenEvent(screen: someVC, name: "screen appeared", params: ["foo": "bar"])
+		Jitsu.shared.trackScreenEvent(screen: self, event: JitsuBasicEvent(name: "screen opened"))
+```
+
+```Objective-C
+	[Jitsu.shared trackScreenEventWithScreen:self name:@"screen opened" payload:@{}];
 ```
 
  
@@ -225,6 +238,7 @@ analytics.sendScreenEvent(screen: someVC, name: "screen appeared", params: ["foo
 - App updated
 - App launched
 - App did enter background
+- App did enter foreground
  
  2) SDK can send events when: 
  * User opens a push notification. You can turn it off by `analytics.shouldCapturePushEvents = false`
