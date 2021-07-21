@@ -25,12 +25,13 @@ protocol UserPropertiesStorage {
 class UserPropertiesStorageImpl: UserPropertiesStorage {
 	private var coreDataStack: CoreDataStack
 	
+	private lazy var context = coreDataStack.persistentContainer.newBackgroundContext()
+	
 	init(coreDataStack: CoreDataStack) {
 		self.coreDataStack = coreDataStack
 	}
 	
 	func loadUserProperties() -> UserPropertiesModel? {
-		let context = coreDataStack.persistentContainer.viewContext
 		let fetchRequest: NSFetchRequest<UserPropertiesMO> = UserPropertiesMO.fetchRequest()
 		do {
 			let result: [UserPropertiesMO]? = try context.fetch(fetchRequest)
@@ -49,9 +50,8 @@ class UserPropertiesStorageImpl: UserPropertiesStorage {
 	
 	func saveUserPropertiesModel(_ value: UserPropertiesModel) {
 		logInfo("\(#function) saving user properties: \(value)")
-		let context = coreDataStack.persistentContainer.newBackgroundContext()
-		removeUserProperties(value, context: context)
-		context.perform {
+		context.perform { [self] in
+			self.removeUserProperties(value, context: context)
 			UserPropertiesMO.createModel(with: value, in: context)
 			do {
 				try context.save()
@@ -62,8 +62,8 @@ class UserPropertiesStorageImpl: UserPropertiesStorage {
 	}
 	
 	func removeUserPropertiesModel(_ value: UserPropertiesModel) {
-		let context = coreDataStack.persistentContainer.newBackgroundContext()
 		removeUserProperties(value, context: context)
+		try! context.save()
 	}
 	
 	private func removeUserProperties(_ value: UserPropertiesModel, context: NSManagedObjectContext) {
@@ -81,7 +81,6 @@ class UserPropertiesStorageImpl: UserPropertiesStorage {
 	}
 
 	func clear() {
-		let context = coreDataStack.persistentContainer.newBackgroundContext()
 		let fetchRequest: NSFetchRequest<UserPropertiesMO> = UserPropertiesMO.fetchRequest()
 		do {
 			let valuesToRemove = try context.fetch(fetchRequest)

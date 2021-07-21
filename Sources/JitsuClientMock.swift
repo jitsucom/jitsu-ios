@@ -18,7 +18,7 @@ class JitsuClientMock: JitsuClient {
 	
 	var context: JitsuContext = JitsuContextMock()
 	
-	var userProperties: UserProperties = UserPropertiesMock()
+	var userProperties: JitsuUserProperties = UserPropertiesMock()
 	
 	var eventsQueueSize: Int = 5
 	
@@ -47,7 +47,7 @@ class JitsuContextMock: JitsuContext {
 	}
 }
 
-class UserPropertiesMock: UserProperties {
+class UserPropertiesMock: JitsuUserProperties {
 	var anonymousUserId: UserId = "None"
 	
 	var userIdentifier: UserId?

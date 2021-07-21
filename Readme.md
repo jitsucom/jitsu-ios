@@ -70,7 +70,7 @@ let analytics = JitsuClient(options: options)
 
 Objective-C: 
 ```objc
-JitsuOptions *options = [[JitsuOptions alloc] initWithApiKey:@"KEY" trackingHost:@"Host" logLevel: JitsuLogLevelDebug];
+JitsuOptions *options = [[JitsuOptions alloc] initWithApiKey:@"YOUR_KEY" trackingHost:@"YOUR_HOST_OR_NIL" logLevel: JitsuLogLevelDebug];
 [Jitsu setupClientWith: options];
 ```
 
@@ -83,21 +83,30 @@ a) client can send an event as something conforming to `Event` protocol
 ```swift
 analytics.trackEvent(_ event: Event)
 ```
+
+```objc
+//todo
+```
+
 b) or pass it as a name of event and Dict of event params.
 ```swift
 analytics.trackEvent(_ name: "user pressed like", params: ["to_user_id: "NEW_VALUE"])
+```
+
+```objc
+[Jitsu.shared trackEventWithName:@"Hi from Objc" payload: @{@"id": [NSUUID new]}];
 ```
 
 
 ### Identifying user
 Information about user is passed with events.
 
-Use `analytics.userProperties` to manage user info.
+Use `Jitsu.shared.userProperties` to manage user info.
 UserProperties consist of an anonymous user id and custom identifiers that you can set to the user.
 
 * **anonymous user id**: 
 Jitsu automatically sets a UUID to any user, that is stored between launches. 
-You can get it by `analytics.userProperties.anonymousUserId`. 
+You can get it by `Jitsu.shared.userProperties.anonymousUserId`. 
 
 * **user identifier**: 
 You can set your own identifier to user. 

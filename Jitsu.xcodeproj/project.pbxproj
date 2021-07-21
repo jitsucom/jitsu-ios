@@ -30,7 +30,6 @@
 		8E314C2D2682295F00886F8A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E314C2B2682295F00886F8A /* Main.storyboard */; };
 		8E314C2F2682296200886F8A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E314C2E2682296200886F8A /* Assets.xcassets */; };
 		8E314C322682296200886F8A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E314C302682296200886F8A /* LaunchScreen.storyboard */; };
-		8E314C3D2682460A00886F8A /* JitsuBasicEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E314C3C2682460A00886F8A /* JitsuBasicEvent.swift */; };
 		8E314C4926827BB600886F8A /* DeviceInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E314C4826827BB600886F8A /* DeviceInfoProvider.swift */; };
 		8E425717268DED2D00F48F92 /* EnrichedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E425716268DED2D00F48F92 /* EnrichedEvent.swift */; };
 		8E42571C268DF5EA00F48F92 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E42571B268DF5EA00F48F92 /* RepeatingTimer.swift */; };
@@ -151,7 +150,6 @@
 		8E314C2E2682296200886F8A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8E314C312682296200886F8A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8E314C332682296200886F8A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8E314C3C2682460A00886F8A /* JitsuBasicEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsuBasicEvent.swift; sourceTree = "<group>"; };
 		8E314C4826827BB600886F8A /* DeviceInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfoProvider.swift; sourceTree = "<group>"; };
 		8E425716268DED2D00F48F92 /* EnrichedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrichedEvent.swift; sourceTree = "<group>"; };
 		8E42571B268DF5EA00F48F92 /* RepeatingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatingTimer.swift; sourceTree = "<group>"; };
@@ -328,7 +326,6 @@
 				8E42F792267B853100421ABE /* JitsuClientImpl.swift */,
 				8E42F799267B85B200421ABE /* JitsuContextImpl.swift */,
 				8E42F79D267B866500421ABE /* JitsuUserPropertiesImpl.swift */,
-				8E314C3C2682460A00886F8A /* JitsuBasicEvent.swift */,
 				8E23CD98269E431D00A3F257 /* ErrorWithDescription.swift */,
 				8ECE15D526A44A62003889D4 /* JitsuClientImpl+UIKit.swift */,
 				8E425715268DECF200F48F92 /* ProcessingEvents */,
@@ -766,7 +763,6 @@
 				8E425717268DED2D00F48F92 /* EnrichedEvent.swift in Sources */,
 				8ECE159F26A0B7EC003889D4 /* AccessibilityTracker.swift in Sources */,
 				8E23CDB6269F047C00A3F257 /* Tracker.swift in Sources */,
-				8E314C3D2682460A00886F8A /* JitsuBasicEvent.swift in Sources */,
 				8ECE160926A4B3CF003889D4 /* LocationTracker.swift in Sources */,
 				8EE4D3D62688A0AB00888879 /* EnrichedEventMO.swift in Sources */,
 				8E95AEAF268DBBA400FA0B77 /* UserPropertiesMO.swift in Sources */,
@@ -1041,7 +1037,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jitsu.jitsu-ios";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1069,7 +1065,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jitsu.jitsu-ios";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

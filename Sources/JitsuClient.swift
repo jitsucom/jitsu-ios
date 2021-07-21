@@ -16,7 +16,6 @@ public typealias EventType = String
 /// If you pass not appropriate value, SDK will throw an exception
 public typealias AnyJSONValue = Any
 
-
 /// Manages SDK behaviour.
 @objc public protocol JitsuClient: AnyObject, TracksUIKitEvents {
 	
@@ -32,7 +31,7 @@ public typealias AnyJSONValue = Any
 	var context: JitsuContext {get}
 	
 	/// User properties are added to events that SDK sends.
-	var userProperties: UserProperties {get}
+	var userProperties: JitsuUserProperties {get}
 	
 	// MARK: - Sending events infrastructure
 	
@@ -107,7 +106,7 @@ extension JitsuContext {
 }
 
 /// Manages user properties.
-@objc public protocol UserProperties: AnyObject {
+@objc public protocol JitsuUserProperties: AnyObject {
 	typealias UserId = String
 	typealias UserPropertyKey = String
 	

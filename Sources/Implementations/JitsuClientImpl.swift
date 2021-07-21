@@ -10,7 +10,7 @@ import Foundation
 class JitsuClientImpl: JitsuClient {
 	
 	var context: JitsuContext
-	var userProperties: UserProperties
+	var userProperties: JitsuUserProperties
 	
 	private var networkService: NetworkService
 	private var storageLocator: StorageLocator

@@ -8,20 +8,32 @@
 import Foundation
 import CoreLocation
 
-@objcMembers public class LocationEvent: Event {
+@objc public class JitsuBasicEvent: NSObject, Event {
+	
+	public var name: EventType
+	
+	public var payload = [String : Any]()
+	
+	@objc init(name: EventType, payload: [String: Any] = [:]) {
+		self.name = name
+		self.payload = payload
+	}
+}
+
+@objc public class LocationEvent: NSObject, Event {
 	public var name: EventType
 	
 	public var payload: [String : AnyJSONValue]
 	
-	public convenience init(location: CLLocation) {
+	@objc public convenience init(location: CLLocation) {
 		self.init(name: "location update", location: location)
 	}
 	
-	public convenience init(name: String, location: CLLocation) {
+	@objc public convenience init(name: String, location: CLLocation) {
 		self.init(name:name, location: location, payload: [:])
 	}
 	
-	public init(name: String, location: CLLocation, payload: [String: AnyJSONValue]) {
+	@objc public init(name: String, location: CLLocation, payload: [String: AnyJSONValue]) {
 		self.name = name
 		
 		let locationDict = [

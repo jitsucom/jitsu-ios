@@ -7,7 +7,7 @@
 
 import Foundation
 
-class JitsuUserPropertiesImpl: UserProperties {
+class JitsuUserPropertiesImpl: JitsuUserProperties {
 	
 	@Atomic var anonymousUserId: UserId
 	
@@ -39,6 +39,7 @@ class JitsuUserPropertiesImpl: UserProperties {
 	}
 	
 	func identify(userIdentifier: UserId?, email: String?, otherIds: [UserPropertyKey : String], sendIdentificationEvent: Bool) {
+		logInfo("identifying user with internalId: \(userIdentifier ?? ""), email: \(email ?? ""), otherIds: \(otherIds )")
 		self.userIdentifier = userIdentifier
 		self.email = email
 		self.otherIdentifiers = otherIds
@@ -51,6 +52,7 @@ class JitsuUserPropertiesImpl: UserProperties {
 	}
 	
 	func updateUserIdentifier(_ newValue: String?, sendIdentificationEvent: Bool) {
+		logInfo("\(#function): \(newValue ?? "")")
 		self.userIdentifier = newValue
 		
 		saveUserProperties()
@@ -61,6 +63,7 @@ class JitsuUserPropertiesImpl: UserProperties {
 	}
 	
 	func updateEmail(_ newValue: String?, sendIdentificationEvent: Bool) {
+		logInfo("\(#function): \(newValue ?? "")")
 		self.email = newValue
 		
 		saveUserProperties()
@@ -71,6 +74,7 @@ class JitsuUserPropertiesImpl: UserProperties {
 	}
 	
 	func updateOtherIdentifier(_ value: String, forKey: UserPropertyKey, sendIdentificationEvent: Bool) {
+		logInfo("\(#function): \(value) forKey: \(forKey)")
 		self.otherIdentifiers[forKey] = value
 		
 		saveUserProperties()
