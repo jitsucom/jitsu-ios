@@ -24,8 +24,9 @@ func signInJitsu() -> Bool {
 			trackingHost: "https://t.jitsu.com/api/v1/event",
 			logLevel: JitsuLogLevel.info
 		)
-		options.locationTrackingOptions = [.trackLocation, .addLocationOnAppLaunch, .trackPermissionChanges]
+		options.locationTrackingOptions = [.addLocationOnAppLaunch, .trackPermissionChanges]
 		Jitsu.setupClient(with: options)
+		options.logLevel = .critical
 		return true
 	}
 	return false
