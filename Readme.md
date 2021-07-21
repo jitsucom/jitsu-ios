@@ -110,17 +110,33 @@ You can get it by `Jitsu.shared.userProperties.anonymousUserId`.
 
 * **user identifier**: 
 You can set your own identifier to user. 
-You can access it it by `analytics.userProperties.userIdentifier`. 
+You can access it it by `Jitsu.shared.userProperties.userIdentifier`. 
+You can set new identifier with:
+```swift
+Jitsu.shared.userProperties.updateUserIdentifier("NEW_ID", sendIdentificationEvent: true)
+```
+
+```obcj
+
+```
+
 
 * **email**: 
 You can set email. 
-You can access it it by `analytics.userProperties.email`. 
+You can access it it by `Jitsu.shared.userProperties.email`. 
+You can update it with:
+```swift
+Jitsu.shared.userProperties.updateEmail("new@new.com", sendIdentificationEvent: true)
+```
 
 * **other identifiers**:
 You can set additional user identifiers.
+You can access it it by `Jitsu.shared.userProperties.otherIdentifiers`. 
+You can update it with: 
 ```swift
-analytics.userProperties.otherIdentifiers["pager"] = "234" 
+Jitsu.shared.userProperties.updateOtherIdentifier(forKey: "my_key", with: "new_value", sendIdentificationEvent: true)
 ```
+
 
 You can set multiple properties user by calling: 
 ```swift
@@ -137,7 +153,7 @@ analytics.userProperties.identify(
 
 You can reset all users properties by calling 
 ``` swift
-analytics.userProperties.reset()
+Jitsu.shared.userProperties.resetUserProperties()
 ```
 
 ### Context

@@ -123,7 +123,7 @@ extension JitsuContext {
 	
 	/// You can set additional user identifiers.
 	var otherIdentifiers: [UserPropertyKey: String] {get}
-	func updateOtherIdentifier(_ value: String, forKey: UserPropertyKey, sendIdentificationEvent: Bool)
+	func updateOtherIdentifier(forKey: UserPropertyKey, with value: String,  sendIdentificationEvent: Bool)
 
 	/// Identifies user with data.
 	/// anonymousUserId stays  same.

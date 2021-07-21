@@ -73,7 +73,7 @@ class JitsuUserPropertiesImpl: JitsuUserProperties {
 		}
 	}
 	
-	func updateOtherIdentifier(_ value: String, forKey: UserPropertyKey, sendIdentificationEvent: Bool) {
+	func updateOtherIdentifier(forKey: UserPropertyKey, with value: String,  sendIdentificationEvent: Bool) {
 		logInfo("\(#function): \(value) forKey: \(forKey)")
 		self.otherIdentifiers[forKey] = value
 		

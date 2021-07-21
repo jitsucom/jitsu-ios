@@ -60,8 +60,8 @@ class UserPropertiesMock: JitsuUserProperties {
 	
 	var otherIdentifiers = [UserPropertyKey : String]()
 	
-	func updateOtherIdentifier(_ value: String, forKey: UserPropertyKey, sendIdentificationEvent: Bool) {}
-	
+	func updateOtherIdentifier(forKey: UserPropertyKey, with value: String,  sendIdentificationEvent: Bool) {}
+
 	func identify(userIdentifier: UserId?, email: String?, otherIds: [UserPropertyKey : String], sendIdentificationEvent: Bool) {}
 	
 	func resetUserProperties() {}
