@@ -219,7 +219,7 @@ SDK automatically gathers some context values.
 * device info: model, screen size, OS version
 * app version, app name, sdk version
 * system language
-* if VoiceOver is turned on
+* `voice_over: true` if the user has VoiceOver on. 
  
 ### Send screen event
 You can send an event from a screen in one line. This event will contain screen title and screen class as well as event data. 
@@ -233,33 +233,35 @@ You can send an event from a screen in one line. This event will contain screen 
 
  
 ## Out-of-the-box Trackings
-1) Main app lifecycle events:
-- App installed
-- App updated
-- App launched
-- App did enter background
-- App did enter foreground
- 
- 2) SDK can send events when: 
- * User opens a push notification. You can turn it off by `analytics.shouldCapturePushEvents = false`
- * App was opened from a deeplink. You can turn it off by `analytics.shouldCaptureDeeplinks = false`. We pass the link in payload.
-	*Note: this method will not work if your app uses SceneDelegate. If so, you will have to track opening from deeplink manually in `scene(_ scene: , willConnectTo session: , options connectionOptions: )`*
- 3) We add context value `voice_over: true` if the user has VoiceOver on. 
+Jitsu can do some tracking for you. 
+You can set what to track when initializing SDK with `JitsuOptions`.
+*  Main app lifecycle events: `shouldCaptureAppLifecycleEvents`
+*  When app was updated or installed
+*  User opens a push notification: `shouldCapturePushEvents`
+*  App was opened from a deeplink. `shouldCaptureDeeplinks`. We pass the link in payload. *Note: this method will not work if your app uses SceneDelegate. If so, you will have to track opening from deeplink manually in `scene(_ scene: , willConnectTo session: , options connectionOptions: )`*
  
  ### Location
-SDK can gather info about location.
-1) You can add location to context by calling 
+SDK can gather info about location. There are two modes which you can set in options.
+SDK uses the permissions that your app has, and would never ask user for permission by itself.
+* `trackPermissionChanges` - SDK tracks location permission changes. We add current location permission status to the context, and send events when it changes.
+* `addLocationOnAppLaunch` - If user granted access to location, we gather new location every time app launches and add it to the context.
 ```swift
-analytics.captureLocation(latitude: -33.85663289818548, longitude: 151.2153074248861)
+		options.locationTrackingOptions = [.addLocationOnAppLaunch, .trackPermissionChanges]
 ```
-2) If user allows app to access location, we gather new location every time app launches. `false` by default.
-```swift
-analytics.shouldAutomaticallyAddLocationOnAppLaunch = true
+```Objective-C
+	[options setLocationTrackingOptions: @[
+		@(LocationTrackingOptionsTrackPermissionChanges),
+		@(LocationTrackingOptionsAddLocationOnAppLaunch)
+	]];
 ```
 
-3) If user allows app to acces  location, we track location changes during the use of the app. `false` by default.
+Also there is a special event type method that allows to send location events easily: 
 ```swift
-analytics.shouldTrackLocation = true
+	let event = LocationEvent(location: location, name: "left bike", payload: [:])
+```
+
+```Objective-C
+	LocationEvent *event = [[LocationEvent alloc] initWithName: @"hi" location: location payload: @{}];
 ```
 
 
@@ -267,11 +269,11 @@ analytics.shouldTrackLocation = true
 Disable/enable data collection.
 
 ```swift
-analytics.turnOff()
+Jitsu.shared.turnOff()
 ```
 
 ```swift
-analytics.turnOn()
+Jitsu.shared.turnOn()
 ```
 We send events `Jitsu turned off` and `Jitsu turned on`
  
@@ -279,9 +281,12 @@ We send events `Jitsu turned off` and `Jitsu turned on`
 ## Logging
 You can set log level when initializing SDK with JitsuOptions .
 ```swift
-options.setLogLevel(_ logLevel: JitsuLogLevel)
+options.logLevel = .critical
 ```
-where `JitsuLogLevel` has values `debug`, `info`, `warnings`, `errors`, `critical`
+```Objective-C
+	[options setLogLevel: JitsuLogLevelInfo];
+```
+where `JitsuLogLevel` has values `debug`, `info`, `warnings`, `errors`, `critical`, `none`
  
  
 ## UnitTestMode
@@ -294,7 +299,7 @@ where `JitsuLogLevel` has values `debug`, `info`, `warnings`, `errors`, `critica
  * Jitsu doesn't send all events at once, they are sent in batches. SDK sends a new batch either when the batch reaches `eventsQueueSize`, or every `sendingBatchesPeriod`. Also, events are sent when an application enters background. If the app gets closed or crashes, events are sent on the next launch.
  You can manually set the number of events in the queue and time period.
  ```swift
- analytics.eventsQueueSize = 20
- analytics.sendingBatchesPeriod = TimeInterval(seconds: 10)
+ Jitsu.shared.eventsQueueSize = 20
+ Jitsu.shared.sendingBatchesPeriod = TimeInterval(seconds: 10)
  ```
  Also, you can force SDK to send batch immediately by calling `sendBatch()`.

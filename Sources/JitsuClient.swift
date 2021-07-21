@@ -158,6 +158,9 @@ extension JitsuContext {
 	
 	// MARK: - Out-of-the-box tracking
 	
+	//// Should automatically capture AppDidFinishLaunching, DidBecomeActive, DidEnterBackground/Foreground
+	@objc public var shouldCaptureAppLifecycleEvents: Bool = true
+	
 	/// Should automatically capture this events. Default: true
 	@objc public var shouldCaptureDeeplinks: Bool = true
 
@@ -170,9 +173,6 @@ extension JitsuContext {
 		
 		/// If user granted access to location, we gather new location every time app launches
 		case addLocationOnAppLaunch
-		
-		/// If user granted access to location, we track results of locations requests that your app sends
-		case trackLocation
 		
 		/// We add current location permission status to the context, and send events when it changes.
 		case trackPermissionChanges

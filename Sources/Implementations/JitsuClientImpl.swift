@@ -72,8 +72,11 @@ class JitsuClientImpl: JitsuClient {
 			}
 		}
 		
-		trackers.append(ApplicationLifecycleTracker(callback: outputBlock))
 		trackers.append(UpdateTracker(callback: outputBlock))
+		
+		if options.shouldCaptureAppLifecycleEvents {
+			trackers.append(ApplicationLifecycleTracker(callback: outputBlock))
+		}
 
 		if options.shouldCaptureDeeplinks {
 			trackers.append(DeeplinkTracker(callback: outputBlock))

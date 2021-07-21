@@ -96,12 +96,6 @@ class LocationTracker: NSObject, Tracker, CLLocationManagerDelegate {
 			]
 		]
 		
-		if options.contains(.trackLocation) {
-			trackerOutput(.event(
-				JitsuBasicEvent(name: "location update", payload: payload)
-			))
-		}
-		
 		if options.contains(.addLocationOnAppLaunch) && !appLaunchLocationTracked {
 			trackerOutput(.context(payload))
 			appLaunchLocationTracked = true
