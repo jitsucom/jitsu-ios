@@ -17,6 +17,14 @@ import Foundation
 		fatalError("Jitsu: you should initialize Jitsu with setupClient before using it")
 	}
 	
+	@objc static public var userProperties: JitsuUserProperties {
+		return Jitsu.shared.userProperties
+	}
+	
+	@objc static public var context: JitsuContext {
+		return Jitsu.shared.context
+	}
+	
 	/// Setup Jitsu client with options
 	@objc public static func setupClient(with options: JitsuOptions) {
 		if (_shared == nil) {

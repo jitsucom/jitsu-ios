@@ -69,7 +69,7 @@ let analytics = JitsuClient(options: options)
 ```
 
 Objective-C: 
-```objc
+```Objective-C
 JitsuOptions *options = [[JitsuOptions alloc] initWithApiKey:@"YOUR_KEY" trackingHost:@"YOUR_HOST_OR_NIL" logLevel: JitsuLogLevelDebug];
 [Jitsu setupClientWith: options];
 ```
@@ -84,7 +84,7 @@ a) client can send an event as something conforming to `Event` protocol
 analytics.trackEvent(_ event: Event)
 ```
 
-```objc
+```Objective-C
 //todo
 ```
 
@@ -93,31 +93,30 @@ b) or pass it as a name of event and Dict of event params.
 analytics.trackEvent(_ name: "user pressed like", params: ["to_user_id: "NEW_VALUE"])
 ```
 
-```objc
-[Jitsu.shared trackEventWithName:@"Hi from Objc" payload: @{@"id": [NSUUID new]}];
+```Objective-C
+[Jitsu.shared trackEventWithName:@"Hi from Objective-C" payload: @{@"id": [NSUUID new]}];
 ```
 
 
 ### Identifying user
 Information about user is passed with events.
 
-Use `Jitsu.shared.userProperties` to manage user info.
+Use `Jitsu.shared.userProperties` or `Jitsu.userProperties` to manage user info.
 UserProperties consist of an anonymous user id and custom identifiers that you can set to the user.
 
 * **anonymous user id**: 
 Jitsu automatically sets a UUID to any user, that is stored between launches. 
-You can get it by `Jitsu.shared.userProperties.anonymousUserId`. 
+You can get it by `Jitsu.userProperties.anonymousUserId`. 
 
 * **user identifier**: 
 You can set your own identifier to user. 
 You can access it it by `Jitsu.shared.userProperties.userIdentifier`. 
 You can set new identifier with:
 ```swift
-Jitsu.shared.userProperties.updateUserIdentifier("NEW_ID", sendIdentificationEvent: true)
+	Jitsu.userProperties.updateUserIdentifier("NEW_ID", sendIdentificationEvent: true)
 ```
-
-```obcj
-
+```Objective-C
+	[Jitsu.userProperties updateUserIdentifier:@"new identifier" sendIdentificationEvent:NO];
 ```
 
 
@@ -126,7 +125,10 @@ You can set email.
 You can access it it by `Jitsu.shared.userProperties.email`. 
 You can update it with:
 ```swift
-Jitsu.shared.userProperties.updateEmail("new@new.com", sendIdentificationEvent: true)
+	Jitsu.userProperties.updateEmail("new@new.com", sendIdentificationEvent: true)
+```
+```Objective-C
+	[Jitsu.userProperties updateEmail: @"new@new.com" sendIdentificationEvent:TRUE];
 ```
 
 * **other identifiers**:
@@ -134,13 +136,16 @@ You can set additional user identifiers.
 You can access it it by `Jitsu.shared.userProperties.otherIdentifiers`. 
 You can update it with: 
 ```swift
-Jitsu.shared.userProperties.updateOtherIdentifier(forKey: "my_key", with: "new_value", sendIdentificationEvent: true)
+	Jitsu.userProperties.updateOtherIdentifier(forKey: "my_key", with: "new_value", sendIdentificationEvent: true)
+```
+```Objective-C
+	[Jitsu.userProperties updateOtherIdentifierForKey:@"my_key" with:@"new_value" sendIdentificationEvent:YES];
 ```
 
 
 You can set multiple properties user by calling: 
 ```swift
-analytics.userProperties.identify(
+Jitsu.userProperties.identify(
 	userIdentifier: "my_id",
 	email: "foo@bar.com",
 	[
@@ -151,9 +156,23 @@ analytics.userProperties.identify(
 )
 ```
 
-You can reset all users properties by calling 
-``` swift
-Jitsu.shared.userProperties.resetUserProperties()
+```Objective-C
+	[Jitsu.shared.userProperties identifyWithUserIdentifier: @"my_id"
+													  email: @"foo@bar.com"
+												   otherIds:@{
+													   @"name": @"Foo",
+													   @"surname": @"Johnson",
+												   }
+									sendIdentificationEvent: NO];
+```
+
+You can reset all users properties. All the properties set before will be reset, and new `anonymous_id` will be generated.
+```swift
+Jitsu.userProperties.resetUserProperties()
+```
+
+```Objective-C
+	[Jitsu.userProperties resetUserProperties];
 ```
 
 ### Context
@@ -171,7 +190,7 @@ Jitsu.shared.context.addValues(
 	)
 ```
 
-```objc
+```Objective-C
 NSError *error = nil;
 [Jitsu.shared.context addValues:@{@"language": @"Objective-C"} for: @[@"hi"] persist:NO error: &error];
 ```
