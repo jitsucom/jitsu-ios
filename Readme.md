@@ -22,8 +22,8 @@ And then run:
 After installing the cocoa pod into your project, import Jitsu into your project. 
 
 ### Carthage
-Add Jitsu to your Cartfile:
-`github "jitsu/jitsu-ios" "develop"`
+Create a file named `Cartfile` in your projects folder. 
+Add Jitsu to your Cartfile: `github "jitsu/jitsu-ios" "develop"`.
 
 And then run:
 `carthage update --use-xcframeworks` 

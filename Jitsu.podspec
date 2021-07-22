@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "Jitsu"
-  spec.version      = "0.0.3"
+  spec.version      = "0.0.9"
   spec.summary      = "Jitsu helps you gather analytics."
 
   # This description is used to generate tags and improve search results.
@@ -84,7 +84,7 @@ Pod::Spec.new do |spec|
   #
 
   # spec.platform     = :ios
-  spec.platform     = :ios, "10.0"
+  spec.platform     = :ios, "12.0"
 
   #  When using multiple platforms
   # spec.ios.deployment_target = "10.0"
@@ -112,8 +112,8 @@ Pod::Spec.new do |spec|
   #  Not including the public_header_files will make all headers public.
   #
 
-  spec.source_files  = "jitsu", "jitsu/**/*.{h,m, swift}"
-  spec.exclude_files = "jitsu/Exclude"
+  spec.source_files  = "Sources/**/*.{h,m, swift}"
+  # spec.exclude_files = "jitsu-ios/Exclude"
 
   # spec.public_header_files = "Classes/**/*.h"
 
@@ -138,7 +138,7 @@ Pod::Spec.new do |spec|
   #  the lib prefix of their name.
   #
 
-  # spec.framework  = "SomeFramework"
+  # spec.framework  = "Jitsu"
   # spec.frameworks = "SomeFramework", "AnotherFramework"
 
   # spec.library   = "iconv"

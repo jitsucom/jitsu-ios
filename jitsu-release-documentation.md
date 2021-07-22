@@ -6,15 +6,15 @@
 #### Release version
 1) Go to Jitsu repo and add a new release with the new app version. 
 2) Go to  `Jitsu.podspec`, and change `spec.version` to the new release version.
-3) Run `pod trunk push [Jitsu.podspec]` to push Jitsu to Cocoapods trunk.
-More on that: https://guides.cocoapods.org/making/getting-setup-with-trunk
+3) Switch your current target to Jitsu. Run `pod trunk push Jitsu.podspec` to push Jitsu to Cocoapods trunk.
+More on that and how to debug: https://guides.cocoapods.org/making/getting-setup-with-trunk
 
 To add contributor use `$ pod trunk add-owner EMAIL`. 
 At the time being leosilver@yandex.ru is the person who can add contributors.
 
 #### To use updated SDK in your project
 Update its version in the podfile, then use `pod install --repo-update`.
-
+If it doesn't work, run `pod cache clean 'Jitsu' --all` before that.
 
 ### In Carthage
 
