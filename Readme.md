@@ -289,8 +289,10 @@ LocationEvent *event = [[LocationEvent alloc] initWithName: @"hi" location: loca
 ```
 
 
-## Privacy
-Disable/enable data collection.
+## Privacy Settings
+Jitsu doesn't collect any other sensitive data. 
+
+You can allow your users to disable/enable data collection.
 
 Swift: 
 ```swift
