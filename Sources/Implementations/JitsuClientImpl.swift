@@ -36,9 +36,7 @@ class JitsuClientImpl: JitsuClient {
 		userProperties.out = { [weak self] event in
 			self?.trackEvent(event)
 		}
-		
-		addTrackers()
-		
+				
 		self.eventsQueue.async { [self] in
 			let setupGroup = DispatchGroup()
 			
@@ -57,6 +55,8 @@ class JitsuClientImpl: JitsuClient {
 			
 			setupGroup.wait()
 		}
+		
+		addTrackers()
 	}
 	
 	private var trackers = [Tracker]()
