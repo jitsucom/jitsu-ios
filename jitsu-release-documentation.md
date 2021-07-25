@@ -4,8 +4,8 @@
 ### In Cocoapods
 
 #### Release version
-1) Go to Jitsu repo and add a new release with the new app version. 
-2) Go to  `Jitsu.podspec`, and change `spec.version` to the new release version.
+1) Go to  `Jitsu.podspec`, and change `spec.version` to the new release version.
+2) Go to Jitsu repo and add a new release with the new app version. 
 3) Switch your current target to Jitsu. Run `pod trunk push Jitsu.podspec` to push Jitsu to Cocoapods trunk.
 More on that and how to debug: https://guides.cocoapods.org/making/getting-setup-with-trunk
 

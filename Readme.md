@@ -48,13 +48,14 @@ After successfully retrieved the package and added it to your project, import Ji
 
 ### Importing Jitsu
 
-Swift: 
-```swift 
+```swift
+// Swift: 
 import Jitsu
 ```
 
-Objective-C: 
-```Objective-C
+
+```objc
+// Objective-C: 
 @import Jitsu;
 ```
 
@@ -62,14 +63,14 @@ Objective-C:
 SDK is configured with  `JitsuOptions`.
 You should pass your API key to it, and a tracking host, if you want to use custom host. 
 
-Swift: 
 ```swift
-let options = JitsuOptions(apiKey: YOUR_KEY, trackingHost: YOUR_HOST)
-let analytics = JitsuClient(options: options)
+// Swift: 
+let options = JitsuOptions(apiKey: "YOUR_API_KEY", trackingHost: "YOUR_HOST")
+Jitsu.setupClient(with: options)
 ```
 
-Objective-C: 
-```Objective-C
+```objc
+// Objective-C: 
 JitsuOptions *options = [[JitsuOptions alloc] initWithApiKey:@"YOUR_KEY" trackingHost:@"YOUR_HOST_OR_NIL" logLevel: JitsuLogLevelDebug];
 [Jitsu setupClientWith: options];
 ```
@@ -81,24 +82,26 @@ Telling SDK to track events. There are two options:
 
 a) client can send an event as something conforming to `Event` protocol
 
-Swift: 
 ```swift
+// Swift: 
 Jitsu.shared.trackEvent(_ event: event)
 ```
-Objective-C:
-```Objective-C
+
+```objc
+// Objective-C
 JitsuBasicEvent * event = [[JitsuBasicEvent alloc] initWithName:@"hi" payload:@{}];
 [Jitsu.shared trackEvent: event];
 ```
 
 b) or pass it as a name of event and Dict of event params.
 
-Swift: 
 ```swift
+// Swift: 
 Jitsu.shared.trackEvent(_ name: "user pressed like", params: ["to_user_id: "NEW_VALUE"])
 ```
-Objective-C:
-```Objective-C
+
+```objc
+// Objective-C
 [Jitsu.shared trackEventWithName:@"Hi from Objective-C" payload: @{@"id": [NSUUID new]}];
 ```
 
@@ -118,12 +121,13 @@ You can set your own identifier to user.
 You can access it it by `Jitsu.shared.userProperties.userIdentifier`. 
 You can set new identifier with:
 
-Swift: 
 ```swift
+// Swift: 
 Jitsu.userProperties.updateUserIdentifier("NEW_ID", sendIdentificationEvent: true)
 ```
-Objective-C:
-```Objective-C
+
+```objc
+// Objective-C
 [Jitsu.userProperties updateUserIdentifier:@"new identifier" sendIdentificationEvent:NO];
 ```
 
@@ -133,12 +137,13 @@ You can set email.
 You can access it it by `Jitsu.shared.userProperties.email`. 
 You can update it with:
 
-Swift: 
 ```swift
+// Swift: 
 Jitsu.userProperties.updateEmail("new@new.com", sendIdentificationEvent: true)
 ```
-Objective-C:
-```Objective-C
+
+```objc
+// Objective-C:
 [Jitsu.userProperties updateEmail: @"new@new.com" sendIdentificationEvent:TRUE];
 ```
 
@@ -147,20 +152,21 @@ You can set additional user identifiers.
 You can access it it by `Jitsu.shared.userProperties.otherIdentifiers`. 
 You can update it with: 
 
-Swift: 
 ```swift
+// Swift: 
 Jitsu.userProperties.updateOtherIdentifier(forKey: "my_key", with: "new_value", sendIdentificationEvent: true)
 ```
-Objective-C:
-```Objective-C
+
+```objc
+// Objective-C:
 [Jitsu.userProperties updateOtherIdentifierForKey:@"my_key" with:@"new_value" sendIdentificationEvent:YES];
 ```
 
 
 **You can set multiple user properties**: 
 
-Swift: 
 ```swift
+// Swift: 
 Jitsu.userProperties.identify(
 	userIdentifier: "my_id",
 	email: "foo@bar.com",
@@ -168,8 +174,9 @@ Jitsu.userProperties.identify(
 	sendIdentificationEvent: true
 )
 ```
-Objective-C:
-```Objective-C
+
+```objc
+// Objective-C:
 [Jitsu.shared.userProperties identifyWithUserIdentifier: @"my_id"
 						email: @"foo@bar.com"
 					   otherIds:@{ @"name": @"Foo", @"surname": @"Johnson" }
@@ -179,12 +186,13 @@ Objective-C:
 **You can reset all users properties.**
 All the properties set before will be reset, and new `anonymous_id` will be generated.
 
-Swift: 
 ```swift
+// Swift: 
 Jitsu.userProperties.resetUserProperties()
 ```
-Objective-C:
-```Objective-C
+
+```objc
+// Objective-C:
 [Jitsu.userProperties resetUserProperties];
 ```
 
@@ -194,41 +202,44 @@ You can add, change and remove context values.
 You can either add properties to certain event types or do not specify event type - then it will be added to all the event types. 
 You can also set if you want context values persisted between launches. By default context events are not persisted.
 
-Swift: 
 ```swift 
+// Swift: 
 Jitsu.context.addValues(
 	["age": 32, "codes": "Swift"], 
 	for: ["event sign up"],
 	persist: true
 )
 ```
-Objective-C:
-```Objective-C
+
+```objc
+// Objective-C:
 [Jitsu.context addValues:@{@"language": @"Objective-C"} for: @[@"hi"] persist:NO];
 [Jitsu.context addValues:@{@"general": @"value"} for: nil persist:NO];
 ```
 
 You can remove context values by calling
 
-Swift: 
 ```swift
+// Swift: 
 Jitsu.context.removeValue(for key: "language", for eventTypes: nil)
 Jitsu.context.removeValue(for key: "language", for eventTypes: ["hi"]])
 ```
-Objective-C:
-```Objective-C
+
+```objc
+// Objective-C:
 [Jitsu.shared.context removeValueFor:@"age" for: nil];
 [Jitsu.context removeValueFor:@"language" for: @[@"hi"]];
 ```
 
 You can clear context when needed. It will not clear automatically gathered values (only update them). 
 
-Swift:
 ```swift
+// Swift: 
 Jitsu.context.clear()
 ```
-Objective-C:
-```Objective-C
+
+```objc
+// Objective-C:
 [Jitsu.context clear];
 ```
 
@@ -244,12 +255,13 @@ SDK automatically gathers some context values.
 ### Send screen event
 You can send an event from a screen in one line. This event will contain screen title and screen class as well as event data. 
 
-Swift: 
 ```swift
+// Swift: 
 Jitsu.shared.trackScreenEvent(screen: self, event: JitsuBasicEvent(name: "screen opened"))
 ```
-Objective-C:
-```Objective-C
+
+```objc
+// Objective-C:
 [Jitsu.shared trackScreenEventWithScreen:self name:@"screen opened" payload:@{}];
 ```
 
@@ -268,23 +280,25 @@ SDK uses the permissions that your app has, and would never ask user for permiss
 * `trackPermissionChanges` - SDK tracks location permission changes. We add current location permission status to the context, and send events when it changes.
 * `addLocationOnAppLaunch` - If user granted access to location, we gather new location every time app launches and add it to the context.
 
-Swift: 
 ```swift
+// Swift: 
 options.locationTrackingOptions = [.addLocationOnAppLaunch, .trackPermissionChanges]
 ```
-Objective-C:
-```Objective-C
+
+```objc
+// Objective-C:
 [options setLocationTrackingOptions: @[@(LocationTrackingOptionsTrackPermissionChanges), @(LocationTrackingOptionsAddLocationOnAppLaunch)]];
 ```
 
 Also there is a special event type method that allows to send location events easily: 
 
-Swift: 
 ```swift
+// Swift: 
 let event = LocationEvent(location: location, name: "left bike", payload: [:])
 ```
-Objective-C:
-```Objective-C
+
+```objc
+// Objective-C:
 LocationEvent *event = [[LocationEvent alloc] initWithName: @"hi" location: location payload: @{}];
 ```
 
@@ -294,13 +308,14 @@ Jitsu doesn't collect any other sensitive data.
 
 You can allow your users to disable/enable data collection.
 
-Swift: 
 ```swift
+// Swift: 
 Jitsu.shared.turnOff()
 Jitsu.shared.turnOn()
 ```
-Objective-C:
-```Objective-C
+
+```objc
+// Objective-C:
 [Jitsu.shared turnOff];
 [Jitsu.shared turnOn];
 ```
@@ -311,12 +326,13 @@ We send events `Jitsu turned off` and `Jitsu turned on`
 ## Logging
 You can set log level when initializing SDK with JitsuOptions .
 
-Swift: 
 ```swift
+// Swift: 
 options.logLevel = .critical
 ```
-Objective-C:
-```Objective-C
+
+```objc
+// Objective-C:
 [options setLogLevel: JitsuLogLevelInfo];
 ```
 where `JitsuLogLevel` has values `debug`, `info`, `warnings`, `errors`, `critical`, `none`
