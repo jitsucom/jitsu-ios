@@ -88,7 +88,7 @@ Jitsu.shared.trackEvent(_ event: event)
 ```
 
 ```objc
-// Objective-C
+// Objective-C:
 JitsuBasicEvent * event = [[JitsuBasicEvent alloc] initWithName:@"hi" payload:@{}];
 [Jitsu.shared trackEvent: event];
 ```
@@ -101,7 +101,7 @@ Jitsu.shared.trackEvent(_ name: "user pressed like", params: ["to_user_id: "NEW_
 ```
 
 ```objc
-// Objective-C
+// Objective-C:
 [Jitsu.shared trackEventWithName:@"Hi from Objective-C" payload: @{@"id": [NSUUID new]}];
 ```
 
@@ -127,7 +127,7 @@ Jitsu.userProperties.updateUserIdentifier("NEW_ID", sendIdentificationEvent: tru
 ```
 
 ```objc
-// Objective-C
+// Objective-C:
 [Jitsu.userProperties updateUserIdentifier:@"new identifier" sendIdentificationEvent:NO];
 ```
 
