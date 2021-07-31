@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |spec|
   spec.name         = "Jitsu"
-  spec.version      = "0.0.10"
+  spec.version      = "0.1.0"
   spec.summary      = "Jitsu helps you gather analytics."
   spec.description  = <<-DESC
   Jitsu is an open source high-performance data collection service
@@ -65,7 +65,7 @@ Pod::Spec.new do |spec|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  spec.source       = { :git => "https://github.com/rebbdif/jitsu-ios.git", :tag => "#{spec.version}" }
+  spec.source       = { :git => "https://github.com/jitsucom/jitsu-ios.git", :tag => "#{spec.version}" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #

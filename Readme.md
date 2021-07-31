@@ -23,7 +23,7 @@ After installing the cocoa pod into your project, import Jitsu into your project
 
 ### Carthage
 Create a file named `Cartfile` in your projects folder. 
-Add Jitsu to your Cartfile: `github "jitsu/jitsu-ios" "develop"`.
+Add Jitsu to your Cartfile: `github "jitsucom/jitsu-ios" "develop"`.
 
 And then run:
 `carthage update --use-xcframeworks` 
@@ -37,7 +37,7 @@ Then import Jitsu into your project.
 
 ### Swift Package Manager
 1. Go to File > Swift Packages > Add Package Dependency
-2. Paste the project URL: https://github.com/jitsu/jitsu-ios.git
+2. Paste the project URL: https://github.com/jitsucom/jitsu-ios.git
 3. Click on next and select the project target
 4. Don't forget to set `DEAD_CODE_STRIPPING = NO` in your `Build Settings` (https://bugs.swift.org/plugins/servlet/mobile#issue/SR-11564)
   **NOTE: For MacOS you must set the `Branch` field to `jitsu/jitsu-ios`
