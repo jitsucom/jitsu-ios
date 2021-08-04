@@ -9,12 +9,12 @@
 3) Switch your current target to Jitsu. Run `pod trunk push Jitsu.podspec` to push Jitsu to Cocoapods trunk.
 More on that and how to debug: https://guides.cocoapods.org/making/getting-setup-with-trunk
 
-To add contributor use `$ pod trunk add-owner EMAIL`. 
+To add contributor use `$ pod trunk add-owner EMAIL`. The person you add should be registered in the `trunk` before. They can do it by running `$ pod trunk register orta@cocoapods.org 'Orta Therox' --description='macbook air'.` More on that: https://guides.cocoapods.org/making/getting-setup-with-trunk.html.
 At the time being leosilver@yandex.ru is the person who can add contributors.
 
 #### To use updated SDK in your project
 Update its version in the podfile, then use `pod install --repo-update`.
-If it doesn't work, run `pod cache clean 'Jitsu' --all` before that.
+If it doesn't work, run `pod cache clean 'Jitsu' --all` before that. Another thing that helps - wait for half an hour. 
 
 ### In Carthage
 
